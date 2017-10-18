@@ -21,12 +21,20 @@ header <- dashboardHeader(title = "GE Dashboard Demo", notifications)
 
 # Sidebar menu
 sidebar <- dashboardSidebar(
-  
+  sidebarMenu(
+    menuItemOutput("menuitem")
+  )
 )
 
 # Body
 body <- dashboardBody(
-  
+  #uiOutput("tabs")
+  tabItems(
+    tabItem("a", h1("A was done")),
+    tabItem("b", h1("B was done")),
+    tabItem("c", h1("C was done")),
+    tabItem("d", h1("D was done"))
+  )
 )
 
 dashboardPage(header, sidebar, body, skin = "purple")
