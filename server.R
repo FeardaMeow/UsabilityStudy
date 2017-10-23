@@ -9,6 +9,7 @@
 
 library(shiny)
 library(shinydashboard)
+library(shinythemes)
 library(googlesheets)
 
 googlesheets::gs_auth(token = "shiny_app_token.rds")
@@ -19,11 +20,14 @@ tabs.content <- list(list(Title = "Tab1", Content = "Tab1 content"),
                      list(Title = "Tab2", Content = "Tab2 content"),
                      list(Title = "Tab3", Content = "Tab3 content"))
 
-menu.content <- list(menuItem("a", tabName = "a"),
-                     menuItem("b", tabName = "b"),
-                     menuItem("c", tabName = "c"),
-                     menuItem("d", tabName = "d"))
+submenu.content <- list(menuSubItem("a", tabName = "a"),
+                        menuSubItem("b", tabName = "b"),
+                        menuSubItem("c", tabName = "c"),
+                        menuSubItem("d", tabName = "d"))
 
+menu.content <- list(menuItem("Landing Page", tabName = "lp"),
+                     menuItem("Practice Situations", tabName = "ps"),
+                     menuItem("Experiment Situations", tabName = "exp", sample(submenu.content)))
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
 #  output$tabs <- renderUI({
@@ -34,7 +38,7 @@ server <- function(input, output, session) {
   
   output$menuitem <- renderMenu({
     sidebarMenu(
-      sample(menu.content)
+      menu.content
     )
   })
 }
