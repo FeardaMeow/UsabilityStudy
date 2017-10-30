@@ -24,10 +24,12 @@ tabs.content <- list(list(Title = "Tab1", Content = "Tab1 content"),
                      list(Title = "Tab2", Content = "Tab2 content"),
                      list(Title = "Tab3", Content = "Tab3 content"))
 
-submenu.content <- list(menuSubItem("a", tabName = "a"),
-                        menuSubItem("b", tabName = "b"),
-                        menuSubItem("c", tabName = "c"),
-                        menuSubItem("d", tabName = "d"))
+submenu.content <- list(menuSubItem("LL", tabName = "Situation LL"),
+                        menuSubItem("LH", tabName = "Situation LH"),
+                        menuSubItem("ML", tabName = "Situation ML"),
+                        menuSubItem("MH", tabName = "Situation MH"),
+                        menuSubItem("HL", tabName = "Situation HL"),
+                        menuSubItem("HH", tabName = "Situation HH"))
 
 menu.content <- list(menuItem("Landing Page", tabName = "lp"),
                      menuItem("Practice Situations", tabName = "ps"),

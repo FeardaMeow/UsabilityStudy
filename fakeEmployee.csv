@@ -1,0 +1,301 @@
+eid,last_name,first_name,mo_id,mo_description,item_id,sequence_id,description,complete_qty,reject_qty,start_date,finish_date,elapsed_hrs
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,8,2,7/18/2017,7/20/2017,7.4123651
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,5,5,9/15/2017,9/16/2017,8.099266542
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,9,5,8/31/2017,9/3/2017,7.26437992
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,5,7,8/30/2017,9/2/2017,6.866067936
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,6,1,9/7/2017,9/9/2017,6.368750499
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,11,10,9/6/2017,9/9/2017,13.51266074
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,2,6,9/6/2017,9/8/2017,5.352088224
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,8,10,9/6/2017,9/7/2017,8.347322967
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,9,6,7/22/2017,7/24/2017,15.32104185
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,1,10,5/10/2017,5/12/2017,6.632598799
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,9,10,5/9/2017,5/12/2017,17.40825919
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,5,12,4/18/2017,4/20/2017,9.713186109
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,7,1,4/17/2017,4/18/2017,2.824934653
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,5,7,4/14/2017,4/15/2017,8.951049302
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,5,3,5/5/2017,5/8/2017,9.838529125
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,10,11,4/17/2017,4/19/2017,16.84316573
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,2,11,4/18/2017,4/19/2017,3.908431465
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,9,7,6/20/2017,6/21/2017,13.6233875
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,4,3,9/5/2017,9/6/2017,6.119879242
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,6,1,8/31/2017,9/1/2017,4.417157848
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,11,9,8/29/2017,8/30/2017,16.0129195
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,10,6,8/30/2017,9/2/2017,12.65634942
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,2,2,9/6/2017,9/9/2017,3.772009792
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,8,9,8/18/2017,8/19/2017,14.10249658
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,4,10,5/23/2017,5/26/2017,13.25534436
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,3,10,9/15/2017,9/17/2017,12.62863077
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,4,11,9/13/2017,9/15/2017,20.68549652
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,2,12,9/7/2017,9/8/2017,17.37911966
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,2,5,9/14/2017,9/15/2017,4.963732902
+1,smith,james,M1,Machining - Boring                                                                                   ,1,,Werradith,3,7,5/24/2017,5/27/2017,8.016050592
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,7,10,8/31/2017,9/3/2017,12.20587094
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,4,1,6/19/2017,6/22/2017,1.913955521
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,11,8,8/31/2017,9/1/2017,10.93933421
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,1,10,8/28/2017,8/29/2017,13.82166946
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,3,3,8/24/2017,8/26/2017,7.449146084
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,5,5,7/20/2017,7/21/2017,7.415978639
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,10,7,9/8/2017,9/10/2017,11.93628304
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,10,12,5/23/2017,5/26/2017,29.22432824
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,3,2,5/9/2017,5/10/2017,4.830001087
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,2,9,5/9/2017,5/12/2017,8.794286839
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,1,9,5/26/2017,5/29/2017,10.83666559
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,3,7,4/11/2017,4/12/2017,9.712756987
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,7,12,9/5/2017,9/7/2017,24.52542738
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,3,2,6/1/2017,6/4/2017,2.938529288
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,7,11,9/15/2017,9/17/2017,17.13334226
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,10,7,9/15/2017,9/18/2017,10.5788503
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,11,12,9/5/2017,9/6/2017,15.75177498
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,1,9,9/1/2017,9/4/2017,4.900147433
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,10,2,9/1/2017,9/2/2017,8.9426381
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,11,12,8/30/2017,8/31/2017,14.32442275
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,5,4,8/29/2017,9/1/2017,7.067620031
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,5,3,9/8/2017,9/10/2017,6.605455144
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,2,10,5/10/2017,5/11/2017,14.48861309
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,7,6,7/7/2017,7/8/2017,15.05695383
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,5,5,9/13/2017,9/14/2017,9.876887611
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,10,7,5/31/2017,6/3/2017,15.32108281
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,5,3,9/15/2017,9/16/2017,9.093900286
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,9,11,5/22/2017,5/23/2017,17.67753809
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,12,1,5/19/2017,5/20/2017,11.58403348
+2,jones,john,M2,Machining - Milling                                                                                  ,2,,Hoppler,4,2,5/17/2017,5/18/2017,3.061084344
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,10,7,4/26/2017,4/29/2017,17.23416144
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,9,3,4/25/2017,4/26/2017,4.799251535
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,11,4,4/13/2017,4/15/2017,21.23218556
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,7,3,4/10/2017,4/11/2017,8.526645885
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,11,3,4/11/2017,4/13/2017,10.98642456
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,9,11,6/28/2017,7/1/2017,13.16375289
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,7,11,5/26/2017,5/28/2017,19.71723503
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,6,9,4/19/2017,4/20/2017,10.56543929
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,1,3,6/22/2017,6/24/2017,3.3888727
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,1,8,5/17/2017,5/19/2017,6.999344776
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,11,11,5/1/2017,5/2/2017,16.93176012
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,3,6,6/27/2017,6/28/2017,6.657033504
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,2,8,5/3/2017,5/4/2017,8.236587435
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,9,7,5/26/2017,5/27/2017,5.661171954
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,10,4,6/22/2017,6/23/2017,5.196510724
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,12,3,6/2/2017,6/3/2017,11.33139568
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,3,3,4/25/2017,4/26/2017,6.56114195
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,3,11,5/9/2017,5/12/2017,9.878912928
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,4,12,5/26/2017,5/29/2017,15.40705221
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,3,12,5/9/2017,5/12/2017,12.10182221
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,1,2,9/14/2017,9/16/2017,1.882736803
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,7,12,9/13/2017,9/16/2017,23.17683022
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,12,8,9/5/2017,9/6/2017,15.42483023
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,12,3,8/31/2017,9/2/2017,9.238085784
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,9,11,9/6/2017,9/9/2017,14.62498817
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,6,6,9/5/2017,9/8/2017,9.539463226
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,3,3,9/5/2017,9/8/2017,6.378448924
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,1,3,7/26/2017,7/28/2017,2.751411597
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,10,12,5/9/2017,5/11/2017,5.885910382
+3,lamb,robert,M3,Machining - Drill                                                                                    ,3,,Eraow,2,9,5/10/2017,5/11/2017,4.76251292
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,12,12,4/12/2017,4/15/2017,31.09240672
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,7,10,6/27/2017,6/28/2017,5.929821389
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,9,11,4/19/2017,4/22/2017,24.81282451
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,2,10,5/10/2017,5/13/2017,10.75258687
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,11,7,5/9/2017,5/12/2017,6.19934776
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,2,12,4/11/2017,4/12/2017,17.56739976
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,1,11,4/19/2017,4/21/2017,8.595432386
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,2,1,4/19/2017,4/22/2017,3.483400433
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,6,3,6/1/2017,6/3/2017,3.247649553
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,7,3,4/25/2017,4/26/2017,7.057138232
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,6,10,5/17/2017,5/19/2017,18.75177271
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,5,1,9/15/2017,9/16/2017,3.466223917
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,11,11,9/15/2017,9/17/2017,21.80061624
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,12,4,9/1/2017,9/2/2017,22.73452836
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,7,8,8/25/2017,8/27/2017,11.71264083
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,10,5,9/6/2017,9/9/2017,7.367085265
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,3,6,9/6/2017,9/7/2017,7.391781839
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,5,4,8/24/2017,8/27/2017,6.920493565
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,12,9,9/7/2017,9/9/2017,9.956324414
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,1,8,5/2/2017,5/4/2017,3.622852356
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,12,6,5/2/2017,5/5/2017,19.92371007
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,12,3,3/22/2017,3/23/2017,16.35272879
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,11,10,4/8/2017,4/10/2017,12.82998374
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,8,12,6/19/2017,6/22/2017,19.49855327
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,10,3,5/24/2017,5/27/2017,7.377301692
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,12,10,3/24/2017,3/26/2017,22.6949353
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,12,9,3/27/2017,3/29/2017,6.891381328
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,8,9,6/5/2017,6/7/2017,9.095432214
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,6,4,5/23/2017,5/24/2017,10.40464838
+4,brown,michael,M4,Machining - Mill/Drill/Tap/Bore                                                                      ,4,,Acaer,1,7,6/23/2017,6/26/2017,8.237468499
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,6,4,5/24/2017,5/25/2017,8.881849513
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,12,12,4/7/2017,4/10/2017,12.70189917
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,4,11,5/23/2017,5/24/2017,12.97487824
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,3,12,5/19/2017,5/22/2017,14.16317977
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,9,11,4/6/2017,4/7/2017,14.28874444
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,1,4,3/24/2017,3/25/2017,3.490717016
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,8,8,3/23/2017,3/26/2017,9.395227949
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,3,9,6/12/2017,6/13/2017,5.6952973
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,6,12,5/31/2017,6/1/2017,6.851588473
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,4,6,3/25/2017,3/26/2017,5.642423047
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,1,2,5/24/2017,5/26/2017,0.917869333
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,4,5,5/23/2017,5/25/2017,8.200030639
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,11,7,5/24/2017,5/26/2017,18.72310607
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,3,11,3/21/2017,3/24/2017,13.49944322
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,12,9,3/22/2017,3/23/2017,23.93876389
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,6,3,3/28/2017,3/31/2017,11.94739808
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,4,4,4/4/2017,4/5/2017,3.821044628
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,6,1,4/10/2017,4/12/2017,6.859074972
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,5,11,5/23/2017,5/24/2017,9.455113622
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,8,5,6/6/2017,6/9/2017,10.7739049
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,2,7,4/5/2017,4/8/2017,12.45457741
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,10,3,4/11/2017,4/14/2017,9.850119715
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,7,5,4/11/2017,4/14/2017,8.451657221
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,5,5,6/23/2017,6/26/2017,7.878341002
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,9,6,3/21/2017,3/23/2017,12.37807368
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,2,5,7/5/2017,7/8/2017,4.536956921
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,1,12,6/23/2017,6/24/2017,12.17174628
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,1,11,6/23/2017,6/25/2017,5.410512665
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,3,11,9/12/2017,9/13/2017,18.24691735
+5,white,william,M5,Machining - Drill/Tap                                                                                ,5,,Yoffa,2,3,7/25/2017,7/26/2017,3.858040602
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,2,8,9/11/2017,9/12/2017,10.74855131
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,2,11,3/16/2017,3/18/2017,19.50577643
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,4,9,8/17/2017,8/18/2017,12.87900672
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,2,5,7/17/2017,7/18/2017,3.216625207
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,11,4,1/3/2017,1/4/2017,17.742366
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,4,2,1/12/2017,1/13/2017,2.872824901
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,9,2,4/30/2017,5/3/2017,9.698358031
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,8,7,6/12/2017,6/13/2017,8.357552819
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,6,5,6/12/2017,6/15/2017,9.926847382
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,7,10,6/1/2017,6/4/2017,13.01836195
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,5,8,5/8/2017,5/9/2017,8.089100636
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,5,10,5/12/2017,5/15/2017,13.78281035
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,7,8,5/11/2017,5/13/2017,6.508663682
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,5,9,5/9/2017,5/12/2017,7.937670794
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,9,12,5/9/2017,5/11/2017,11.03009953
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,8,4,5/8/2017,5/10/2017,7.790195522
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,3,6,5/3/2017,5/4/2017,13.68821956
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,8,7,4/5/2017,4/6/2017,4.362402661
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,3,1,8/23/2017,8/26/2017,2.191760771
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,1,12,5/31/2017,6/2/2017,4.799232702
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,7,11,5/31/2017,6/3/2017,15.41890658
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,7,7,5/25/2017,5/26/2017,16.56560685
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,10,1,4/18/2017,4/21/2017,12.57280917
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,1,10,4/13/2017,4/16/2017,4.27840818
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,11,12,8/16/2017,8/18/2017,17.40340483
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,8,5,5/19/2017,5/21/2017,14.19111809
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,12,3,6/16/2017,6/18/2017,5.343397565
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,5,6,9/9/2017,9/12/2017,8.040769768
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,7,7,8/18/2017,8/20/2017,21.77041251
+6,harris,david,M6,Machining - Grind                                                                  ,6,,Jeren,2,6,8/21/2017,8/24/2017,2.694121842
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,2,8,8/31/2017,9/2/2017,5.63031129
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,12,12,9/8/2017,9/11/2017,20.34261914
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,5,7,4/10/2017,4/12/2017,9.027175326
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,10,1,8/24/2017,8/26/2017,5.567326427
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,7,10,8/23/2017,8/26/2017,14.85711488
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,9,1,6/13/2017,6/14/2017,4.008569033
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,3,10,6/15/2017,6/16/2017,8.683031589
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,5,10,6/15/2017,6/17/2017,17.2538242
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,11,11,6/14/2017,6/16/2017,11.08932748
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,2,12,6/13/2017,6/16/2017,8.192539408
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,8,11,6/22/2017,6/25/2017,9.447003553
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,10,3,6/28/2017,6/29/2017,5.398098628
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,8,2,6/14/2017,6/15/2017,16.14890954
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,8,10,7/26/2017,7/27/2017,15.08262685
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,7,7,8/21/2017,8/23/2017,13.84110038
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,12,2,4/20/2017,4/21/2017,8.54464177
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,1,10,4/25/2017,4/28/2017,11.51676523
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,4,2,8/18/2017,8/19/2017,8.2602855
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,10,9,8/28/2017,8/29/2017,17.67326238
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,1,3,8/28/2017,8/30/2017,3.536304466
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,5,9,8/24/2017,8/26/2017,11.39755185
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,9,9,4/20/2017,4/22/2017,6.889931401
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,5,1,8/21/2017,8/23/2017,6.058651684
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,7,8,2/14/2017,2/15/2017,4.719044104
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,2,6,2/14/2017,2/15/2017,7.655720124
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,6,9,2/21/2017,2/23/2017,10.8466914
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,9,6,3/17/2017,3/18/2017,11.84292856
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,3,11,3/22/2017,3/23/2017,14.85270707
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,11,7,3/23/2017,3/25/2017,19.67947869
+7,miller,richard,M7,Machining - Turning                                                                                  ,7,,Tupress,2,2,5/2/2017,5/3/2017,3.340871736
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,2,9,8/23/2017,8/26/2017,5.155352829
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,1,2,4/27/2017,4/30/2017,1.456371131
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,6,7,2/13/2017,2/15/2017,8.021091549
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,5,8,5/2/2017,5/3/2017,5.956299441
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,4,12,4/21/2017,4/22/2017,14.69440885
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,6,10,5/2/2017,5/4/2017,19.72633797
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,5,9,5/2/2017,5/3/2017,8.807422443
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,4,1,4/27/2017,4/29/2017,5.527194507
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,5,7,4/27/2017,4/28/2017,10.81376124
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,6,10,4/27/2017,4/28/2017,7.252244678
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,1,10,4/26/2017,4/28/2017,12.36574075
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,2,6,4/21/2017,4/23/2017,4.024895517
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,10,12,4/22/2017,4/25/2017,27.4014696
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,7,10,4/24/2017,4/26/2017,8.726223424
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,11,7,4/25/2017,4/26/2017,15.66160608
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,3,7,4/26/2017,4/28/2017,11.81908365
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,6,9,4/26/2017,4/29/2017,18.59837624
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,11,4,4/27/2017,4/29/2017,19.90407798
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,4,8,4/27/2017,4/28/2017,4.731080913
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,1,5,4/27/2017,4/29/2017,5.460531673
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,12,10,5/2/2017,5/4/2017,20.78101571
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,4,11,5/2/2017,5/5/2017,15.52823896
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,9,11,5/2/2017,5/4/2017,13.48986079
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,11,1,2/21/2017,2/24/2017,8.83778959
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,3,11,2/21/2017,2/24/2017,12.85580009
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,1,8,2/21/2017,2/23/2017,3.868171855
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,2,6,3/17/2017,3/20/2017,6.017023001
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,3,2,3/17/2017,3/20/2017,3.651224083
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,7,9,4/25/2017,4/28/2017,7.360266758
+8,davis,paul,M8,Machining - Hard Turn                                                                                ,8,,Animepolis,5,4,1/18/2017,1/20/2017,7.857951185
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,4,1,4/27/2017,4/28/2017,3.213880514
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,10,7,4/27/2017,4/30/2017,11.13679136
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,6,2,4/27/2017,4/29/2017,4.981337386
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,11,10,4/25/2017,4/27/2017,8.597645882
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,9,1,4/25/2017,4/26/2017,5.592420477
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,11,11,5/2/2017,5/5/2017,17.59011784
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,5,10,5/26/2017,5/29/2017,13.08193241
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,4,7,4/27/2017,4/30/2017,15.50824264
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,3,7,4/19/2017,4/20/2017,10.85565835
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,7,4,5/10/2017,5/13/2017,8.898423555
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,9,12,5/9/2017,5/12/2017,25.53436878
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,8,12,5/3/2017,5/6/2017,20.30329487
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,5,7,5/19/2017,5/21/2017,16.51417137
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,6,11,4/5/2017,4/6/2017,17.52293017
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,3,11,6/5/2017,6/6/2017,12.28866721
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,11,12,9/15/2017,9/17/2017,36.0061644
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,2,6,4/18/2017,4/20/2017,8.959279712
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,3,1,4/24/2017,4/25/2017,1.074097146
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,1,10,5/3/2017,5/4/2017,12.74180506
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,7,8,4/13/2017,4/14/2017,12.59954783
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,10,12,4/14/2017,4/16/2017,19.45102269
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,6,12,4/14/2017,4/17/2017,9.111792291
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,4,2,4/11/2017,4/12/2017,3.207203349
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,10,6,4/11/2017,4/14/2017,14.47540753
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,6,6,4/12/2017,4/13/2017,13.12453426
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,9,8,5/3/2017,5/4/2017,22.63656101
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,4,7,5/3/2017,5/5/2017,8.903155237
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,4,5,4/20/2017,4/22/2017,6.083872117
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,6,3,5/8/2017,5/9/2017,7.19041079
+9,moore,george,M9,Machining - Shaping                                                                                  ,9,,Noelind,11,12,1/18/2017,1/19/2017,10.32881279
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,9,5,6/14/2017,6/15/2017,9.474666897
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,3,1,6/14/2017,6/17/2017,3.420418942
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,5,1,6/13/2017,6/15/2017,7.339529839
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,4,2,6/14/2017,6/15/2017,6.064536191
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,9,9,6/14/2017,6/15/2017,7.149653908
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,8,5,6/13/2017,6/14/2017,7.22678394
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,4,12,6/19/2017,6/20/2017,7.438894472
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,12,3,6/12/2017,6/14/2017,7.963402017
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,6,6,6/19/2017,6/21/2017,15.64738502
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,10,11,5/8/2017,5/10/2017,14.78257848
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,2,8,5/4/2017,5/7/2017,12.69593133
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,12,12,5/4/2017,5/6/2017,31.4134768
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,9,10,5/16/2017,5/19/2017,14.35735216
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,10,4,5/15/2017,5/16/2017,7.767598243
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,9,5,5/9/2017,5/11/2017,14.37074329
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,5,8,5/8/2017,5/10/2017,15.27227046
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,10,5,6/19/2017,6/22/2017,18.84756367
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,5,2,6/13/2017,6/15/2017,3.403814581
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,2,4,1/18/2017,1/20/2017,4.508684368
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,8,1,4/22/2017,4/24/2017,4.543420217
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,3,11,4/21/2017,4/23/2017,13.09880519
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,10,10,4/21/2017,4/22/2017,24.08853352
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,11,11,4/21/2017,4/23/2017,21.87005928
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,4,6,4/20/2017,4/21/2017,12.1163675
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,8,12,1/9/2017,1/12/2017,18.14603233
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,1,3,2/21/2017,2/24/2017,5.364174721
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,12,10,6/15/2017,6/17/2017,12.84417748
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,9,1,1/25/2017,1/27/2017,12.86178404
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,5,9,4/22/2017,4/24/2017,6.899423357
+10,clark,don,M10,Machining - Gash 75T Gear                                                                            ,10,,Ekcle,11,4,9/15/2017,9/16/2017,16.50753259

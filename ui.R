@@ -12,6 +12,8 @@ library(shinydashboard)
 library(shinythemes)
 library(googlesheets)
 
+df.employee <- read.csv("fakeEmployee.csv")
+
 # Notification menu
 notifications <- dropdownMenu(
                               
@@ -31,10 +33,12 @@ sidebar <- dashboardSidebar(
 body <- dashboardBody(
   #uiOutput("tabs")
   tabItems(
-    tabItem("a", h1("A was done")),
-    tabItem("b", h1("B was done")),
-    tabItem("c", h1("C was done")),
-    tabItem("d", h1("D was done")),
+    tabItem("LL", h1("A was done")),
+    tabItem("LH", h1("B was done")),
+    tabItem("ML", h1("C was done")),
+    tabItem("MH", h1("D was done")),
+    tabItem("HL", h1("D was done")),
+    tabItem("HH", h1("D was done")),
     tabItem("lp", h1("lp was done")),
     tabItem("ps", h1("ps was done"))
   )
