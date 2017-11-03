@@ -1,16 +1,8 @@
-#
-# This is the server logic of a Shiny web application. You can run the 
-# application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-# 
-#    http://shiny.rstudio.com/
-#
-  
 library(shiny)
 library(shinydashboard)
 library(shinythemes)
 library(googlesheets)
+library(dplyr)
 
 Logged = FALSE
 my_username <- "test"
@@ -27,18 +19,38 @@ tabs.content <- list(list(Title = "Tab1", Content = "Tab1 content"),
                      list(Title = "Tab2", Content = "Tab2 content"),
                      list(Title = "Tab3", Content = "Tab3 content"))
 
-submenu.content <- list(menuSubItem("LL", tabName = "Situation LL"),
-                        menuSubItem("LH", tabName = "Situation LH"),
-                        menuSubItem("ML", tabName = "Situation ML"),
-                        menuSubItem("MH", tabName = "Situation MH"),
-                        menuSubItem("HL", tabName = "Situation HL"),
-                        menuSubItem("HH", tabName = "Situation HH"))
+submenu.content <- list(menuSubItem("Situation LL", tabName = "LL"),
+                        menuSubItem("Situation LH", tabName = "LH"),
+                        menuSubItem("Situation ML", tabName = "ML"),
+                        menuSubItem("Situation MH", tabName = "MH"),
+                        menuSubItem("Situation HL", tabName = "HL"),
+                        menuSubItem("Situation HH", tabName = "HH"))
 
 menu.content <- list(menuItem("Landing Page", tabName = "lp"),
                      menuItem("Practice Situations", tabName = "ps"),
                      menuItem("Experiment Situations", tabName = "exp", sample(submenu.content)))
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
+  #################### High/High #########################
+  output$HHtable <- renderDataTable(
+    df.employee,
+    options = list(searching=FALSE, pageLength=10)
+  )
+  
+  #################### Medium/High #########################
+  output$MHtable <- renderDataTable(
+    df.employee,
+    options = list(pageLength=10)
+  )
+  
+  #################### Low/High #########################
+  output$LHtable <- renderDataTable(
+    data.frame(df.employee %>% group_by(item_id, sequence_id) %>% 
+                 summarise(predicted_hrs=mean(predicted_hrs)) %>% 
+                 group_by(item_id) %>% summarise(predicted_hrs=round(sum(predicted_hrs), digits=1))),
+    options = list(pageLength=10)
+  )
+  
   #################### SURVEY CODE #########################
   # Create an empty vector to hold survey results
   results <<- rep("", nrow(Qlist))
