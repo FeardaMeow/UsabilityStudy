@@ -45,9 +45,9 @@ server <- function(input, output, session) {
   
   #################### Low/High #########################
   output$LHtable <- renderDataTable(
-    data.frame(df.employee %>% group_by(item_id, sequence_id) %>% 
+    data.frame(df.employee %>% group_by(item_id, sequence_id, complete_qty, reject_qty) %>% 
                  summarise(predicted_hrs=mean(predicted_hrs)) %>% 
-                 group_by(item_id) %>% summarise(predicted_hrs=round(sum(predicted_hrs), digits=1))),
+                 group_by(item_id, complete_qty, reject_qty) %>% summarise(predicted_hrs=round(sum(predicted_hrs), digits=1))),
     options = list(pageLength=10)
   )
   
