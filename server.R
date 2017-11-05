@@ -15,10 +15,6 @@ ss <- googlesheets::gs_key(sheet_key)
 df.employee <- read.csv("fakeEmployee.csv")
 Qlist <- read.csv("Qlist.csv")
 
-tabs.content <- list(list(Title = "Tab1", Content = "Tab1 content"),
-                     list(Title = "Tab2", Content = "Tab2 content"),
-                     list(Title = "Tab3", Content = "Tab3 content"))
-
 submenu.content <- list(menuSubItem("Situation LL", tabName = "LL"),
                         menuSubItem("Situation LH", tabName = "LH"),
                         menuSubItem("Situation ML", tabName = "ML"),
@@ -31,25 +27,163 @@ menu.content <- list(menuItem("Landing Page", tabName = "lp"),
                      menuItem("Experiment Situations", tabName = "exp", sample(submenu.content)))
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
+  #################### Low/High #########################
+  output$LHtable <- renderUI( {
+    dynamicUI.LH()
+  })
+  
+  dynamicUI.LH <- reactive({
+    # Initial scenario
+    if (input$LHcounter==0) {
+      output$LHdatatable <- renderDataTable(
+        data.frame(df.employee %>% group_by(item_id, sequence_id, complete_qty, reject_qty) %>% 
+                     summarise(predicted_hrs=mean(predicted_hrs)) %>% 
+                     group_by(item_id, complete_qty, reject_qty) %>% summarise(predicted_hrs=round(sum(predicted_hrs), digits=1))),
+        options = list(pageLength=10)
+      )
+      return(dataTableOutput("LHdatatable"))
+    }
+    
+    # Survey
+    if (input$LHcounter>0 & input$LHcounter<=nrow(Qlist))  
+      return(
+        list(
+          h5(textOutput("question.LH")),
+          radioButtons("survey", "Please Select:", 
+                       c(option.list.LH()))
+        )
+      )
+    
+    # Done screen
+    if (input$LHcounter>nrow(Qlist))
+      return(
+        list(
+          h4("DONE")
+        )
+      ) 
+  })
+  
+  # The option list is a reative list of elements that
+  # updates itself when the click counter is advanced.
+  option.list.LH <- reactive({
+    qlist <- Qlist[input$LHcounter,3:ncol(Qlist)]
+    # Remove items from the qlist if the option is empty.
+    # Also, convert the option list to matrix. 
+    as.matrix(qlist[qlist!=""])
+  })
+  
+  # This function show the question number (Q:)
+  # Followed by the question text.
+  output$question.LH <- renderText({
+    paste0(
+      "Q", input$LHcounter,":", 
+      Qlist[input$LHcounter,2]
+    )
+  })
+  
   #################### High/High #########################
-  output$HHtable <- renderDataTable(
-    df.employee,
-    options = list(searching=FALSE, pageLength=10)
-  )
+  output$HHtable <- renderUI( {
+    dynamicUI.HH()
+  })
+  
+  dynamicUI.HH <- reactive({
+    # Initial scenario
+    if (input$HHcounter==0) {
+      output$HHdatatable <- renderDataTable(
+        df.employee,
+        options = list(searching=FALSE, pageLength=10)
+      )
+      return(dataTableOutput("HHdatatable"))
+    }
+    
+    # Survey
+    if (input$HHcounter>0 & input$HHcounter<=nrow(Qlist))  
+      return(
+        list(
+          h5(textOutput("question.HH")),
+          radioButtons("survey", "Please Select:", 
+                       c(option.list.HH()))
+        )
+      )
+    
+    # Done screen
+    if (input$HHcounter>nrow(Qlist))
+      return(
+        list(
+          h4("DONE")
+        )
+      ) 
+  })
+  
+  # The option list is a reative list of elements that
+  # updates itself when the click counter is advanced.
+  option.list.HH <- reactive({
+    qlist <- Qlist[input$HHcounter,3:ncol(Qlist)]
+    # Remove items from the qlist if the option is empty.
+    # Also, convert the option list to matrix. 
+    as.matrix(qlist[qlist!=""])
+  })
+  
+  # This function show the question number (Q:)
+  # Followed by the question text.
+  output$question.HH <- renderText({
+    paste0(
+      "Q", input$HHcounter,":", 
+      Qlist[input$HHcounter,2]
+    )
+  })
   
   #################### Medium/High #########################
-  output$MHtable <- renderDataTable(
-    df.employee,
-    options = list(pageLength=10)
-  )
+  output$MHtable <- renderUI( {
+    dynamicUI.MH()
+  })
   
-  #################### Low/High #########################
-  output$LHtable <- renderDataTable(
-    data.frame(df.employee %>% group_by(item_id, sequence_id, complete_qty, reject_qty) %>% 
-                 summarise(predicted_hrs=mean(predicted_hrs)) %>% 
-                 group_by(item_id, complete_qty, reject_qty) %>% summarise(predicted_hrs=round(sum(predicted_hrs), digits=1))),
-    options = list(pageLength=10)
-  )
+  dynamicUI.MH <- reactive({
+    # Initial scenario
+    if (input$MHcounter==0) {
+      output$MHdatatable <- renderDataTable(
+        df.employee,
+        options = list(pageLength=10)
+      )
+      return(dataTableOutput("MHdatatable"))
+    }
+    
+    # Survey
+    if (input$MHcounter>0 & input$MHcounter<=nrow(Qlist))  
+      return(
+        list(
+          h5(textOutput("question.MH")),
+          radioButtons("survey", "Please Select:", 
+                       c(option.list.MH()))
+        )
+      )
+    
+    # Done screen
+    if (input$MHcounter>nrow(Qlist))
+      return(
+        list(
+          h4("DONE")
+        )
+      ) 
+  })
+  
+  # The option list is a reative list of elements that
+  # updates itself when the click counter is advanced.
+  option.list.MH <- reactive({
+    qlist <- Qlist[input$MHcounter,3:ncol(Qlist)]
+    # Remove items from the qlist if the option is empty.
+    # Also, convert the option list to matrix. 
+    as.matrix(qlist[qlist!=""])
+  })
+  
+  # This function show the question number (Q:)
+  # Followed by the question text.
+  output$question.MH <- renderText({
+    paste0(
+      "Q", input$MHcounter,":", 
+      Qlist[input$MHcounter,2]
+    )
+  })
   
   #################### SURVEY CODE #########################
   # Create an empty vector to hold survey results

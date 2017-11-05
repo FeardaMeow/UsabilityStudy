@@ -14,7 +14,7 @@ header <- dashboardHeader(title = "Visibility Tool Usability", notifications)
 
 # Sidebar menu
 sidebar <- dashboardSidebar(
-  sidebarMenu(
+  sidebarMenu(id="tabs",
     menuItemOutput("menuitem")
   )
 )
@@ -24,14 +24,18 @@ body <- dashboardBody(
   #uiOutput("tabs")
   tabItems(
     tabItem("LL", h1("A was done")),
-    tabItem("LH", dataTableOutput('LHtable')),
+    tabItem("LH", uiOutput("LHtable"),
+            actionButton("LHcounter", "Submit")),
     tabItem("ML", h1("C was done")),
-    tabItem("MH", dataTableOutput('MHtable')),
+    tabItem("MH", uiOutput("MHtable"),
+            actionButton("MHcounter", "Submit")),
     tabItem("HL", h1("D was done")),
-    tabItem("HH", dataTableOutput('HHtable')),
+    tabItem("HH", uiOutput("HHtable"),
+            actionButton("HHcounter", "Submit")),
     tabItem("lp", uiOutput("MainAction"),
             actionButton("Click.Counter", "Next")),
-    tabItem("ps", h1("D was done"))
+    tabItem("ps", h1("D was done")),
+    tabItem("test", h1("test hidden tab"))
   )
 )
 
