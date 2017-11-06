@@ -23,13 +23,16 @@ sidebar <- dashboardSidebar(
 body <- dashboardBody(
   #uiOutput("tabs")
   tabItems(
-    tabItem("LL", h1("A was done")),
+    tabItem("LL",uiOutput("LLview"),
+            actionButton("LLcounter", "Submit")),
     tabItem("LH", uiOutput("LHtable"),
             actionButton("LHcounter", "Submit")),
-    tabItem("ML", h1("C was done")),
+    tabItem("ML", uiOutput("MLview"),
+            actionButton("MLcounter", "Submit")),
     tabItem("MH", uiOutput("MHtable"),
             actionButton("MHcounter", "Submit")),
-    tabItem("HL", h1("D was done")),
+    tabItem("HL", uiOutput("HLview"),
+            actionButton("HLcounter", "Submit")),
     tabItem("HH", uiOutput("HHtable"),
             actionButton("HHcounter", "Submit")),
     tabItem("lp", uiOutput("MainAction"),
