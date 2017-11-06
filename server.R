@@ -186,6 +186,7 @@ server <- function(input, output, session) {
     )
   })
   
+<<<<<<< HEAD
   ################### LOW/LOW ##############################
   output$LLview <- renderUI( {
     dynamicUI.LL()
@@ -507,6 +508,8 @@ server <- function(input, output, session) {
     )
   })
   
+=======
+>>>>>>> origin/master
   ################# LOGIN CODE #######################
   values <- reactiveValues(authenticated = FALSE)
   
