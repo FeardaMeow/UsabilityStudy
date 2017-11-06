@@ -185,64 +185,6 @@ server <- function(input, output, session) {
     )
   })
   
-  #################### SURVEY CODE #########################
-  # Create an empty vector to hold survey results
-  results <<- rep("", nrow(Qlist))
-  # Name each element of the vector based on the
-  # second column of the Qlist
-  names(results)  <<- Qlist[,2]  
-
-  output$MainAction <- renderUI( {
-    dynamicUi()
-  })
-  
-  dynamicUi <- reactive({
-    # Initially it shows a welcome message. 
-    if (input$Click.Counter==0) 
-      return(
-        list(
-          h5("Welcome to Shiny Survey Tool!")
-        )
-      )
-    
-    # Once the next button has been clicked once we see each question
-    # of the survey.
-    if (input$Click.Counter>0 & input$Click.Counter<=nrow(Qlist))  
-      return(
-        list(
-          h5(textOutput("question")),
-          radioButtons("survey", "Please Select:", 
-                       c(option.list()))
-        )
-      )
-    
-    # Done screen
-    if (input$Click.Counter>nrow(Qlist))
-      return(
-        list(
-          h4("DONE")
-        )
-      )    
-  })
-  
-  # The option list is a reative list of elements that
-  # updates itself when the click counter is advanced.
-  option.list <- reactive({
-    qlist <- Qlist[input$Click.Counter,3:ncol(Qlist)]
-    # Remove items from the qlist if the option is empty.
-    # Also, convert the option list to matrix. 
-    as.matrix(qlist[qlist!=""])
-  })
-  
-  # This function show the question number (Q:)
-  # Followed by the question text.
-  output$question <- renderText({
-    paste0(
-      "Q", input$Click.Counter,":", 
-      Qlist[input$Click.Counter,2]
-    )
-  })
-  
   ################# LOGIN CODE #######################
   values <- reactiveValues(authenticated = FALSE)
   
