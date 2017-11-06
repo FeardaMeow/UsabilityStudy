@@ -186,7 +186,6 @@ server <- function(input, output, session) {
     )
   })
   
-<<<<<<< HEAD
   ################### LOW/LOW ##############################
   output$LLview <- renderUI( {
     dynamicUI.LL()
@@ -507,9 +506,6 @@ server <- function(input, output, session) {
       Qlist[input$Click.Counter,2]
     )
   })
-  
-=======
->>>>>>> origin/master
   ################# LOGIN CODE #######################
   values <- reactiveValues(authenticated = FALSE)
   
