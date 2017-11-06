@@ -390,6 +390,21 @@ server <- function(input, output, session) {
                  dragmode = "select", showlegend = FALSE)
       })
       
+      output$eid_hist_HL <- renderPlotly({
+        eid <- as.character(df.employee$eid) 
+        plot_ly(x = eid, type = "histogram") %>%
+          layout(xaxis= list(title = "Employee ID"),
+                 yaxis = list(title = 'Number of jobs to finish'),
+                 dragmode = "select", showlegend = FALSE)
+      })
+      
+      output$mo_des_his_HL <- renderPlotly({
+        plot_ly(x = df.employee$mo_description, type = "histogram") %>%
+          layout(xaxis= list(title = "MO description", tickangle = -45),
+                 yaxis = list(title = 'Frequency'),
+                 dragmode = "select", showlegend = FALSE)
+      })
+      
       return(
         list(
           fluidRow(
@@ -399,12 +414,14 @@ server <- function(input, output, session) {
             box(plotlyOutput("sequence_id_bar_HL"), width = 3)
           ),
           fluidRow(
-            box(
+            box(plotlyOutput("eid_hist_HL"), width = 5),
+            box(plotlyOutput("mo_des_his_HL"), width = 4),
+            box(width = 3,
             selectInput(inputId = "item_id_HL", label = "Item ID to predict:", choices = sort(unique(df.employee$item_id))),
             numericInput(inputId = "complete_qty_HL", label = "Complete Quantity:", value = 1, min = 1, max = 100, step = 1),
-            numericInput(inputId = "reject_qty_HL", label = "Reject Quantity:", value = 1, min = 1, max = 100, step = 1)
-          ),
-          valueBoxOutput("HLprediction")
+            numericInput(inputId = "reject_qty_HL", label = "Reject Quantity:", value = 1, min = 1, max = 100, step = 1),
+            valueBoxOutput("HLprediction", width = 2.5)
+            )
           )
         )
       )
