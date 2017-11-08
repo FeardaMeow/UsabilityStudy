@@ -1,8 +1,8 @@
 library(shiny)
 library(shinydashboard)
-library(shinythemes)
 library(googlesheets)
 library(dplyr)
+library(DT)
 
 # Notification menu
 notifications <- dropdownMenu(
@@ -24,22 +24,17 @@ body <- dashboardBody(
   #uiOutput("tabs")
   tabItems(
     tabItem("LL",uiOutput("LLview"),
-            numericInput("LLanswer", "Answer:", value=0, min=0, max=100, step=0.1),
-            actionButton("LLcounter", "Submit")),
+            actionButton("LLcounter", "Submit")
+            ),
     tabItem("LH", uiOutput("LHtable"),
-            numericInput("LHanswer", "Answer:", value=0, min=0, max=100, step=0.1),
             actionButton("LHcounter", "Submit")),
     tabItem("ML", uiOutput("MLview"),
-            numericInput("MLanswer", "Answer:", value=0, min=0, max=100, step=0.1),
             actionButton("MLcounter", "Submit")),
     tabItem("MH", uiOutput("MHtable"),
-            numericInput("MHanswer", "Answer:", value=0, min=0, max=100, step=0.1),
             actionButton("MHcounter", "Submit")),
     tabItem("HL", uiOutput("HLview"),
-            numericInput("HLanswer", "Answer:", value=0, min=0, max=100, step=0.1),
             actionButton("HLcounter", "Submit")),
     tabItem("HH", uiOutput("HHtable"),
-            numericInput("HHanswer", "Answer:", value=0, min=0, max=100, step=0.1),
             actionButton("HHcounter", "Submit")),
     tabItem("lp", 
             column(width=8,

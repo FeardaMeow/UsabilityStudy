@@ -1,9 +1,9 @@
 library(shiny)
 library(shinydashboard)
-library(shinythemes)
 library(googlesheets)
 library(dplyr)
 library(plotly)
+library(DT)
 
 Logged = FALSE
 my_username <- "test"
@@ -46,7 +46,17 @@ server <- function(input, output, session) {
       return(list(fluidRow(box(width=12,
                                h1(renderText({paste("Please estimate the completion time for an order of item id",as.character(testQ$item_id),
                                                     "with quantity", as.character(testQ$complete_qty), sep=" ")})))),
-                  dataTableOutput("LHdatatable"))
+                  fluidRow(
+                    box(width=12,
+                        div(style = 'overflow-x: scroll', DT::dataTableOutput("LHdatatable"))
+                        )
+                    ),
+                  fluidRow(
+                    box(
+                      numericInput("LHanswer", "Answer:", value=0, min=0, max=100, step=0.1)
+                    )#End Box
+                  )#End Fluid Row
+              )
         )
     }
     
@@ -103,7 +113,17 @@ server <- function(input, output, session) {
       return(list(fluidRow(box(width=12,
                                h1(renderText({paste("Please estimate the completion time for an order of item id",as.character(testQ$item_id),
                                                     "with quantity", as.character(testQ$complete_qty), sep=" ")})))),
-                  dataTableOutput("HHdatatable"))
+                  fluidRow(
+                    box(width=12,
+                        div(style = 'overflow-x: scroll', DT::dataTableOutput("HHdatatable"))
+                        )
+                           ),
+                  fluidRow(
+                    box(
+                      numericInput("HHanswer", "Answer:", value=0, min=0, max=100, step=0.1)
+                    )#End Box
+                  )#End Fluid Row
+                  )
         )
     }
     
@@ -159,11 +179,21 @@ server <- function(input, output, session) {
         options = list(pageLength=10)
       )
       return(list(
-        fluidRow(box(width=12,
-                               h1(renderText({paste("Please estimate the completion time for an order of item id",as.character(testQ$item_id),
-                                                 "with quantity", as.character(testQ$complete_qty), sep=" ")})))),
-        dataTableOutput("MHdatatable"))
+          fluidRow(box(width=12,
+                                 h1(renderText({paste("Please estimate the completion time for an order of item id",as.character(testQ$item_id),
+                                                   "with quantity", as.character(testQ$complete_qty), sep=" ")})))),
+          fluidRow(
+            box(width=12,
+                div(style = 'overflow-x: scroll', DT::dataTableOutput("MHdatatable"))
+                )
+                   ),
+          fluidRow(
+            box(
+              numericInput("MHanswer", "Answer:", value=0, min=0, max=100, step=0.1)
+            )#End Box
+          )#End Fluid Row
         )
+      )
     }
     
     # Survey
@@ -225,15 +255,20 @@ server <- function(input, output, session) {
         list(
           fluidRow(box(width=12,
                        h1(renderText({paste("Please estimate the completion time for an order of item id",as.character(testQ$item_id),
-                                            "with quantity", as.character(testQ$complete_qty), sep=" ")})))),
+                                            "with quantity", as.character(testQ$complete_qty), sep=" ")})))
+                   ), #End Fluid Row
           fluidRow(
           box(
             selectInput(inputId = "item_id_LL", label = "Item ID to predict:", choices = sort(unique(df.employee$item_id))),
             numericInput(inputId = "complete_qty_LL", label = "Quantity:", value = 1, min = 1, max = 100, step = 1)
           ),
           valueBoxOutput("LLprediction")
-          )
-          
+          ), #End Fluid Row
+          fluidRow(
+            box(
+              numericInput("LLanswer", "Answer:", value=0, min=0, max=100, step=0.1)
+            )#End Box
+          )#End Fluid Row
         )
       )
       
@@ -320,7 +355,12 @@ server <- function(input, output, session) {
             selectInput(inputId = "item_id_ML", label = "Item ID to predict:", choices = sort(unique(df.employee$item_id))),
             numericInput(inputId = "complete_qty_ML", label = "Complete Quantity:", value = 1, min = 1, max = 100, step = 1)
           ),
-          valueBoxOutput("MLprediction"))
+          valueBoxOutput("MLprediction")),
+          fluidRow(
+            box(
+              numericInput("MLanswer", "Answer:", value=0, min=0, max=100, step=0.1)
+            )#End Box
+          )#End Fluid Row
           
         )
       )
@@ -449,7 +489,12 @@ server <- function(input, output, session) {
             numericInput(inputId = "complete_qty_HL", label = "Complete Quantity:", value = 1, min = 1, max = 100, step = 1),
             valueBoxOutput("HLprediction", width = 2.5)
             )
-          )
+          ),
+          fluidRow(
+            box(
+              numericInput("HLanswer", "Answer:", value=0, min=0, max=100, step=0.1)
+            )#End Box
+          )#End Fluid Row
         )
       )
       
