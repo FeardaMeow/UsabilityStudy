@@ -36,6 +36,7 @@ body <- dashboardBody(
     tabItem("HH", uiOutput("HHtable"),
             actionButton("HHcounter", "Submit")),
     tabItem("lp", 
+            fluidPage(
             column(width=10,
                    offset = 1,
               box(width=12, height = "100%",
@@ -83,7 +84,7 @@ body <- dashboardBody(
                   actionButton("sigSubmit", "Submit")
               )
             )
-            ),
+            )),
     tabItem("ps", h1("D was done"))
   )
 )
