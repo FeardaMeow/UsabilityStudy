@@ -24,8 +24,7 @@ body <- dashboardBody(
   #uiOutput("tabs")
   tabItems(
     tabItem("LL",uiOutput("LLview"),
-            actionButton("LLcounter", "Submit")
-            ),
+            actionButton("LLcounter", "Submit")),
     tabItem("LH", uiOutput("LHtable"),
             actionButton("LHcounter", "Submit")),
     tabItem("ML", uiOutput("MLview"),
@@ -37,12 +36,12 @@ body <- dashboardBody(
     tabItem("HH", uiOutput("HHtable"),
             actionButton("HHcounter", "Submit")),
     tabItem("lp", 
-            column(width=8,
-                   offset = 2,
-              box(width=12,
+            column(width=10,
+                   offset = 1,
+              box(width=12, height = "100%",
                   solidHeader = FALSE,
                   withTags({
-                    div(
+                    div(style="overflow-y: scroll;height:80vh;",
                       h1("DMDII - Visibility Tool Usability Study", align="center"),
                       p("We are asking you to be in a research study. The purpose of this consent form is to give you the information you will need to help you decide whether to be in the study or not. Please read the form carefully. You may ask questions about the purpose of the research, what we would ask you to do, the possible risks and benefits, your rights as a volunteer, and anything else about the research or this form that is not clear. When we have answered all your questions, you can decide if you want to be in the study or not. This process is called informed consent We will give you a copy of this form for your records."),
                       h2("Purpose of the Study", align="center"),
@@ -78,13 +77,14 @@ body <- dashboardBody(
                       p("If you think you have a medical problem or illness related to this research, contact study staff Steven Hwang at hwang216@uw.edu."),
                       h3("Subject's statement"),
                       p("This study has been explained to me.  I volunteer to take part in this research.  I have had a chance to ask questions.  If I have questions later about the research, or if I have been harmed by participating in this study, I can contact one of the researchers listed on the first page of this consent form.  If I have questions about my rights as a research subject, I can call the Human Subjects Division at (206) 543-0098 or call collect at (206) 221-5940.")
-                    )
-                  })
+                    )#End Div
+                  }),
+                  textInput("signature", "Signature:"),
+                  actionButton("sigSubmit", "Submit")
               )
             )
             ),
-    tabItem("ps", h1("D was done")),
-    tabItem("test", h1("test hidden tab"))
+    tabItem("ps", h1("D was done"))
   )
 )
 
