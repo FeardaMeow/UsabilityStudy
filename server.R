@@ -34,6 +34,7 @@ server <- function(input, output, session) {
   })
   
   dynamicUI.LH <- reactive({
+    testQ <- sample_n(df.employee,1)
     # Initial scenario
     if (input$LHcounter==0) {
       output$LHdatatable <- renderDataTable(
@@ -42,7 +43,11 @@ server <- function(input, output, session) {
                      group_by(item_id, complete_qty, reject_qty) %>% summarise(predicted_hrs=round(sum(predicted_hrs), digits=1))),
         options = list(pageLength=10)
       )
-      return(dataTableOutput("LHdatatable"))
+      return(list(fluidRow(box(width=12,
+                               h1(renderText({paste("Please estimate the completion time for an order of item id",as.character(testQ$item_id),
+                                                    "with quantity", as.character(testQ$complete_qty), sep=" ")})))),
+                  dataTableOutput("LHdatatable"))
+        )
     }
     
     # Survey
@@ -88,13 +93,18 @@ server <- function(input, output, session) {
   })
   
   dynamicUI.HH <- reactive({
+    testQ <- sample_n(df.employee,1)
     # Initial scenario
     if (input$HHcounter==0) {
       output$HHdatatable <- renderDataTable(
         df.employee,
         options = list(searching=FALSE, pageLength=10)
       )
-      return(dataTableOutput("HHdatatable"))
+      return(list(fluidRow(box(width=12,
+                               h1(renderText({paste("Please estimate the completion time for an order of item id",as.character(testQ$item_id),
+                                                    "with quantity", as.character(testQ$complete_qty), sep=" ")})))),
+                  dataTableOutput("HHdatatable"))
+        )
     }
     
     # Survey
@@ -140,13 +150,20 @@ server <- function(input, output, session) {
   })
   
   dynamicUI.MH <- reactive({
+    testQ <- sample_n(df.employee,1)
+    
     # Initial scenario
     if (input$MHcounter==0) {
       output$MHdatatable <- renderDataTable(
         df.employee,
         options = list(pageLength=10)
       )
-      return(dataTableOutput("MHdatatable"))
+      return(list(
+        fluidRow(box(width=12,
+                               h1(renderText({paste("Please estimate the completion time for an order of item id",as.character(testQ$item_id),
+                                                 "with quantity", as.character(testQ$complete_qty), sep=" ")})))),
+        dataTableOutput("MHdatatable"))
+        )
     }
     
     # Survey
@@ -192,11 +209,12 @@ server <- function(input, output, session) {
   })
   
   dynamicUI.LL <- reactive({
+    testQ <- sample_n(df.employee,1)
     # Initial scenario
     if (input$LLcounter==0) {
       
       output$LLprediction <- renderValueBox({
-        pred <- round(log2(as.numeric(input$item_id_LL) * input$complete_qty_LL * input$reject_qty_LL), 3)
+        pred <- round(log2(as.numeric(input$item_id_LL) * input$complete_qty_LL), 3)
         valueBox(
           paste0(pred), "Predicted Hours", icon = icon("list"),
           color = "purple"
@@ -204,11 +222,14 @@ server <- function(input, output, session) {
       }
       )
       return(
-        list(fluidRow(
+        list(
+          fluidRow(box(width=12,
+                       h1(renderText({paste("Please estimate the completion time for an order of item id",as.character(testQ$item_id),
+                                            "with quantity", as.character(testQ$complete_qty), sep=" ")})))),
+          fluidRow(
           box(
             selectInput(inputId = "item_id_LL", label = "Item ID to predict:", choices = sort(unique(df.employee$item_id))),
-            numericInput(inputId = "complete_qty_LL", label = "Complete Quantity:", value = 1, min = 1, max = 100, step = 1),
-            numericInput(inputId = "reject_qty_LL", label = "Reject Quantity:", value = 1, min = 1, max = 100, step = 1)
+            numericInput(inputId = "complete_qty_LL", label = "Quantity:", value = 1, min = 1, max = 100, step = 1)
           ),
           valueBoxOutput("LLprediction")
           )
@@ -260,10 +281,11 @@ server <- function(input, output, session) {
   })
   
   dynamicUI.ML <- reactive({
+    testQ <- sample_n(df.employee,1)
     # Initial scenario
     if (input$MLcounter==0) {
       output$MLprediction <- renderValueBox({
-        pred <- round(log2(as.numeric(input$item_id_ML) * input$complete_qty_ML * input$reject_qty_ML), 3)
+        pred <- round(log2(as.numeric(input$item_id_ML) * input$complete_qty_ML), 3)
         valueBox(
           paste0(pred), "Predicted Hours", icon = icon("list"),
           color = "purple"
@@ -287,14 +309,16 @@ server <- function(input, output, session) {
       
       return(
         list(
+          fluidRow(box(width=12,
+                       h1(renderText({paste("Please estimate the completion time for an order of item id",as.character(testQ$item_id),
+                                            "with quantity", as.character(testQ$complete_qty), sep=" ")})))),
           fluidRow(
             box(plotlyOutput("item_id_hist_ML")),
             box(plotlyOutput("box_ML"))
           ),
           fluidRow(box(
             selectInput(inputId = "item_id_ML", label = "Item ID to predict:", choices = sort(unique(df.employee$item_id))),
-            numericInput(inputId = "complete_qty_ML", label = "Complete Quantity:", value = 1, min = 1, max = 100, step = 1),
-            numericInput(inputId = "reject_qty_ML", label = "Reject Quantity:", value = 1, min = 1, max = 100, step = 1)
+            numericInput(inputId = "complete_qty_ML", label = "Complete Quantity:", value = 1, min = 1, max = 100, step = 1)
           ),
           valueBoxOutput("MLprediction"))
           
@@ -345,10 +369,11 @@ server <- function(input, output, session) {
   })
   
   dynamicUI.HL <- reactive({
+    testQ <- sample_n(df.employee,1)
     # Initial scenario
     if (input$HLcounter==0) {
       output$HLprediction <- renderValueBox({
-        pred <- round(log2(as.numeric(input$item_id_HL) * input$complete_qty_HL * input$reject_qty_HL), 3)
+        pred <- round(log2(as.numeric(input$item_id_HL) * input$complete_qty_HL), 3)
         valueBox(
           paste0(pred), "Predicted Hours", icon = icon("list"),
           color = "purple"
@@ -407,6 +432,9 @@ server <- function(input, output, session) {
       
       return(
         list(
+          fluidRow(box(width=12,
+                       h1(renderText({paste("Please estimate the completion time for an order of item id",as.character(testQ$item_id),
+                                            "with quantity", as.character(testQ$complete_qty), sep=" ")})))),
           fluidRow(
             box(plotlyOutput("item_id_hist_HL"), width = 3),
             box(plotlyOutput("box_HL"), width = 3),
@@ -419,7 +447,6 @@ server <- function(input, output, session) {
             box(width = 3,
             selectInput(inputId = "item_id_HL", label = "Item ID to predict:", choices = sort(unique(df.employee$item_id))),
             numericInput(inputId = "complete_qty_HL", label = "Complete Quantity:", value = 1, min = 1, max = 100, step = 1),
-            numericInput(inputId = "reject_qty_HL", label = "Reject Quantity:", value = 1, min = 1, max = 100, step = 1),
             valueBoxOutput("HLprediction", width = 2.5)
             )
           )
@@ -465,64 +492,6 @@ server <- function(input, output, session) {
     )
   })
   
-  
-  #################### SURVEY CODE #########################
-  # Create an empty vector to hold survey results
-  results <<- rep("", nrow(Qlist))
-  # Name each element of the vector based on the
-  # second column of the Qlist
-  names(results)  <<- Qlist[,2]  
-
-  output$MainAction <- renderUI( {
-    dynamicUi()
-  })
-  
-  dynamicUi <- reactive({
-    # Initially it shows a welcome message. 
-    if (input$Click.Counter==0) 
-      return(
-        list(
-          h5("Welcome to Shiny Survey Tool!")
-        )
-      )
-    
-    # Once the next button has been clicked once we see each question
-    # of the survey.
-    if (input$Click.Counter>0 & input$Click.Counter<=nrow(Qlist))  
-      return(
-        list(
-          h5(textOutput("question")),
-          radioButtons("survey", "Please Select:", 
-                       c(option.list()))
-        )
-      )
-    
-    # Done screen
-    if (input$Click.Counter>nrow(Qlist))
-      return(
-        list(
-          h4("DONE")
-        )
-      )    
-  })
-  
-  # The option list is a reative list of elements that
-  # updates itself when the click counter is advanced.
-  option.list <- reactive({
-    qlist <- Qlist[input$Click.Counter,3:ncol(Qlist)]
-    # Remove items from the qlist if the option is empty.
-    # Also, convert the option list to matrix. 
-    as.matrix(qlist[qlist!=""])
-  })
-  
-  # This function show the question number (Q:)
-  # Followed by the question text.
-  output$question <- renderText({
-    paste0(
-      "Q", input$Click.Counter,":", 
-      Qlist[input$Click.Counter,2]
-    )
-  })
   ################# LOGIN CODE #######################
   values <- reactiveValues(authenticated = FALSE)
   
