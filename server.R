@@ -4,6 +4,7 @@ library(googlesheets)
 library(dplyr)
 library(plotly)
 library(DT)
+library(shinyjs)
 
 Logged = FALSE
 my_username <- "test"
@@ -16,18 +17,104 @@ ss <- googlesheets::gs_key(sheet_key)
 df.employee <- read.csv("fakeEmployee.csv")
 Qlist <- read.csv("Qlist.csv")
 
-submenu.content <- list(menuSubItem("Situation LL", tabName = "LL"),
-                        menuSubItem("Situation LH", tabName = "LH"),
-                        menuSubItem("Situation ML", tabName = "ML"),
-                        menuSubItem("Situation MH", tabName = "MH"),
-                        menuSubItem("Situation HL", tabName = "HL"),
-                        menuSubItem("Situation HH", tabName = "HH"))
+submenu.content <- list(menuSubItem("Scenario LL", tabName = "LL"),
+                        menuSubItem("Scenario LH", tabName = "LH"),
+                        menuSubItem("Scenario ML", tabName = "ML"),
+                        menuSubItem("Scenario MH", tabName = "MH"),
+                        menuSubItem("Scenario HL", tabName = "HL"),
+                        menuSubItem("Scenario HH", tabName = "HH"))
 
 menu.content <- list(menuItem("Landing Page", tabName = "lp"),
-                     menuItem("Practice Situations", tabName = "ps"),
-                     menuItem("Experiment Situations", tabName = "exp", sample(submenu.content)))
+                     menuItem("Practice Scenarios", tabName = "ps"),
+                     menuItem("Usability Study Scenarios", tabName = "exp", sample(submenu.content)))
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
+  #################### Landing Page #########################
+  output$LandingPage <- renderUI( {
+    dynamicUI.LP()
+  }) #End RenderUI
+  
+  dynamicUI.LP <- reactive({
+    if(input$sigSubmit==0) {
+      return(
+        list(
+          withTags({
+            div(style="overflow-y: scroll;height:80vh;",
+                h1("DMDII - Visibility Tool Usability Study", align="center"),
+                p("We are asking you to be in a research study. The purpose of this consent form is to give you the information you will need to help you decide whether to be in the study or not. Please read the form carefully. You may ask questions about the purpose of the research by emailing Steven Hwang at hwang216@uw.edu, what we would ask you to do, the possible risks and benefits, your rights as a volunteer, and anything else about the research or this form that is not clear. When we have answered all your questions, you can decide if you want to be in the study or not. This process is called informed consent you may screen shot this page for your records."),
+                h2("Purpose of the Study", align="center"),
+                p("The objective of the current study is to assess the users' use and acceptance of the visibility tool assuming that the real-time information is accurate and reliable. This research will help to make sure that user interface is designed to maximize the understanding and use of the part flow information as well as the overall system usefulness."),
+                h2("Study Procedures", align="center"),
+                p("Approximately 10 people will take part in this study remotely at their respective work location. Your involvement in this study will consist of using an web app for approximately 30-40 minutes. There may be additional contact from the study team for a follow up study."),
+                p("Your written consent will be obtained upon using the web app. You may email us any questions you have."),
+                p("When using the usability web app, you will be asked to complete a questionnaire that covers some general questions relating to your current position and demographics. For example, the questions will ask you how much experience do you have at your current role? After every scenario, you will also take a short questionnaire about aspects of the UI and information displayed."),
+                p("You will receive instructions on how to operate the visibility tool and you will be asked to complete a practice scenario that is about 5 minutes long, so that you can become familiar with the visibility tool."),
+                p("The study will follow this same procedure, which are as follows:"),
+                ul(
+                  li("Read informed consent"),
+                  li("Practice navigating the visbility tool"),
+                  li("Practice scenario for visibility tool"),
+                  li("Visibility tool questionnaire"),
+                  li("Repeat for all scenarios")
+                ),
+                p("You may skip any questions that you do not wish to answer on the surveys. All evaluation studies will be screen captured. The system contains a screen capture software that will capture all the interactions of the study subject and the visibility tool."),
+                h2("RISKS, STRESS, OR DISCOMFORT", align="center"),
+                h2("DMDII - Visibility Tool Evaluation", align="center"),
+                p("There may be some risks from being in this study. Despite limiting the study to a short period of time, you may feel discomfort associated with eye soreness and dryness associated with extended computer use. These feelings were usually mild and consisted of slight dryness and soreness of the eyes. These effects typically last for only a short time, usually 10-15 minutes, after leaving the visibility tool. If you become uncomfortable at any time during your participation, please inform the experimenter immediately."),
+                p("In case of a breach of confidentially, your survey responses and screen capture data could be accessed. To minimize this impact, your name will not be directly associated with this data, and the data will be securely stored in a password protected computer in a limited access room."),
+                h2("BENEFITS OF THE STUDY", align="center"),
+                p("There are no direct benefits to participants in the study. However, we hope that information from this study will help us to evaluate the effects of the visibility tool and the presentation of the data in decision making. Feedback provided by the participants will help to shape the design of future iterations of the visibility tool."),
+                h2("CONFIDENTIALITY OF RESEARCH INFORMATION", align="center"),
+                p("Your confidentiality will be protected throughout data collection and analysis. This will be accomplished by assigning a study number to you, for which your data will be identified by. All the data collected from this study will be represented by this number; your name will not be directly associated with your questionnaire answers, screen capture data or survey data, but will be linked through by a study code. This link between you as a subject and the study number will be maintained until the study is complete and all records retention requirements have passed, at which point it will be destroyed."),
+                p("The experimental results, and survey results will be kept on a password secure device and access will be given only to this research team at University of Washington."),
+                p("Government or university staff sometimes review studies such as this one to make sure they are being done safely and legally.  If a review of this study takes place, your records may be examined. The reviewers will protect your privacy. The study records will not be used to put you at legal risk of harm."),
+                p("We will keep your participation in this research study confidential to the extent permitted by law.  To help protect your confidentiality, you will be assigned a study number that will be used instead of your name to identify all data collected for the study. All information you provide will be confidential. However, if we learn that you intend to harm yourself or others, we must report that to the authorities."),
+                h2("OTHER INFORMATION", align="center"),
+                p("You may refuse to participate, and you are free to withdraw from this study at any time without penalty or loss of benefits to which you are otherwise entitled. The data collected from the participant surveys will be collectively analyzed. The findings from this research may be publicly released in final reports or other publications for scientific, educational, outreach, or research purposes."),
+                p("Your participation in this study is entirely voluntary, and you are free to withdraw from the study at any time."),
+                h2("RESEARCH-RELATED INJURY", align="center"),
+                p("If you think you have a medical problem or illness related to this research, contact study staff Steven Hwang at hwang216@uw.edu."),
+                h3("Subject's statement"),
+                p("This study has been explained to me.  I volunteer to take part in this research.  I have had a chance to ask questions.  If I have questions later about the research, or if I have been harmed by participating in this study, I can contact one of the researchers listed on the first page of this consent form.  If I have questions about my rights as a research subject, I can call the Human Subjects Division at (206) 543-0098 or call collect at (206) 221-5940.")
+            )#End Div
+          }),
+          textInput("signature", "Signature:")
+        ) #End List
+      ) #End return
+    } #End If
+    else {
+      return(
+        list(
+          withTags({
+            div(style="overflow-y: scroll;height:80vh;",
+              h1("Instructions"),
+              p("Please read all of the instructions carefully before continuing. The usability study consists of 1 practice scenario 
+                to familiarize yourself with the dashboards that will be provided, what data is shown, and how to answer the scenario questions. 
+                After the practive scenario, 6 experimental scenarios will be conducted and then the usability study will be over. 
+                In each scenario you will be given 3 questions about finding the predicted time of completion for an specified item and 
+                quantity using the provided dashboard."), 
+              p("The data being shown in each of the scenarios, is data for how long it takes to complete 
+                each of the processes for the specified item. For example, item id 1 might have 3 processes that need to happen before the item
+                is complete. These processes could be drilling, boring, and washing as an example. To get the item prediction time, you will need
+                to add the prediction time for each of the processes (drilling+boring+washing) together for the same quantity amount.
+                This will be covered more in depth in the practice scenario. The instructions for the usability study are:"),
+              ol(
+                li("Click on the triple line button to reveal the sidebar menu"),
+                li("Click on 'Practice Scenarios' menu item in the sidebar menu"),
+                li("Click on 'Usability Study Scenarios' to reveal the usability study scenarios that should be completed"),
+                li("Note the order that the usability study scenarios, this is the order that they must be completed in. Please do not skip around when completing scenarios"),
+                li("In each scenario, you will be asked to answer 3 questions using that provided dashboard. Input your answer to the questions in the provided text box and press submit to move onto the next question."),
+                li("After answering the 3 questions, you will be then asked to assess the usability and trust of the dashboard by answering a questionnaire"),
+                li("Repeat 5-6 till all scenarios are complete")
+              )
+            ) #End div
+          }), #End withTags
+          shinyjs::hide("sigSubmit")
+        ) #End list
+      ) #End return
+    } #End else
+  }) #End reactive
+  
   #################### Low/High #########################
   output$LHtable <- renderUI( {
     dynamicUI.LH()
