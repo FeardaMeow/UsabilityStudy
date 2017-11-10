@@ -36,7 +36,7 @@ server <- function(input, output, session) {
   dynamicUI.LH <- reactive({
     testQ <- sample_n(df.employee,1)
     # Initial scenario
-    if (input$LHcounter==0) {
+    if (input$LHcounter<3) {
       output$LHdatatable <- renderDataTable(
         data.frame(df.employee %>% group_by(item_id, sequence_id, complete_qty, reject_qty) %>% 
                      summarise(predicted_hrs=mean(predicted_hrs)) %>% 
@@ -44,7 +44,7 @@ server <- function(input, output, session) {
         options = list(pageLength=10)
       )
       return(list(fluidRow(box(width=12,
-                               h1(renderText({paste("Please estimate the completion time for an order of item id",as.character(testQ$item_id),
+                               h1(renderText({paste("Question", input$LHcounter+1, ":", "Please estimate the completion time for an order of item id",as.character(testQ$item_id),
                                                     "with quantity", as.character(testQ$complete_qty), sep=" ")})))),
                   fluidRow(
                     box(width=12,
@@ -61,7 +61,7 @@ server <- function(input, output, session) {
     }
     
     # Survey
-    if (input$LHcounter>0 & input$LHcounter<=nrow(Qlist))  
+    if (input$LHcounter>=3 & input$LHcounter<=nrow(Qlist)+2)  
       return(
         list(
           h5(textOutput("question.LH")),
@@ -71,7 +71,7 @@ server <- function(input, output, session) {
       )
     
     # Done screen
-    if (input$LHcounter>nrow(Qlist))
+    if (input$LHcounter>nrow(Qlist)+2)
       return(
         list(
           h4("DONE")
@@ -82,7 +82,7 @@ server <- function(input, output, session) {
   # The option list is a reative list of elements that
   # updates itself when the click counter is advanced.
   option.list.LH <- reactive({
-    qlist <- Qlist[input$LHcounter,3:ncol(Qlist)]
+    qlist <- Qlist[input$LHcounter-2,3:ncol(Qlist)]
     # Remove items from the qlist if the option is empty.
     # Also, convert the option list to matrix. 
     as.matrix(qlist[qlist!=""])
@@ -92,8 +92,8 @@ server <- function(input, output, session) {
   # Followed by the question text.
   output$question.LH <- renderText({
     paste0(
-      "Q", input$LHcounter,":", 
-      Qlist[input$LHcounter,2]
+      "Q", input$LHcounter-2,":", 
+      Qlist[input$LHcounter-2,2]
     )
   })
   
@@ -105,13 +105,13 @@ server <- function(input, output, session) {
   dynamicUI.HH <- reactive({
     testQ <- sample_n(df.employee,1)
     # Initial scenario
-    if (input$HHcounter==0) {
+    if (input$HHcounter<3) {
       output$HHdatatable <- renderDataTable(
         df.employee,
         options = list(searching=FALSE, pageLength=10)
       )
       return(list(fluidRow(box(width=12,
-                               h1(renderText({paste("Please estimate the completion time for an order of item id",as.character(testQ$item_id),
+                               h1(renderText({paste("Question", input$HHcounter+1, ":","Please estimate the completion time for an order of item id",as.character(testQ$item_id),
                                                     "with quantity", as.character(testQ$complete_qty), sep=" ")})))),
                   fluidRow(
                     box(width=12,
@@ -128,7 +128,7 @@ server <- function(input, output, session) {
     }
     
     # Survey
-    if (input$HHcounter>0 & input$HHcounter<=nrow(Qlist))  
+    if (input$HHcounter>=3 & input$HHcounter<=nrow(Qlist)+2)  
       return(
         list(
           h5(textOutput("question.HH")),
@@ -138,7 +138,7 @@ server <- function(input, output, session) {
       )
     
     # Done screen
-    if (input$HHcounter>nrow(Qlist))
+    if (input$HHcounter>nrow(Qlist)+2)
       return(
         list(
           h4("DONE")
@@ -149,7 +149,7 @@ server <- function(input, output, session) {
   # The option list is a reative list of elements that
   # updates itself when the click counter is advanced.
   option.list.HH <- reactive({
-    qlist <- Qlist[input$HHcounter,3:ncol(Qlist)]
+    qlist <- Qlist[input$HHcounter-2,3:ncol(Qlist)]
     # Remove items from the qlist if the option is empty.
     # Also, convert the option list to matrix. 
     as.matrix(qlist[qlist!=""])
@@ -159,8 +159,8 @@ server <- function(input, output, session) {
   # Followed by the question text.
   output$question.HH <- renderText({
     paste0(
-      "Q", input$HHcounter,":", 
-      Qlist[input$HHcounter,2]
+      "Q", input$HHcounter-2,":", 
+      Qlist[input$HHcounter-2,2]
     )
   })
   
@@ -173,14 +173,14 @@ server <- function(input, output, session) {
     testQ <- sample_n(df.employee,1)
     
     # Initial scenario
-    if (input$MHcounter==0) {
+    if (input$MHcounter<3) {
       output$MHdatatable <- renderDataTable(
         df.employee,
         options = list(pageLength=10)
       )
       return(list(
           fluidRow(box(width=12,
-                                 h1(renderText({paste("Please estimate the completion time for an order of item id",as.character(testQ$item_id),
+                                 h1(renderText({paste("Question", input$MHcounter+1, ":","Please estimate the completion time for an order of item id",as.character(testQ$item_id),
                                                    "with quantity", as.character(testQ$complete_qty), sep=" ")})))),
           fluidRow(
             box(width=12,
@@ -197,7 +197,7 @@ server <- function(input, output, session) {
     }
     
     # Survey
-    if (input$MHcounter>0 & input$MHcounter<=nrow(Qlist))  
+    if (input$MHcounter>=3 & input$MHcounter<=nrow(Qlist)+2)  
       return(
         list(
           h5(textOutput("question.MH")),
@@ -207,7 +207,7 @@ server <- function(input, output, session) {
       )
     
     # Done screen
-    if (input$MHcounter>nrow(Qlist))
+    if (input$MHcounter>nrow(Qlist)+2)
       return(
         list(
           h4("DONE")
@@ -218,7 +218,7 @@ server <- function(input, output, session) {
   # The option list is a reative list of elements that
   # updates itself when the click counter is advanced.
   option.list.MH <- reactive({
-    qlist <- Qlist[input$MHcounter,3:ncol(Qlist)]
+    qlist <- Qlist[input$MHcounter-2,3:ncol(Qlist)]
     # Remove items from the qlist if the option is empty.
     # Also, convert the option list to matrix. 
     as.matrix(qlist[qlist!=""])
@@ -228,8 +228,8 @@ server <- function(input, output, session) {
   # Followed by the question text.
   output$question.MH <- renderText({
     paste0(
-      "Q", input$MHcounter,":", 
-      Qlist[input$MHcounter,2]
+      "Q", input$MHcounter-2,":", 
+      Qlist[input$MHcounter-2,2]
     )
   })
   
@@ -241,7 +241,7 @@ server <- function(input, output, session) {
   dynamicUI.LL <- reactive({
     testQ <- sample_n(df.employee,1)
     # Initial scenario
-    if (input$LLcounter==0) {
+    if (input$LLcounter<3) {
       
       output$LLprediction <- renderValueBox({
         pred <- round(log2(as.numeric(input$item_id_LL) * input$complete_qty_LL), 3)
@@ -254,7 +254,7 @@ server <- function(input, output, session) {
       return(
         list(
           fluidRow(box(width=12,
-                       h1(renderText({paste("Please estimate the completion time for an order of item id",as.character(testQ$item_id),
+                       h1(renderText({paste("Question", input$LLcounter+1, ":","Please estimate the completion time for an order of item id",as.character(testQ$item_id),
                                             "with quantity", as.character(testQ$complete_qty), sep=" ")})))
                    ), #End Fluid Row
           fluidRow(
@@ -275,7 +275,7 @@ server <- function(input, output, session) {
     }
     
     # Survey
-    if (input$LLcounter>0 & input$LLcounter<=nrow(Qlist))  
+    if (input$LLcounter>=3 & input$LLcounter<=nrow(Qlist)+2)  
       return(
         list(
           h5(textOutput("question.LL")),
@@ -285,7 +285,7 @@ server <- function(input, output, session) {
       )
     
     # Done screen
-    if (input$LLcounter>nrow(Qlist))
+    if (input$LLcounter>nrow(Qlist)+2)
       return(
         list(
           h4("DONE")
@@ -296,7 +296,7 @@ server <- function(input, output, session) {
   # The option list is a reative list of elements that
   # updates itself when the click counter is advanced.
   option.list.LL <- reactive({
-    qlist <- Qlist[input$LLcounter,3:ncol(Qlist)]
+    qlist <- Qlist[input$LLcounter-2,3:ncol(Qlist)]
     # Remove items from the qlist if the option is empty.
     # Also, convert the option list to matrix. 
     as.matrix(qlist[qlist!=""])
@@ -306,8 +306,8 @@ server <- function(input, output, session) {
   # Followed by the question text.
   output$question.LL <- renderText({
     paste0(
-      "Q", input$LLcounter,":", 
-      Qlist[input$LLcounter,2]
+      "Q", input$LLcounter-2,":", 
+      Qlist[input$LLcounter-2,2]
     )
   })
   ################## Median/Low ###########################
@@ -318,7 +318,7 @@ server <- function(input, output, session) {
   dynamicUI.ML <- reactive({
     testQ <- sample_n(df.employee,1)
     # Initial scenario
-    if (input$MLcounter==0) {
+    if (input$MLcounter<3) {
       output$MLprediction <- renderValueBox({
         pred <- round(log2(as.numeric(input$item_id_ML) * input$complete_qty_ML), 3)
         valueBox(
@@ -345,7 +345,7 @@ server <- function(input, output, session) {
       return(
         list(
           fluidRow(box(width=12,
-                       h1(renderText({paste("Please estimate the completion time for an order of item id",as.character(testQ$item_id),
+                       h1(renderText({paste("Question", input$MLcounter+1, ":","Please estimate the completion time for an order of item id",as.character(testQ$item_id),
                                             "with quantity", as.character(testQ$complete_qty), sep=" ")})))),
           fluidRow(
             box(plotlyOutput("item_id_hist_ML")),
@@ -368,7 +368,7 @@ server <- function(input, output, session) {
     }
     
     # Survey
-    if (input$MLcounter>0 & input$MLcounter<=nrow(Qlist))  
+    if (input$MLcounter>=3 & input$MLcounter<=nrow(Qlist)+2)  
       return(
         list(
           h5(textOutput("question.ML")),
@@ -378,7 +378,7 @@ server <- function(input, output, session) {
       )
     
     # Done screen
-    if (input$MLcounter>nrow(Qlist))
+    if (input$MLcounter>nrow(Qlist)+2)
       return(
         list(
           h4("DONE")
@@ -389,7 +389,7 @@ server <- function(input, output, session) {
   # The option list is a reative list of elements that
   # updates itself when the click counter is advanced.
   option.list.ML <- reactive({
-    qlist <- Qlist[input$MLcounter,3:ncol(Qlist)]
+    qlist <- Qlist[input$MLcounter-2,3:ncol(Qlist)]
     # Remove items from the qlist if the option is empty.
     # Also, convert the option list to matrix. 
     as.matrix(qlist[qlist!=""])
@@ -399,8 +399,8 @@ server <- function(input, output, session) {
   # Followed by the question text.
   output$question.ML <- renderText({
     paste0(
-      "Q", input$MLcounter,":", 
-      Qlist[input$MLcounter,2]
+      "Q", input$MLcounter-2,":", 
+      Qlist[input$MLcounter-2,2]
     )
   })
   ################## High/Low ###########################
@@ -411,7 +411,7 @@ server <- function(input, output, session) {
   dynamicUI.HL <- reactive({
     testQ <- sample_n(df.employee,1)
     # Initial scenario
-    if (input$HLcounter==0) {
+    if (input$HLcounter<3) {
       output$HLprediction <- renderValueBox({
         pred <- round(log2(as.numeric(input$item_id_HL) * input$complete_qty_HL), 3)
         valueBox(
@@ -473,7 +473,7 @@ server <- function(input, output, session) {
       return(
         list(
           fluidRow(box(width=12,
-                       h1(renderText({paste("Please estimate the completion time for an order of item id",as.character(testQ$item_id),
+                       h1(renderText({paste("Question", input$HLcounter+1, ":","Please estimate the completion time for an order of item id",as.character(testQ$item_id),
                                             "with quantity", as.character(testQ$complete_qty), sep=" ")})))),
           fluidRow(
             box(plotlyOutput("item_id_hist_HL"), width = 3),
@@ -501,7 +501,7 @@ server <- function(input, output, session) {
     }
     
     # Survey
-    if (input$HLcounter>0 & input$HLcounter<=nrow(Qlist))  
+    if (input$HLcounter>=3 & input$HLcounter<=nrow(Qlist)+2)  
       return(
         list(
           h5(textOutput("question.HL")),
@@ -511,7 +511,7 @@ server <- function(input, output, session) {
       )
     
     # Done screen
-    if (input$HLcounter>nrow(Qlist))
+    if (input$HLcounter>nrow(Qlist)+2)
       return(
         list(
           h4("DONE")
@@ -522,7 +522,7 @@ server <- function(input, output, session) {
   # The option list is a reative list of elements that
   # updates itself when the click counter is advanced.
   option.list.HL <- reactive({
-    qlist <- Qlist[input$HLcounter,3:ncol(Qlist)]
+    qlist <- Qlist[input$HLcounter-2,3:ncol(Qlist)]
     # Remove items from the qlist if the option is empty.
     # Also, convert the option list to matrix. 
     as.matrix(qlist[qlist!=""])
@@ -532,8 +532,8 @@ server <- function(input, output, session) {
   # Followed by the question text.
   output$question.HL <- renderText({
     paste0(
-      "Q", input$HLcounter,":", 
-      Qlist[input$HLcounter,2]
+      "Q", input$HLcounter-2,":", 
+      Qlist[input$HLcounter-2,2]
     )
   })
   
