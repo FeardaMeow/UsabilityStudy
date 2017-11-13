@@ -15,6 +15,20 @@ sheet_key <- "1VSSv36D8ngNDe9TAAtU0OLBQ2JoSiTFFleqa_Y3r6GA"
 ss <- googlesheets::gs_key(sheet_key)
 
 df.employee <- read.csv("fakeEmployee.csv")
+df.group <- data.frame(df.employee %>% group_by(item_id, sequence_id, complete_qty, reject_qty) %>% 
+                         summarise(Lower_bound=mean(Lower_bound), predicted_hrs=mean(predicted_hrs), Upper_bound=mean(Upper_bound)) %>% 
+                         group_by(item_id, complete_qty, reject_qty) %>% summarise(Lower_bound=round(sum(Lower_bound), digits=1),
+                                                                                   predicted_hrs=round(sum(predicted_hrs), digits=1),
+                                                                                   Upper_bound=round(sum(Upper_bound), digits=1)))
+df.plot <- data.frame(
+  df.group %>%
+    group_by(item_id, complete_qty) %>%
+    summarise(Lower_bound=round(sum(Lower_bound), digits=1),
+              predicted_hrs=round(sum(predicted_hrs), digits=1),
+              Upper_bound=round(sum(Upper_bound), digits=1))
+)
+df.plot$item_id <- as.factor(df.plot$item_id)
+df.plot$complete_qty <- as.factor(df.plot$complete_qty)
 Qlist <- read.csv("Qlist.csv")
 
 submenu.content <- list(menuSubItem("Scenario LL", tabName = "LL"),
@@ -125,14 +139,12 @@ server <- function(input, output, session) {
     # Initial scenario
     if (input$LHcounter<3) {
       output$LHdatatable <- renderDataTable(
-        data.frame(df.employee %>% group_by(item_id, sequence_id, complete_qty, reject_qty) %>% 
-                     summarise(predicted_hrs=mean(predicted_hrs)) %>% 
-                     group_by(item_id, complete_qty, reject_qty) %>% summarise(predicted_hrs=round(sum(predicted_hrs), digits=1))),
+        df.group,
         options = list(pageLength=10)
       )
       return(list(fluidRow(box(width=12,
-                               h1(renderText({paste("Question", input$LHcounter+1, ":", "Please estimate the completion time for an order of item id",as.character(testQ$item_id),
-                                                    "with quantity", as.character(testQ$complete_qty), sep=" ")})))),
+                               h1(renderText({paste("Question", input$LHcounter+1, ":", "Please estimate the completion time for an order of Item ID",as.character(testQ$item_id),
+                                                    "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))),
                   fluidRow(
                     box(width=12,
                         div(style = 'overflow-x: scroll', DT::dataTableOutput("LHdatatable"))
@@ -198,8 +210,8 @@ server <- function(input, output, session) {
         options = list(searching=FALSE, pageLength=10)
       )
       return(list(fluidRow(box(width=12,
-                               h1(renderText({paste("Question", input$HHcounter+1, ":","Please estimate the completion time for an order of item id",as.character(testQ$item_id),
-                                                    "with quantity", as.character(testQ$complete_qty), sep=" ")})))),
+                               h1(renderText({paste("Question", input$HHcounter+1, ":","Please estimate the completion time for an order of Item ID",as.character(testQ$item_id),
+                                                    "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))),
                   fluidRow(
                     box(width=12,
                         div(style = 'overflow-x: scroll', DT::dataTableOutput("HHdatatable"))
@@ -267,8 +279,8 @@ server <- function(input, output, session) {
       )
       return(list(
           fluidRow(box(width=12,
-                                 h1(renderText({paste("Question", input$MHcounter+1, ":","Please estimate the completion time for an order of item id",as.character(testQ$item_id),
-                                                   "with quantity", as.character(testQ$complete_qty), sep=" ")})))),
+                                 h1(renderText({paste("Question", input$MHcounter+1, ":","Please estimate the completion time for an order of Item ID",as.character(testQ$item_id),
+                                                   "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))),
           fluidRow(
             box(width=12,
                 div(style = 'overflow-x: scroll', DT::dataTableOutput("MHdatatable"))
@@ -331,25 +343,42 @@ server <- function(input, output, session) {
     if (input$LLcounter<3) {
       
       output$LLprediction <- renderValueBox({
-        pred <- round(log2(as.numeric(input$item_id_LL) * input$complete_qty_LL), 3)
+        pred <- df.plot$predicted_hrs[df.plot$item_id == input$item_id_LL & df.plot$complete_qty == input$complete_qty_LL]
         valueBox(
-          paste0(pred), "Predicted Hours", icon = icon("list"),
-          color = "purple"
-        )
-      }
-      )
+          paste0(ifelse(identical(pred, numeric(0)), NA, pred)), "Mean Predicted Hours", icon = icon("list"),
+          color = "purple")
+      })
+      
+      output$LLupper <- renderValueBox({
+        upper <- df.plot$Upper_bound[df.plot$item_id == input$item_id_LL & df.plot$complete_qty == input$complete_qty_LL]
+        valueBox(
+          paste0(ifelse(identical(upper, numeric(0)), NA, upper)), "75% Upper bound", icon = icon("list"),
+          color = "purple")
+      })
+      
+      output$LLlower <- renderValueBox({
+        lower <- df.plot$Lower_bound[df.plot$item_id == input$item_id_LL & df.plot$complete_qty == input$complete_qty_LL]
+        valueBox(
+          paste0(ifelse(identical(lower, numeric(0)), NA, lower)), "25% Lower bound", icon = icon("list"),
+          color = "purple")
+      })
+      
       return(
         list(
           fluidRow(box(width=12,
-                       h1(renderText({paste("Question", input$LLcounter+1, ":","Please estimate the completion time for an order of item id",as.character(testQ$item_id),
-                                            "with quantity", as.character(testQ$complete_qty), sep=" ")})))
+                       h1(renderText({paste("Question", input$LLcounter+1, ":","Please estimate the completion time for an order of Item Id",as.character(testQ$item_id),
+                                            "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))
                    ), #End Fluid Row
           fluidRow(
           box(
             selectInput(inputId = "item_id_LL", label = "Item ID to predict:", choices = sort(unique(df.employee$item_id))),
             numericInput(inputId = "complete_qty_LL", label = "Quantity:", value = 1, min = 1, max = 100, step = 1)
           ),
-          valueBoxOutput("LLprediction")
+          box(
+            valueBoxOutput("LLupper"),
+            valueBoxOutput("LLprediction"),
+            valueBoxOutput("LLlower")
+          )
           ), #End Fluid Row
           fluidRow(
             box(
@@ -407,42 +436,56 @@ server <- function(input, output, session) {
     # Initial scenario
     if (input$MLcounter<3) {
       output$MLprediction <- renderValueBox({
-        pred <- round(log2(as.numeric(input$item_id_ML) * input$complete_qty_ML), 3)
+        pred <- df.plot$predicted_hrs[df.plot$item_id == input$item_id_ML & df.plot$complete_qty == input$complete_qty_ML]
         valueBox(
-          paste0(pred), "Predicted Hours", icon = icon("list"),
-          color = "purple"
-        )
-        }
-      )
-      
-      output$item_id_hist_ML <- renderPlotly({
-        item_id <- as.character(df.employee$item_id)
-        plot_ly(x = item_id, type = "histogram") %>%
-          layout(xaxis= list(title = "Item ID"),
-                 yaxis = list(title = 'Number of unfinished process'),
-                 dragmode = "select", showlegend = FALSE)
+          paste0(ifelse(identical(pred, numeric(0)), NA, pred)), "Mean Predicted Hours", icon = icon("list"),
+          color = "purple")
       })
       
-      output$box_ML <- renderPlotly({
-        plot_ly(y = ~df.employee$complete_qty, type = "box", name = "Complete") %>%
-          add_trace(y = ~df.employee$reject_qty, name = 'Reject') %>%
-          layout(yaxis = list(title = "Quantity"))
+      output$MLupper <- renderValueBox({
+        upper <- df.plot$Upper_bound[df.plot$item_id == input$item_id_ML & df.plot$complete_qty == input$complete_qty_ML]
+        valueBox(
+          paste0(ifelse(identical(upper, numeric(0)), NA, upper)), "75% Upper bound", icon = icon("list"),
+          color = "purple")
+      })
+      
+      output$MLlower <- renderValueBox({
+        lower <- df.plot$Lower_bound[df.plot$item_id == input$item_id_ML & df.plot$complete_qty == input$complete_qty_ML]
+        valueBox(
+          paste0(ifelse(identical(lower, numeric(0)), NA, lower)), "25% Lower bound", icon = icon("list"),
+          color = "purple")
+      })
+      
+      output$heat_ML <- renderPlotly({
+        plot_ly(df.plot, x = ~item_id, y = ~complete_qty, z = ~predicted_hrs, type = "heatmap", hoverinfo = 'text', colorbar = list(title = "Predicted Hours"),
+                text = ~paste0('Item ID: ', item_id, '\n', 
+                              'Complete Quantity: ', complete_qty, '\n',
+                              '75% Upper bound: ', Upper_bound, '\n',
+                              'Predicted Hours: ', predicted_hrs, '\n',
+                              '25% Lower bound: ', Lower_bound)) %>%
+          layout(xaxis= list(title = "Item ID"),
+                 yaxis = list(title = 'Complete Quantity'))
       })
       
       return(
         list(
           fluidRow(box(width=12,
-                       h1(renderText({paste("Question", input$MLcounter+1, ":","Please estimate the completion time for an order of item id",as.character(testQ$item_id),
-                                            "with quantity", as.character(testQ$complete_qty), sep=" ")})))),
+                       h1(renderText({paste("Question", input$MLcounter+1, ":","Please estimate the completion time for an order of Item Id",as.character(testQ$item_id),
+                                            "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))),
           fluidRow(
-            box(plotlyOutput("item_id_hist_ML")),
-            box(plotlyOutput("box_ML"))
+            box(plotlyOutput("heat_ML"),width = 12)
           ),
-          fluidRow(box(
-            selectInput(inputId = "item_id_ML", label = "Item ID to predict:", choices = sort(unique(df.employee$item_id))),
-            numericInput(inputId = "complete_qty_ML", label = "Complete Quantity:", value = 1, min = 1, max = 100, step = 1)
+          fluidRow(
+            box(
+                selectInput(inputId = "item_id_ML", label = "Item ID to predict:", choices = sort(unique(df.employee$item_id))),
+                numericInput(inputId = "complete_qty_ML", label = "Complete Quantity:", value = 1, min = 1, max = 100, step = 1)
+            ),
+            box(
+              valueBoxOutput("MLupper"),
+              valueBoxOutput("MLprediction"),
+              valueBoxOutput("MLlower")
+            )
           ),
-          valueBoxOutput("MLprediction")),
           fluidRow(
             box(
               numericInput("MLanswer", "Answer:", value=0, min=0, max=100, step=0.1)
@@ -500,20 +543,35 @@ server <- function(input, output, session) {
     # Initial scenario
     if (input$HLcounter<3) {
       output$HLprediction <- renderValueBox({
-        pred <- round(log2(as.numeric(input$item_id_HL) * input$complete_qty_HL), 3)
+        pred <- df.plot$predicted_hrs[df.plot$item_id == input$item_id_HL & df.plot$complete_qty == input$complete_qty_HL]
         valueBox(
-          paste0(pred), "Predicted Hours", icon = icon("list"),
-          color = "purple"
-        )
-      }
-      )
+          paste0(ifelse(identical(pred, numeric(0)), NA, pred)), "Mean Predicted Hours", icon = icon("list"),
+          color = "purple")
+      })
       
-      output$item_id_hist_HL <- renderPlotly({
-        item_id <- as.character(df.employee$item_id)
-        plot_ly(x = item_id, type = "histogram") %>%
+      output$HLupper <- renderValueBox({
+        upper <- df.plot$Upper_bound[df.plot$item_id == input$item_id_HL & df.plot$complete_qty == input$complete_qty_HL]
+        valueBox(
+          paste0(ifelse(identical(upper, numeric(0)), NA, upper)), "75% Upper bound", icon = icon("list"),
+          color = "purple")
+      })
+      
+      output$HLlower <- renderValueBox({
+        lower <- df.plot$Lower_bound[df.plot$item_id == input$item_id_HL & df.plot$complete_qty == input$complete_qty_HL]
+        valueBox(
+          paste0(ifelse(identical(lower, numeric(0)), NA, lower)), "25% Lower bound", icon = icon("list"),
+          color = "purple")
+      })
+      
+      output$heat_HL <- renderPlotly({
+        plot_ly(df.plot, x = ~item_id, y = ~complete_qty, z = ~predicted_hrs, type = "heatmap", hoverinfo = 'text', colorbar = list(title = "Predicted Hours"),
+                text = ~paste0('Item ID: ', item_id, '\n', 
+                               'Complete Quantity: ', complete_qty, '\n',
+                               '75% Upper bound: ', Upper_bound, '\n',
+                               'Predicted Hours: ', predicted_hrs, '\n',
+                               '25% Lower bound: ', Lower_bound)) %>%
           layout(xaxis= list(title = "Item ID"),
-                 yaxis = list(title = 'Number of unfinished process'),
-                 dragmode = "select", showlegend = FALSE)
+                 yaxis = list(title = 'Complete Quantity'))
       })
       
       output$box_HL <- renderPlotly({
@@ -550,31 +608,27 @@ server <- function(input, output, session) {
                  dragmode = "select", showlegend = FALSE)
       })
       
-      output$mo_des_his_HL <- renderPlotly({
-        plot_ly(x = df.employee$mo_description, type = "histogram") %>%
-          layout(xaxis= list(title = "MO description", tickangle = -45),
-                 yaxis = list(title = 'Frequency'),
-                 dragmode = "select", showlegend = FALSE)
-      })
-      
       return(
         list(
           fluidRow(box(width=12,
-                       h1(renderText({paste("Question", input$HLcounter+1, ":","Please estimate the completion time for an order of item id",as.character(testQ$item_id),
-                                            "with quantity", as.character(testQ$complete_qty), sep=" ")})))),
+                       h1(renderText({paste("Question", input$HLcounter+1, ":","Please estimate the completion time for an order of Item ID",as.character(testQ$item_id),
+                                            "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))),
           fluidRow(
-            box(plotlyOutput("item_id_hist_HL"), width = 3),
-            box(plotlyOutput("box_HL"), width = 3),
-            box(plotlyOutput("mo_id_bar_HL"), width = 3),
-            box(plotlyOutput("sequence_id_bar_HL"), width = 3)
+            box(plotlyOutput("box_HL"), width = 4),
+            box(plotlyOutput("mo_id_bar_HL"), width = 4),
+            box(plotlyOutput("sequence_id_bar_HL"), width = 4)
           ),
           fluidRow(
-            box(plotlyOutput("eid_hist_HL"), width = 5),
-            box(plotlyOutput("mo_des_his_HL"), width = 4),
-            box(width = 3,
+            box(plotlyOutput('heat_HL'), width = 12)
+          ),
+          fluidRow(
+            box(plotlyOutput("eid_hist_HL"), width = 6),
+            box(width = 6,
             selectInput(inputId = "item_id_HL", label = "Item ID to predict:", choices = sort(unique(df.employee$item_id))),
             numericInput(inputId = "complete_qty_HL", label = "Complete Quantity:", value = 1, min = 1, max = 100, step = 1),
-            valueBoxOutput("HLprediction", width = 2.5)
+            valueBoxOutput("HLupper", width = 4),
+            valueBoxOutput("HLprediction", width = 4),
+            valueBoxOutput("HLlower", width = 4)
             )
           ),
           fluidRow(
@@ -584,7 +638,6 @@ server <- function(input, output, session) {
           )#End Fluid Row
         )
       )
-      
     }
     
     # Survey
