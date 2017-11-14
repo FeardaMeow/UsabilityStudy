@@ -457,7 +457,7 @@ server <- function(input, output, session) {
       })
       
       output$heat_ML <- renderPlotly({
-        plot_ly(df.plot, x = ~item_id, y = ~complete_qty, z = ~predicted_hrs, type = "heatmap", hoverinfo = 'text', colorbar = list(title = "Predicted Hours"),
+        plot_ly(df.plot, x = ~item_id, y = ~complete_qty, z = ~predicted_hrs, type = "heatmap", colorscale = "Greys", hoverinfo = 'text', colorbar = list(title = "Predicted Hours"),
                 text = ~paste0('Item ID: ', item_id, '\n', 
                               'Complete Quantity: ', complete_qty, '\n',
                               '75% Upper bound: ', Upper_bound, '\n',
@@ -564,7 +564,7 @@ server <- function(input, output, session) {
       })
       
       output$heat_HL <- renderPlotly({
-        plot_ly(df.plot, x = ~item_id, y = ~complete_qty, z = ~predicted_hrs, type = "heatmap", hoverinfo = 'text', colorbar = list(title = "Predicted Hours"),
+        plot_ly(df.plot, x = ~item_id, y = ~complete_qty, z = ~predicted_hrs, type = "heatmap", colorscale = "Greys", hoverinfo = 'text', colorbar = list(title = "Predicted Hours"),
                 text = ~paste0('Item ID: ', item_id, '\n', 
                                'Complete Quantity: ', complete_qty, '\n',
                                '75% Upper bound: ', Upper_bound, '\n',
