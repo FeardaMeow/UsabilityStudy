@@ -48,7 +48,8 @@ body <- dashboardBody(
               )
             )
             )),
-    tabItem("ps", h1("D was done"))
+    tabItem("ps",uiOutput("PSview"),
+            actionButton("PScounter", "Submit"))
   )
 )
 

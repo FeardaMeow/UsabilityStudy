@@ -31,16 +31,18 @@ df.plot$item_id <- as.factor(df.plot$item_id)
 df.plot$complete_qty <- as.factor(df.plot$complete_qty)
 Qlist <- read.csv("Qlist.csv")
 
-submenu.content <- list(menuSubItem("Scenario LL", tabName = "LL"),
-                        menuSubItem("Scenario LH", tabName = "LH"),
-                        menuSubItem("Scenario ML", tabName = "ML"),
-                        menuSubItem("Scenario MH", tabName = "MH"),
-                        menuSubItem("Scenario HL", tabName = "HL"),
-                        menuSubItem("Scenario HH", tabName = "HH"))
+submenu.content <- list("LL" = menuSubItem("Scenario LL", tabName = "LL"),
+                        "LH" = menuSubItem("Scenario LH", tabName = "LH"),
+                        "ML" = menuSubItem("Scenario ML", tabName = "ML"),
+                        "MH" = menuSubItem("Scenario MH", tabName = "MH"),
+                        "HL" = menuSubItem("Scenario HL", tabName = "HL"),
+                        "HH" = menuSubItem("Scenario HH", tabName = "HH"))
+
+randomsubtab <- sample(submenu.content)
 
 menu.content <- list(menuItem("Landing Page", tabName = "lp"),
                      menuItem("Practice Scenarios", tabName = "ps"),
-                     menuItem("Usability Study Scenarios", tabName = "exp", sample(submenu.content)))
+                     menuItem("Usability Study Scenarios", tabName = "exp", randomsubtab))
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
   #################### Landing Page #########################
@@ -96,22 +98,22 @@ server <- function(input, output, session) {
         ) #End List
       ) #End return
     } #End If
-    else {
+    if (input$sigSubmit == 1) {
+      updateActionButton(session, "sigSubmit", label = 'Start Practice')
       return(
         list(
           withTags({
             div(style="overflow-y: scroll;height:80vh;",
               h1("Instructions"),
-              p("Please read all of the instructions carefully before continuing. The usability study consists of 1 practice scenario 
-                to familiarize yourself with the dashboards that will be provided, what data is shown, and how to answer the scenario questions. 
-                After the practive scenario, 6 experimental scenarios will be conducted and then the usability study will be over. 
-                In each scenario you will be given 3 questions about finding the predicted time of completion for an specified item and 
+              p("Please read all instructions carefully before continuing. The usability study consists of practice sessions and six usability study scenarios. 
+                The practice sessions will familiarize you with the dashboard and presented data, and explain how to answer the questions for each scenario. 
+                Immediately after the practice session, the usability scenarios will be presented to you. 
+                In each scenario you will be given 3 questions and asked to estimate the completion time for an specified item and 
                 quantity using the provided dashboard."), 
-              p("The data being shown in each of the scenarios, is data for how long it takes to complete 
-                each of the processes for the specified item. For example, item id 1 might have 3 processes that need to happen before the item
-                is complete. These processes could be drilling, boring, and washing as an example. To get the item prediction time, you will need
-                to add the prediction time for each of the processes (drilling+boring+washing) together for the same quantity amount.
-                This will be covered more in depth in the practice scenario. The instructions for the usability study are:"),
+              p("The data shown in each scenario will include completion time for each process. For example, item id 1 might have 3 processes that need to happen before the item
+                is complete. The 3 processes could include drilling, boring, and washing. To item completion time will be a combination of the prediction times for each of the processes (drilling+boring+washing) together for the same quantity amount.
+                This will be covered more in depth in the practice scenario."), 
+              p("The instructions for the usability study are:"),
               ol(
                 li("Click on the triple line button to reveal the sidebar menu"),
                 li("Click on 'Practice Scenarios' menu item in the sidebar menu"),
@@ -122,12 +124,150 @@ server <- function(input, output, session) {
                 li("Repeat 5-6 till all scenarios are complete")
               )
             ) #End div
-          }), #End withTags
-          shinyjs::hide("sigSubmit")
+          }) #End withTags
+#          shinyjs::hide("sigSubmit")
         ) #End list
       ) #End return
     } #End else
+    if (input$sigSubmit >= 2){
+      return(
+        list(
+          updateTabItems(session, "tabs", "ps")
+        )
+      )
+    }
   }) #End reactive
+  
+  #################### Practice Scenarios###################
+  output$PSview <- renderUI( {
+    dynamicUI.PS()
+  })
+  
+  dynamicUI.PS <- reactive({
+    testQ <- sample_n(df.employee,1)
+    # Initial scenario
+    if (input$PScounter == 0) {
+      
+      output$PSprediction <- renderValueBox({
+        pred <- df.plot$predicted_hrs[df.plot$item_id == input$item_id_PS & df.plot$complete_qty == input$complete_qty_PS]
+        valueBox(
+          paste0(ifelse(identical(pred, numeric(0)), NA, pred)), "Median Predicted Hours", icon = icon("list"),
+          color = "purple")
+      })
+      
+      output$PSupper <- renderValueBox({
+        upper <- df.plot$Upper_bound[df.plot$item_id == input$item_id_PS & df.plot$complete_qty == input$complete_qty_PS]
+        valueBox(
+          paste0(ifelse(identical(upper, numeric(0)), NA, upper)), "75% Upper Prediction Bound", icon = icon("list"),
+          color = "purple")
+      })
+      
+      output$PSlower <- renderValueBox({
+        lower <- df.plot$Lower_bound[df.plot$item_id == input$item_id_PS & df.plot$complete_qty == input$complete_qty_PS]
+        valueBox(
+          paste0(ifelse(identical(lower, numeric(0)), NA, lower)), "25% Lower Prediction Bound", icon = icon("list"),
+          color = "purple")
+      })
+      
+      return(
+        list(
+          fluidRow(box(width=12,
+                       h1(renderText({paste("Question", input$PScounter+1, ":","Please estimate the completion time for an order of Item ID",as.character(testQ$item_id),
+                                            "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))
+          ), #End Fluid Row
+          fluidRow(
+            box(width = 3,
+                selectInput(inputId = "item_id_PS", label = "Item ID to predict:", choices = sort(unique(df.employee$item_id))),
+                numericInput(inputId = "complete_qty_PS", label = "Quantity:", value = 1, min = 1, max = 100, step = 1)
+            ),
+            box(width = 9,
+                valueBoxOutput("PSupper"),
+                valueBoxOutput("PSprediction"),
+                valueBoxOutput("PSlower")
+            )
+          ), #End Fluid Row
+          fluidRow(
+            box(
+              numericInput("PSanswer", "Answer:", value=0, min=0, max=100, step=0.1)
+            )#End Box
+          )#End Fluid Row
+        )
+      )}
+    
+    if (input$PScounter == 1){
+      colnames(df.group) <- c("Item ID", "Complete Quantity", "Reject Quantity", "25% Lower Prediction Bound", "Median Predicted Hours", "75% Upper Prediction Bound")
+      output$PSdatatable <- renderDataTable(
+        df.group,
+        options = list(pageLength=10)
+      )
+      return(list(fluidRow(box(width=12,
+                               h1(renderText({paste("Question", input$PScounter+1, ":", "Please estimate the completion time for an order of Item ID",as.character(testQ$item_id),
+                                                    "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))),
+                  fluidRow(
+                    box(width=12,
+                        div(style = 'overflow-x: scroll', DT::dataTableOutput("PSdatatable"))
+                    )
+                  ),
+                  fluidRow(
+                    box(
+                      numericInput("PSanswer", "Answer:", value=0, min=0, max=100, step=0.1)
+                    )#End Box
+                  )#End Fluid Row
+      )
+      )
+    }
+    
+    if (input$PScounter == 2){
+      output$heat_PS <- renderPlotly({
+        plot_ly(df.plot, x = ~item_id, y = ~complete_qty, z = ~predicted_hrs, type = "heatmap", colorscale = "Greys", hoverinfo = 'text', colorbar = list(title = "Predicted Hours"),
+                text = ~paste0('Item ID: ', item_id, '\n', 
+                               'Complete Quantity: ', complete_qty, '\n',
+                               '75% Upper Prediction Bound: ', Upper_bound, '\n',
+                               'Median Predicted Hours: ', predicted_hrs, '\n',
+                               '25% Lower Prediction Bound: ', Lower_bound)) %>%
+          layout(xaxis= list(title = "Item ID"),
+                 yaxis = list(title = 'Complete Quantity'))
+      })
+      
+      return(
+        list(
+          fluidRow(box(width=12,
+                       h1(renderText({paste("Question", input$PScounter+1, ":","Please estimate the completion time for an order of Item ID",as.character(testQ$item_id),
+                                            "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))),
+          fluidRow(
+            box(plotlyOutput("heat_PS"),width = 12)
+          ),
+          fluidRow(
+            box(
+              numericInput("PSanswer", "Answer:", value=0, min=0, max=100, step=0.1)
+            )#End Box
+          )#End Fluid Row
+          
+        )
+      )
+    }
+    
+    # Done screen
+    if (input$PScounter == 3){
+      updateActionButton(session, 'PScounter', label = 'Start!')
+      return(
+        list(
+          h4("You have finished the practive scenarios. Please start the usability study scenarios when you are ready!")        
+          )
+      )
+    }
+    
+    if (input$PScounter >= 4){
+      return(
+        list(
+          updateTabItems(session, "tabs", names(randomsubtab)[1])
+        )
+      )
+    }
+      
+  })
+  
+  
   
   #################### Low/High #########################
   output$LHtable <- renderUI( {
@@ -138,6 +278,7 @@ server <- function(input, output, session) {
     testQ <- sample_n(df.employee,1)
     # Initial scenario
     if (input$LHcounter<3) {
+      colnames(df.group) <- c("Item ID", "Complete Quantity", "Reject Quantity", "25% Lower Prediction Bound", "Median Predicted Hours", "75% Upper Prediction Bound")
       output$LHdatatable <- renderDataTable(
         df.group,
         options = list(pageLength=10)
@@ -168,14 +309,32 @@ server <- function(input, output, session) {
                        c(option.list.LH()))
         )
       )
-    
-    # Done screen
-    if (input$LHcounter>nrow(Qlist)+2)
+    if (input$LHcounter == nrow(Qlist)+3){
+      updateActionButton(session, 'LHcounter', label = 'Next')
       return(
         list(
-          h4("DONE")
+          h4('You have finished the curren scenario. Please click on the Next button to go to the next scenario.')
         )
-      ) 
+      )
+    }
+    
+    # Done screen
+    if (input$LHcounter > nrow(Qlist)+3){
+      if (which(names(randomsubtab) == 'LH') == 6){
+        return(
+          list(
+            h4("Congratulations! Thank you for finishing the usability study!")
+          )
+        )
+      } else {
+        return(
+        list(
+          updateTabItems(session, "tabs", names(randomsubtab)[which(names(randomsubtab) == 'LH') + 1])
+        )
+      )
+      }
+    }
+      
   })
   
   # The option list is a reative list of elements that
@@ -205,6 +364,9 @@ server <- function(input, output, session) {
     testQ <- sample_n(df.employee,1)
     # Initial scenario
     if (input$HHcounter<3) {
+      colnames(df.employee) <- c('Employee ID', 'Last Name', 'First Name', 'MO ID', 'MO Description', 'Item ID', 'Sequence ID', 'Sequence Description',
+                                 'Complete Quantity', 'Reject Quantity', 'Start Date', 'Finish Date', '25% Lower Predciiton Bound', 'Median Predited Hours',
+                                 '75% Upper Prediciton Bound')
       output$HHdatatable <- renderDataTable(
         df.employee,
         options = list(searching=FALSE, pageLength=10)
@@ -236,13 +398,32 @@ server <- function(input, output, session) {
         )
       )
     
-    # Done screen
-    if (input$HHcounter>nrow(Qlist)+2)
+    if (input$HHcounter == nrow(Qlist)+3){
+      updateActionButton(session, 'HHcounter', label = 'Next')
       return(
         list(
-          h4("DONE")
+          h4('You have finished the curren scenario. Please click on the Next button to go to the next scenario.')
         )
-      ) 
+      )
+    }
+    
+    # Done screen
+    if (input$HHcounter>nrow(Qlist)+2){
+      if (which(names(randomsubtab) == 'HH') == 6){
+        return(
+          list(
+            h4("Congratulations! Thank you for finishing the usability study!")
+          )
+        )
+      } else {
+        return(
+          list(
+            updateTabItems(session, "tabs", names(randomsubtab)[which(names(randomsubtab) == 'HH') + 1])
+          )
+        )
+      }
+    }
+    
   })
   
   # The option list is a reative list of elements that
@@ -273,6 +454,9 @@ server <- function(input, output, session) {
     
     # Initial scenario
     if (input$MHcounter<3) {
+      colnames(df.employee) <- c('Employee ID', 'Last Name', 'First Name', 'MO ID', 'MO Description', 'Item ID', 'Sequence ID', 'Sequence Description',
+                                 'Complete Quantity', 'Reject Quantity', 'Start Date', 'Finish Date', '25% Lower Predciiton Bound', 'Median Predited Hours',
+                                 '75% Upper Prediciton Bound')
       output$MHdatatable <- renderDataTable(
         df.employee,
         options = list(pageLength=10)
@@ -305,13 +489,31 @@ server <- function(input, output, session) {
         )
       )
     
-    # Done screen
-    if (input$MHcounter>nrow(Qlist)+2)
+    if (input$MHcounter == nrow(Qlist)+3){
+      updateActionButton(session, 'MHcounter', label = 'Next')
       return(
         list(
-          h4("DONE")
+          h4('You have finished the curren scenario. Please click on the Next button to go to the next scenario.')
         )
-      ) 
+      )
+    }
+    
+    # Done screen
+    if (input$MHcounter>nrow(Qlist)+2){
+      if (which(names(randomsubtab) == 'MH') == 6){
+        return(
+          list(
+            h4("Congratulations! Thank you for finishing the usability study!")
+          )
+        )
+      } else {
+        return(
+          list(
+            updateTabItems(session, "tabs", names(randomsubtab)[which(names(randomsubtab) == 'MH') + 1])
+          )
+        )
+      }
+    }
   })
   
   # The option list is a reative list of elements that
@@ -345,36 +547,36 @@ server <- function(input, output, session) {
       output$LLprediction <- renderValueBox({
         pred <- df.plot$predicted_hrs[df.plot$item_id == input$item_id_LL & df.plot$complete_qty == input$complete_qty_LL]
         valueBox(
-          paste0(ifelse(identical(pred, numeric(0)), NA, pred)), "Mean Predicted Hours", icon = icon("list"),
+          paste0(ifelse(identical(pred, numeric(0)), NA, pred)), "Median Predicted Hours", icon = icon("list"),
           color = "purple")
       })
       
       output$LLupper <- renderValueBox({
         upper <- df.plot$Upper_bound[df.plot$item_id == input$item_id_LL & df.plot$complete_qty == input$complete_qty_LL]
         valueBox(
-          paste0(ifelse(identical(upper, numeric(0)), NA, upper)), "75% Upper bound", icon = icon("list"),
+          paste0(ifelse(identical(upper, numeric(0)), NA, upper)), "75% Upper Prediction Bound", icon = icon("list"),
           color = "purple")
       })
       
       output$LLlower <- renderValueBox({
         lower <- df.plot$Lower_bound[df.plot$item_id == input$item_id_LL & df.plot$complete_qty == input$complete_qty_LL]
         valueBox(
-          paste0(ifelse(identical(lower, numeric(0)), NA, lower)), "25% Lower bound", icon = icon("list"),
+          paste0(ifelse(identical(lower, numeric(0)), NA, lower)), "25% Lower Prediction Bound", icon = icon("list"),
           color = "purple")
       })
       
       return(
         list(
           fluidRow(box(width=12,
-                       h1(renderText({paste("Question", input$LLcounter+1, ":","Please estimate the completion time for an order of Item Id",as.character(testQ$item_id),
+                       h1(renderText({paste("Question", input$LLcounter+1, ":","Please estimate the completion time for an order of Item ID",as.character(testQ$item_id),
                                             "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))
                    ), #End Fluid Row
           fluidRow(
-          box(
+          box(width = 3,
             selectInput(inputId = "item_id_LL", label = "Item ID to predict:", choices = sort(unique(df.employee$item_id))),
             numericInput(inputId = "complete_qty_LL", label = "Quantity:", value = 1, min = 1, max = 100, step = 1)
           ),
-          box(
+          box(width = 9,
             valueBoxOutput("LLupper"),
             valueBoxOutput("LLprediction"),
             valueBoxOutput("LLlower")
@@ -400,13 +602,31 @@ server <- function(input, output, session) {
         )
       )
     
-    # Done screen
-    if (input$LLcounter>nrow(Qlist)+2)
+    if (input$LLcounter == nrow(Qlist)+3){
+      updateActionButton(session, 'LLcounter', label = 'Next')
       return(
         list(
-          h4("DONE")
+          h4('You have finished the curren scenario. Please click on the Next button to go to the next scenario.')
         )
-      ) 
+      )
+    }
+    
+    # Done screen
+    if (input$LLcounter>nrow(Qlist)+2){
+      if (which(names(randomsubtab) == 'LL') == 6){
+        return(
+          list(
+            h4("Congratulations! Thank you for finishing the usability study!")
+          )
+        )
+      } else {
+        return(
+          list(
+            updateTabItems(session, "tabs", names(randomsubtab)[which(names(randomsubtab) == 'LL') + 1])
+          )
+        )
+      }
+    }
   })
   
   # The option list is a reative list of elements that
@@ -438,21 +658,21 @@ server <- function(input, output, session) {
       output$MLprediction <- renderValueBox({
         pred <- df.plot$predicted_hrs[df.plot$item_id == input$item_id_ML & df.plot$complete_qty == input$complete_qty_ML]
         valueBox(
-          paste0(ifelse(identical(pred, numeric(0)), NA, pred)), "Mean Predicted Hours", icon = icon("list"),
+          paste0(ifelse(identical(pred, numeric(0)), NA, pred)), "Median Predicted Hours", icon = icon("list"),
           color = "purple")
       })
       
       output$MLupper <- renderValueBox({
         upper <- df.plot$Upper_bound[df.plot$item_id == input$item_id_ML & df.plot$complete_qty == input$complete_qty_ML]
         valueBox(
-          paste0(ifelse(identical(upper, numeric(0)), NA, upper)), "75% Upper bound", icon = icon("list"),
+          paste0(ifelse(identical(upper, numeric(0)), NA, upper)), "75% Upper Prediction Bound", icon = icon("list"),
           color = "purple")
       })
       
       output$MLlower <- renderValueBox({
         lower <- df.plot$Lower_bound[df.plot$item_id == input$item_id_ML & df.plot$complete_qty == input$complete_qty_ML]
         valueBox(
-          paste0(ifelse(identical(lower, numeric(0)), NA, lower)), "25% Lower bound", icon = icon("list"),
+          paste0(ifelse(identical(lower, numeric(0)), NA, lower)), "25% Lower Prediction Bound", icon = icon("list"),
           color = "purple")
       })
       
@@ -460,9 +680,9 @@ server <- function(input, output, session) {
         plot_ly(df.plot, x = ~item_id, y = ~complete_qty, z = ~predicted_hrs, type = "heatmap", colorscale = "Greys", hoverinfo = 'text', colorbar = list(title = "Predicted Hours"),
                 text = ~paste0('Item ID: ', item_id, '\n', 
                               'Complete Quantity: ', complete_qty, '\n',
-                              '75% Upper bound: ', Upper_bound, '\n',
-                              'Predicted Hours: ', predicted_hrs, '\n',
-                              '25% Lower bound: ', Lower_bound)) %>%
+                              '75% Upper Prediction Bound: ', Upper_bound, '\n',
+                              'Median Predicted Hours: ', predicted_hrs, '\n',
+                              '25% Lower Prediction Bound: ', Lower_bound)) %>%
           layout(xaxis= list(title = "Item ID"),
                  yaxis = list(title = 'Complete Quantity'))
       })
@@ -470,17 +690,17 @@ server <- function(input, output, session) {
       return(
         list(
           fluidRow(box(width=12,
-                       h1(renderText({paste("Question", input$MLcounter+1, ":","Please estimate the completion time for an order of Item Id",as.character(testQ$item_id),
+                       h1(renderText({paste("Question", input$MLcounter+1, ":","Please estimate the completion time for an order of Item ID",as.character(testQ$item_id),
                                             "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))),
           fluidRow(
             box(plotlyOutput("heat_ML"),width = 12)
           ),
           fluidRow(
-            box(
+            box(width = 3,
                 selectInput(inputId = "item_id_ML", label = "Item ID to predict:", choices = sort(unique(df.employee$item_id))),
                 numericInput(inputId = "complete_qty_ML", label = "Complete Quantity:", value = 1, min = 1, max = 100, step = 1)
             ),
-            box(
+            box(width = 9,
               valueBoxOutput("MLupper"),
               valueBoxOutput("MLprediction"),
               valueBoxOutput("MLlower")
@@ -507,13 +727,31 @@ server <- function(input, output, session) {
         )
       )
     
-    # Done screen
-    if (input$MLcounter>nrow(Qlist)+2)
+    if (input$MLcounter == nrow(Qlist)+3){
+      updateActionButton(session, 'MLcounter', label = 'Next')
       return(
         list(
-          h4("DONE")
+          h4('You have finished the curren scenario. Please click on the Next button to go to the next scenario.')
         )
-      ) 
+      )
+    }
+    
+    # Done screen
+    if (input$MLcounter>nrow(Qlist)+2){
+      if (which(names(randomsubtab) == 'ML') == 6){
+        return(
+          list(
+            h4("Congratulations! Thank you for finishing the usability study!")
+          )
+        )
+      } else {
+        return(
+          list(
+            updateTabItems(session, "tabs", names(randomsubtab)[which(names(randomsubtab) == 'ML') + 1])
+          )
+        )
+      }
+    }
   })
   
   # The option list is a reative list of elements that
@@ -545,21 +783,21 @@ server <- function(input, output, session) {
       output$HLprediction <- renderValueBox({
         pred <- df.plot$predicted_hrs[df.plot$item_id == input$item_id_HL & df.plot$complete_qty == input$complete_qty_HL]
         valueBox(
-          paste0(ifelse(identical(pred, numeric(0)), NA, pred)), "Mean Predicted Hours", icon = icon("list"),
+          paste0(ifelse(identical(pred, numeric(0)), NA, pred)), "Median Predicted Hours", icon = icon("list"),
           color = "purple")
       })
       
       output$HLupper <- renderValueBox({
         upper <- df.plot$Upper_bound[df.plot$item_id == input$item_id_HL & df.plot$complete_qty == input$complete_qty_HL]
         valueBox(
-          paste0(ifelse(identical(upper, numeric(0)), NA, upper)), "75% Upper bound", icon = icon("list"),
+          paste0(ifelse(identical(upper, numeric(0)), NA, upper)), "75% Upper Prediction Bound", icon = icon("list"),
           color = "purple")
       })
       
       output$HLlower <- renderValueBox({
         lower <- df.plot$Lower_bound[df.plot$item_id == input$item_id_HL & df.plot$complete_qty == input$complete_qty_HL]
         valueBox(
-          paste0(ifelse(identical(lower, numeric(0)), NA, lower)), "25% Lower bound", icon = icon("list"),
+          paste0(ifelse(identical(lower, numeric(0)), NA, lower)), "25% Lower Prediction Bound", icon = icon("list"),
           color = "purple")
       })
       
@@ -567,9 +805,9 @@ server <- function(input, output, session) {
         plot_ly(df.plot, x = ~item_id, y = ~complete_qty, z = ~predicted_hrs, type = "heatmap", colorscale = "Greys", hoverinfo = 'text', colorbar = list(title = "Predicted Hours"),
                 text = ~paste0('Item ID: ', item_id, '\n', 
                                'Complete Quantity: ', complete_qty, '\n',
-                               '75% Upper bound: ', Upper_bound, '\n',
-                               'Predicted Hours: ', predicted_hrs, '\n',
-                               '25% Lower bound: ', Lower_bound)) %>%
+                               '75% Upper Prediction Bound: ', Upper_bound, '\n',
+                               'Median Predicted Hours: ', predicted_hrs, '\n',
+                               '25% Lower Prediction Bound: ', Lower_bound)) %>%
           layout(xaxis= list(title = "Item ID"),
                  yaxis = list(title = 'Complete Quantity'))
       })
@@ -623,12 +861,14 @@ server <- function(input, output, session) {
           ),
           fluidRow(
             box(plotlyOutput("eid_hist_HL"), width = 6),
-            box(width = 6,
+            box(width = 2,
             selectInput(inputId = "item_id_HL", label = "Item ID to predict:", choices = sort(unique(df.employee$item_id))),
-            numericInput(inputId = "complete_qty_HL", label = "Complete Quantity:", value = 1, min = 1, max = 100, step = 1),
-            valueBoxOutput("HLupper", width = 4),
-            valueBoxOutput("HLprediction", width = 4),
-            valueBoxOutput("HLlower", width = 4)
+            numericInput(inputId = "complete_qty_HL", label = "Complete Quantity:", value = 1, min = 1, max = 100, step = 1)
+            ),
+            box(width = 4,
+              valueBoxOutput("HLupper", width = 12),
+              valueBoxOutput("HLprediction", width = 12),
+              valueBoxOutput("HLlower", width = 12)
             )
           ),
           fluidRow(
@@ -650,13 +890,31 @@ server <- function(input, output, session) {
         )
       )
     
-    # Done screen
-    if (input$HLcounter>nrow(Qlist)+2)
+    if (input$HLcounter == nrow(Qlist)+3){
+      updateActionButton(session, 'HLcounter', label = 'Next')
       return(
         list(
-          h4("DONE")
+          h4('You have finished the curren scenario. Please click on the Next button to go to the next scenario.')
         )
-      ) 
+      )
+    }
+    
+    # Done screen
+    if (input$HLcounter>nrow(Qlist)+2){
+      if (which(names(randomsubtab) == 'HL') == 6){
+        return(
+          list(
+            h4("Congratulations! Thank you for finishing the usability study!")
+          )
+        )
+      } else {
+        return(
+          list(
+            updateTabItems(session, "tabs", names(randomsubtab)[which(names(randomsubtab) == 'HL') + 1])
+          )
+        )
+      }
+    }
   })
   
   # The option list is a reative list of elements that
