@@ -15,6 +15,7 @@ header <- dashboardHeader(title = "Visibility Tool Usability", notifications)
 
 # Sidebar menu
 sidebar <- dashboardSidebar(
+  disable = T,
   sidebarMenu(id="tabs",
     menuItemOutput("menuitem")
   )

@@ -6,6 +6,12 @@ library(plotly)
 library(DT)
 library(shinyjs)
 
+### logs ###
+# ID = session$clientData$url_hostname
+# PageID = tab
+# Timestamp = Sys.time()
+# ActionID = view, submit
+
 Logged = FALSE
 my_username <- "test"
 my_password <- "test"
@@ -258,6 +264,7 @@ server <- function(input, output, session) {
     }
     
     if (input$PScounter >= 4){
+      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,names(randomsubtab)[1],Sys.time(),"view"))
       return(
         list(
           updateTabItems(session, "tabs", names(randomsubtab)[1])
@@ -276,6 +283,12 @@ server <- function(input, output, session) {
   
   dynamicUI.LH <- reactive({
     testQ <- sample_n(df.employee,1)
+    
+    ### Recording Logs ###
+    if (input$LHcounter>=1 & input$LHcounter<=3) {
+      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,"LH",Sys.time(),"submit"))
+    }
+    
     # Initial scenario
     if (input$LHcounter<3) {
       colnames(df.group) <- c("Item ID", "Complete Quantity", "Reject Quantity", "25% Lower Prediction Bound", "Median Predicted Hours", "75% Upper Prediction Bound")
@@ -298,7 +311,7 @@ server <- function(input, output, session) {
                   )#End Fluid Row
               )
         )
-    }
+    } #End if
     
     # Survey
     if (input$LHcounter>=3 & input$LHcounter<=nrow(Qlist)+2)  
@@ -327,6 +340,7 @@ server <- function(input, output, session) {
           )
         )
       } else {
+        gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,names(randomsubtab)[which(names(randomsubtab) == 'LH') + 1],Sys.time(),"view","",""))
         return(
         list(
           updateTabItems(session, "tabs", names(randomsubtab)[which(names(randomsubtab) == 'LH') + 1])
@@ -362,6 +376,12 @@ server <- function(input, output, session) {
   
   dynamicUI.HH <- reactive({
     testQ <- sample_n(df.employee,1)
+    
+    ### Recording Logs ###
+    if (input$HHcounter>=1 & input$HHcounter<=3) {
+      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,"HH",Sys.time(),"submit"))
+    }
+    
     # Initial scenario
     if (input$HHcounter<3) {
       colnames(df.employee) <- c('Employee ID', 'Last Name', 'First Name', 'MO ID', 'MO Description', 'Item ID', 'Sequence ID', 'Sequence Description',
@@ -416,6 +436,7 @@ server <- function(input, output, session) {
           )
         )
       } else {
+        gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,names(randomsubtab)[which(names(randomsubtab) == 'HH') + 1],Sys.time(),"view","",""))
         return(
           list(
             updateTabItems(session, "tabs", names(randomsubtab)[which(names(randomsubtab) == 'HH') + 1])
@@ -451,6 +472,11 @@ server <- function(input, output, session) {
   
   dynamicUI.MH <- reactive({
     testQ <- sample_n(df.employee,1)
+    
+    ### Recording Logs ###
+    if (input$MHcounter>=1 & input$MHcounter<=3) {
+      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,"MH",Sys.time(),"submit"))
+    }
     
     # Initial scenario
     if (input$MHcounter<3) {
@@ -507,6 +533,7 @@ server <- function(input, output, session) {
           )
         )
       } else {
+        gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,names(randomsubtab)[which(names(randomsubtab) == 'MH') + 1],Sys.time(),"view","",""))
         return(
           list(
             updateTabItems(session, "tabs", names(randomsubtab)[which(names(randomsubtab) == 'MH') + 1])
@@ -541,6 +568,12 @@ server <- function(input, output, session) {
   
   dynamicUI.LL <- reactive({
     testQ <- sample_n(df.employee,1)
+    
+    ### Recording Logs ###
+    if (input$LLcounter>=1 & input$LLcounter<=3) {
+      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,"LL",Sys.time(),"submit"))
+    }
+    
     # Initial scenario
     if (input$LLcounter<3) {
       
@@ -620,6 +653,7 @@ server <- function(input, output, session) {
           )
         )
       } else {
+        gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,names(randomsubtab)[which(names(randomsubtab) == 'LL') + 1],Sys.time(),"view","",""))
         return(
           list(
             updateTabItems(session, "tabs", names(randomsubtab)[which(names(randomsubtab) == 'LL') + 1])
@@ -653,6 +687,12 @@ server <- function(input, output, session) {
   
   dynamicUI.ML <- reactive({
     testQ <- sample_n(df.employee,1)
+    
+    ### Recording Logs ###
+    if (input$MLcounter>=1 & input$MLcounter<=3) {
+      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,"ML",Sys.time(),"submit"))
+    }
+    
     # Initial scenario
     if (input$MLcounter<3) {
       output$MLprediction <- renderValueBox({
@@ -745,6 +785,7 @@ server <- function(input, output, session) {
           )
         )
       } else {
+        gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,names(randomsubtab)[which(names(randomsubtab) == 'ML') + 1],Sys.time(),"view","",""))
         return(
           list(
             updateTabItems(session, "tabs", names(randomsubtab)[which(names(randomsubtab) == 'ML') + 1])
@@ -778,6 +819,12 @@ server <- function(input, output, session) {
   
   dynamicUI.HL <- reactive({
     testQ <- sample_n(df.employee,1)
+    
+    ### Recording Logs ###
+    if (input$HLcounter>=1 & input$HLcounter<=3) {
+      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,"HL",Sys.time(),"submit"))
+    }
+    
     # Initial scenario
     if (input$HLcounter<3) {
       output$HLprediction <- renderValueBox({
@@ -908,6 +955,7 @@ server <- function(input, output, session) {
           )
         )
       } else {
+        gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,names(randomsubtab)[which(names(randomsubtab) == 'HL') + 1],Sys.time(),"view","",""))
         return(
           list(
             updateTabItems(session, "tabs", names(randomsubtab)[which(names(randomsubtab) == 'HL') + 1])
@@ -986,4 +1034,7 @@ server <- function(input, output, session) {
       menu.content
     )
   })
+  
+  ### Default tab code ###
+  isolate({updateTabItems(session, "tabs", "lp")})
 }
