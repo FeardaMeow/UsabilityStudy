@@ -44,7 +44,7 @@ submenu.content <- list("LL" = menuSubItem("Scenario LL", tabName = "LL"),
                         "HL" = menuSubItem("Scenario HL", tabName = "HL"),
                         "HH" = menuSubItem("Scenario HH", tabName = "HH"))
 
-randomsubtab <- sample(submenu.content)
+randomsubtab <- append(sample(submenu.content),list("end"=menuSubItem("End Page", tabName = "end")))
 
 menu.content <- list(menuItem("Landing Page", tabName = "lp"),
                      menuItem("Practice Scenarios", tabName = "ps"),
