@@ -12,6 +12,9 @@ library(shinyjs)
 # Timestamp = Sys.time()
 # ActionID = view, submit
 
+### log variables ###
+testA <- reactiveValues()
+
 Logged = FALSE
 my_username <- "test"
 my_password <- "test"
@@ -258,7 +261,7 @@ server <- function(input, output, session) {
       updateActionButton(session, 'PScounter', label = 'Start!')
       return(
         list(
-          h4("You have finished the practive scenarios. Please start the usability study scenarios when you are ready!")        
+          h4("You have finished the practice scenarios. Please start the usability study scenarios when you are ready!")        
           )
       )
     }
@@ -286,11 +289,12 @@ server <- function(input, output, session) {
     
     ### Recording Logs ###
     if (input$LHcounter>=1 & input$LHcounter<=3) {
-      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,"LH",Sys.time(),"submit"))
+      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,"LH",Sys.time(),"submit",isolate(testA$a),isolate(input$LHanswer)))
     }
     
     # Initial scenario
     if (input$LHcounter<3) {
+      isolate(testA$a <-  paste0(testQ$Lower_bound,",",testQ$predicted_hrs,",",testQ$Upper_bound))
       colnames(df.group) <- c("Item ID", "Complete Quantity", "Reject Quantity", "25% Lower Prediction Bound", "Median Predicted Hours", "75% Upper Prediction Bound")
       output$LHdatatable <- renderDataTable(
         df.group,
@@ -306,7 +310,7 @@ server <- function(input, output, session) {
                     ),
                   fluidRow(
                     box(
-                      numericInput("LHanswer", "Answer:", value=0, min=0, max=100, step=0.1)
+                      isolate(numericInput("LHanswer", "Answer:", value=0, min=0, max=100, step=0.1))
                     )#End Box
                   )#End Fluid Row
               )
@@ -326,7 +330,7 @@ server <- function(input, output, session) {
       updateActionButton(session, 'LHcounter', label = 'Next')
       return(
         list(
-          h4('You have finished the curren scenario. Please click on the Next button to go to the next scenario.')
+          h4('You have finished the current scenario. Please click on the Next button to go to the next scenario.')
         )
       )
     }
@@ -379,11 +383,12 @@ server <- function(input, output, session) {
     
     ### Recording Logs ###
     if (input$HHcounter>=1 & input$HHcounter<=3) {
-      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,"HH",Sys.time(),"submit"))
+      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,"HH",Sys.time(),"submit",isolate(testA$a),isolate(input$HHanswer)))
     }
     
     # Initial scenario
     if (input$HHcounter<3) {
+      isolate(testA$a <-  paste0(testQ$Lower_bound,",",testQ$predicted_hrs,",",testQ$Upper_bound))
       colnames(df.employee) <- c('Employee ID', 'Last Name', 'First Name', 'MO ID', 'MO Description', 'Item ID', 'Sequence ID', 'Sequence Description',
                                  'Complete Quantity', 'Reject Quantity', 'Start Date', 'Finish Date', '25% Lower Predciiton Bound', 'Median Predited Hours',
                                  '75% Upper Prediciton Bound')
@@ -401,7 +406,7 @@ server <- function(input, output, session) {
                            ),
                   fluidRow(
                     box(
-                      numericInput("HHanswer", "Answer:", value=0, min=0, max=100, step=0.1)
+                      isolate(numericInput("HHanswer", "Answer:", value=0, min=0, max=100, step=0.1))
                     )#End Box
                   )#End Fluid Row
                   )
@@ -422,7 +427,7 @@ server <- function(input, output, session) {
       updateActionButton(session, 'HHcounter', label = 'Next')
       return(
         list(
-          h4('You have finished the curren scenario. Please click on the Next button to go to the next scenario.')
+          h4('You have finished the current scenario. Please click on the Next button to go to the next scenario.')
         )
       )
     }
@@ -475,11 +480,12 @@ server <- function(input, output, session) {
     
     ### Recording Logs ###
     if (input$MHcounter>=1 & input$MHcounter<=3) {
-      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,"MH",Sys.time(),"submit"))
+      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,"MH",Sys.time(),"submit",isolate(testA$a),isolate(input$MHanswer)))
     }
     
     # Initial scenario
     if (input$MHcounter<3) {
+      isolate(testA$a <-  paste0(testQ$Lower_bound,",",testQ$predicted_hrs,",",testQ$Upper_bound))
       colnames(df.employee) <- c('Employee ID', 'Last Name', 'First Name', 'MO ID', 'MO Description', 'Item ID', 'Sequence ID', 'Sequence Description',
                                  'Complete Quantity', 'Reject Quantity', 'Start Date', 'Finish Date', '25% Lower Predciiton Bound', 'Median Predited Hours',
                                  '75% Upper Prediciton Bound')
@@ -498,7 +504,7 @@ server <- function(input, output, session) {
                    ),
           fluidRow(
             box(
-              numericInput("MHanswer", "Answer:", value=0, min=0, max=100, step=0.1)
+              isolate(numericInput("MHanswer", "Answer:", value=0, min=0, max=100, step=0.1))
             )#End Box
           )#End Fluid Row
         )
@@ -519,7 +525,7 @@ server <- function(input, output, session) {
       updateActionButton(session, 'MHcounter', label = 'Next')
       return(
         list(
-          h4('You have finished the curren scenario. Please click on the Next button to go to the next scenario.')
+          h4('You have finished the current scenario. Please click on the Next button to go to the next scenario.')
         )
       )
     }
@@ -571,12 +577,12 @@ server <- function(input, output, session) {
     
     ### Recording Logs ###
     if (input$LLcounter>=1 & input$LLcounter<=3) {
-      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,"LL",Sys.time(),"submit"))
+      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,"LL",Sys.time(),"submit",isolate(testA$a),isolate(input$LLanswer)))
     }
     
     # Initial scenario
     if (input$LLcounter<3) {
-      
+      isolate(testA$a <-  paste0(testQ$Lower_bound,",",testQ$predicted_hrs,",",testQ$Upper_bound))
       output$LLprediction <- renderValueBox({
         pred <- df.plot$predicted_hrs[df.plot$item_id == input$item_id_LL & df.plot$complete_qty == input$complete_qty_LL]
         valueBox(
@@ -606,8 +612,8 @@ server <- function(input, output, session) {
                    ), #End Fluid Row
           fluidRow(
           box(width = 3,
-            selectInput(inputId = "item_id_LL", label = "Item ID to predict:", choices = sort(unique(df.employee$item_id))),
-            numericInput(inputId = "complete_qty_LL", label = "Quantity:", value = 1, min = 1, max = 100, step = 1)
+            isolate(selectInput(inputId = "item_id_LL", label = "Item ID to predict:", choices = sort(unique(df.employee$item_id)))),
+            isolate(numericInput(inputId = "complete_qty_LL", label = "Quantity:", value = 1, min = 1, max = 100, step = 1))
           ),
           box(width = 9,
             valueBoxOutput("LLupper"),
@@ -617,7 +623,7 @@ server <- function(input, output, session) {
           ), #End Fluid Row
           fluidRow(
             box(
-              numericInput("LLanswer", "Answer:", value=0, min=0, max=100, step=0.1)
+              isolate(numericInput("LLanswer", "Answer:", value=0, min=0, max=100, step=0.1))
             )#End Box
           )#End Fluid Row
         )
@@ -639,7 +645,7 @@ server <- function(input, output, session) {
       updateActionButton(session, 'LLcounter', label = 'Next')
       return(
         list(
-          h4('You have finished the curren scenario. Please click on the Next button to go to the next scenario.')
+          h4('You have finished the current scenario. Please click on the Next button to go to the next scenario.')
         )
       )
     }
@@ -690,11 +696,12 @@ server <- function(input, output, session) {
     
     ### Recording Logs ###
     if (input$MLcounter>=1 & input$MLcounter<=3) {
-      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,"ML",Sys.time(),"submit"))
+      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,"ML",Sys.time(),"submit",isolate(testA$a),isolate(input$MLanswer)))
     }
     
     # Initial scenario
     if (input$MLcounter<3) {
+      isolate(testA$a <-  paste0(testQ$Lower_bound,",",testQ$predicted_hrs,",",testQ$Upper_bound))
       output$MLprediction <- renderValueBox({
         pred <- df.plot$predicted_hrs[df.plot$item_id == input$item_id_ML & df.plot$complete_qty == input$complete_qty_ML]
         valueBox(
@@ -716,7 +723,7 @@ server <- function(input, output, session) {
           color = "purple")
       })
       
-      output$heat_ML <- renderPlotly({
+      output$heat_ML <- isolate(renderPlotly({
         plot_ly(df.plot, x = ~item_id, y = ~complete_qty, z = ~predicted_hrs, type = "heatmap", colorscale = "Greys", hoverinfo = 'text', colorbar = list(title = "Predicted Hours"),
                 text = ~paste0('Item ID: ', item_id, '\n', 
                               'Complete Quantity: ', complete_qty, '\n',
@@ -725,7 +732,7 @@ server <- function(input, output, session) {
                               '25% Lower Prediction Bound: ', Lower_bound)) %>%
           layout(xaxis= list(title = "Item ID"),
                  yaxis = list(title = 'Complete Quantity'))
-      })
+      }))
       
       return(
         list(
@@ -737,8 +744,8 @@ server <- function(input, output, session) {
           ),
           fluidRow(
             box(width = 3,
-                selectInput(inputId = "item_id_ML", label = "Item ID to predict:", choices = sort(unique(df.employee$item_id))),
-                numericInput(inputId = "complete_qty_ML", label = "Complete Quantity:", value = 1, min = 1, max = 100, step = 1)
+                isolate(selectInput(inputId = "item_id_ML", label = "Item ID to predict:", choices = sort(unique(df.employee$item_id)))),
+                isolate(numericInput(inputId = "complete_qty_ML", label = "Complete Quantity:", value = 1, min = 1, max = 100, step = 1))
             ),
             box(width = 9,
               valueBoxOutput("MLupper"),
@@ -748,7 +755,7 @@ server <- function(input, output, session) {
           ),
           fluidRow(
             box(
-              numericInput("MLanswer", "Answer:", value=0, min=0, max=100, step=0.1)
+              isolate(numericInput("MLanswer", "Answer:", value=0, min=0, max=100, step=0.1))
             )#End Box
           )#End Fluid Row
           
@@ -771,7 +778,7 @@ server <- function(input, output, session) {
       updateActionButton(session, 'MLcounter', label = 'Next')
       return(
         list(
-          h4('You have finished the curren scenario. Please click on the Next button to go to the next scenario.')
+          h4('You have finished the current scenario. Please click on the Next button to go to the next scenario.')
         )
       )
     }
@@ -822,11 +829,12 @@ server <- function(input, output, session) {
     
     ### Recording Logs ###
     if (input$HLcounter>=1 & input$HLcounter<=3) {
-      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,"HL",Sys.time(),"submit"))
+      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,"HL",Sys.time(),"submit",isolate(testA$a),isolate(input$HLanswer)))
     }
     
     # Initial scenario
     if (input$HLcounter<3) {
+      isolate(testA$a <-  paste0(testQ$Lower_bound,",",testQ$predicted_hrs,",",testQ$Upper_bound))
       output$HLprediction <- renderValueBox({
         pred <- df.plot$predicted_hrs[df.plot$item_id == input$item_id_HL & df.plot$complete_qty == input$complete_qty_HL]
         valueBox(
@@ -848,7 +856,7 @@ server <- function(input, output, session) {
           color = "purple")
       })
       
-      output$heat_HL <- renderPlotly({
+      output$heat_HL <- isolate(renderPlotly({
         plot_ly(df.plot, x = ~item_id, y = ~complete_qty, z = ~predicted_hrs, type = "heatmap", colorscale = "Greys", hoverinfo = 'text', colorbar = list(title = "Predicted Hours"),
                 text = ~paste0('Item ID: ', item_id, '\n', 
                                'Complete Quantity: ', complete_qty, '\n',
@@ -857,15 +865,15 @@ server <- function(input, output, session) {
                                '25% Lower Prediction Bound: ', Lower_bound)) %>%
           layout(xaxis= list(title = "Item ID"),
                  yaxis = list(title = 'Complete Quantity'))
-      })
+      }))
       
-      output$box_HL <- renderPlotly({
+      output$box_HL <- isolate(renderPlotly({
         plot_ly(y = ~df.employee$complete_qty, type = "box", name = "Complete") %>%
           add_trace(y = ~df.employee$reject_qty, name = 'Reject') %>%
           layout(yaxis = list(title = "Quantity"), showlegend = F)
-      })
+      }))
       
-      output$mo_id_bar_HL <- renderPlotly({
+      output$mo_id_bar_HL <- isolate(renderPlotly({
         df.mo_id <- as.data.frame(table(df.employee$mo_id))
         colnames(df.mo_id) <- c("mo.id", "num")
         plot_ly(df.mo_id) %>%
@@ -873,9 +881,9 @@ server <- function(input, output, session) {
           layout(xaxis= list(title = "mo_id"),
                  yaxis = list(title = 'Number'),
                  dragmode = "select", showlegend = FALSE)
-      })
+      }))
       
-      output$sequence_id_bar_HL <- renderPlotly({
+      output$sequence_id_bar_HL <- isolate(renderPlotly({
         df.sequence_id <- as.data.frame(table(df.employee$sequence_id))
         colnames(df.sequence_id) <- c("sequence_id", "num")
         plot_ly(df.sequence_id) %>%
@@ -883,15 +891,15 @@ server <- function(input, output, session) {
           layout(xaxis= list(title = "Sequence ID"),
                  yaxis = list(title = 'Number'),
                  dragmode = "select", showlegend = FALSE)
-      })
+      }))
       
-      output$eid_hist_HL <- renderPlotly({
+      output$eid_hist_HL <- isolate(renderPlotly({
         eid <- as.character(df.employee$eid) 
         plot_ly(x = eid, type = "histogram") %>%
           layout(xaxis= list(title = "Employee ID"),
                  yaxis = list(title = 'Number of jobs to finish'),
                  dragmode = "select", showlegend = FALSE)
-      })
+      }))
       
       return(
         list(
@@ -909,8 +917,8 @@ server <- function(input, output, session) {
           fluidRow(
             box(plotlyOutput("eid_hist_HL"), width = 6),
             box(width = 2,
-            selectInput(inputId = "item_id_HL", label = "Item ID to predict:", choices = sort(unique(df.employee$item_id))),
-            numericInput(inputId = "complete_qty_HL", label = "Complete Quantity:", value = 1, min = 1, max = 100, step = 1)
+            isolate(selectInput(inputId = "item_id_HL", label = "Item ID to predict:", choices = sort(unique(df.employee$item_id)))),
+            isolate(numericInput(inputId = "complete_qty_HL", label = "Complete Quantity:", value = 1, min = 1, max = 100, step = 1))
             ),
             box(width = 4,
               valueBoxOutput("HLupper", width = 12),
@@ -920,7 +928,7 @@ server <- function(input, output, session) {
           ),
           fluidRow(
             box(
-              numericInput("HLanswer", "Answer:", value=0, min=0, max=100, step=0.1)
+              isolate(numericInput("HLanswer", "Answer:", value=0, min=0, max=100, step=0.1))
             )#End Box
           )#End Fluid Row
         )
@@ -941,7 +949,7 @@ server <- function(input, output, session) {
       updateActionButton(session, 'HLcounter', label = 'Next')
       return(
         list(
-          h4('You have finished the curren scenario. Please click on the Next button to go to the next scenario.')
+          h4('You have finished the current scenario. Please click on the Next button to go to the next scenario.')
         )
       )
     }
