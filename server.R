@@ -13,7 +13,7 @@ library(shinyjs)
 # ActionID = view, submit
 
 ### log variables ###
-testA <- reactiveValues()
+testA <- reactiveValues(result=c())
 
 Logged = FALSE
 my_username <- "test"
@@ -318,6 +318,11 @@ server <- function(input, output, session) {
     } #End if
     
     # Survey
+    #Save results
+    if (input$LHcounter>3 & input$LHcounter<=nrow(Qlist)+3) {
+      isolate(testA$result[length(testA$result)+1] <- input$survey)
+    }
+    
     if (input$LHcounter>=3 & input$LHcounter<=nrow(Qlist)+2)  
       return(
         list(
@@ -326,7 +331,10 @@ server <- function(input, output, session) {
                        c(option.list.LH()))
         )
       )
+    
     if (input$LHcounter == nrow(Qlist)+3){
+      gs_add_row(ss,ws=2,input=c(session$clientData$url_hostname,isolate(testA$result)))
+      testA$result <- c()
       updateActionButton(session, 'LHcounter', label = 'Next')
       return(
         list(
@@ -414,6 +422,10 @@ server <- function(input, output, session) {
     }
     
     # Survey
+    #Save results
+    if (input$HHcounter>3 & input$HHcounter<=nrow(Qlist)+3) {
+      isolate(testA$result[length(testA$result)+1] <- input$survey)
+    }
     if (input$HHcounter>=3 & input$HHcounter<=nrow(Qlist)+2)  
       return(
         list(
@@ -424,6 +436,8 @@ server <- function(input, output, session) {
       )
     
     if (input$HHcounter == nrow(Qlist)+3){
+      gs_add_row(ss,ws=2,input=c(session$clientData$url_hostname,isolate(testA$result)))
+      testA$result <- c()
       updateActionButton(session, 'HHcounter', label = 'Next')
       return(
         list(
@@ -512,6 +526,10 @@ server <- function(input, output, session) {
     }
     
     # Survey
+    #Save results
+    if (input$MHcounter>3 & input$MHcounter<=nrow(Qlist)+3) {
+      isolate(testA$result[length(testA$result)+1] <- input$survey)
+    }
     if (input$MHcounter>=3 & input$MHcounter<=nrow(Qlist)+2)  
       return(
         list(
@@ -522,6 +540,8 @@ server <- function(input, output, session) {
       )
     
     if (input$MHcounter == nrow(Qlist)+3){
+      gs_add_row(ss,ws=2,input=c(session$clientData$url_hostname,isolate(testA$result)))
+      testA$result <- c()
       updateActionButton(session, 'MHcounter', label = 'Next')
       return(
         list(
@@ -632,6 +652,10 @@ server <- function(input, output, session) {
     }
     
     # Survey
+    #Save results
+    if (input$LLcounter>3 & input$LLcounter<=nrow(Qlist)+3) {
+      isolate(testA$result[length(testA$result)+1] <- input$survey)
+    }
     if (input$LLcounter>=3 & input$LLcounter<=nrow(Qlist)+2)  
       return(
         list(
@@ -642,6 +666,8 @@ server <- function(input, output, session) {
       )
     
     if (input$LLcounter == nrow(Qlist)+3){
+      gs_add_row(ss,ws=2,input=c(session$clientData$url_hostname,isolate(testA$result)))
+      testA$result <- c()
       updateActionButton(session, 'LLcounter', label = 'Next')
       return(
         list(
@@ -765,6 +791,10 @@ server <- function(input, output, session) {
     }
     
     # Survey
+    #Save results
+    if (input$MLcounter>3& input$MLcounter<=nrow(Qlist)+3) {
+      isolate(testA$result[length(testA$result)+1] <- input$survey)
+    }
     if (input$MLcounter>=3 & input$MLcounter<=nrow(Qlist)+2)  
       return(
         list(
@@ -775,6 +805,8 @@ server <- function(input, output, session) {
       )
     
     if (input$MLcounter == nrow(Qlist)+3){
+      gs_add_row(ss,ws=2,input=c(session$clientData$url_hostname,isolate(testA$result)))
+      testA$result <- c()
       updateActionButton(session, 'MLcounter', label = 'Next')
       return(
         list(
@@ -936,6 +968,10 @@ server <- function(input, output, session) {
     }
     
     # Survey
+    #Save results
+    if (input$HLcounter>3 & input$HLcounter<=nrow(Qlist)+3) {
+      isolate(testA$result[length(testA$result)+1] <- input$survey)
+    }
     if (input$HLcounter>=3 & input$HLcounter<=nrow(Qlist)+2)  
       return(
         list(
@@ -946,6 +982,8 @@ server <- function(input, output, session) {
       )
     
     if (input$HLcounter == nrow(Qlist)+3){
+      gs_add_row(ss,ws=2,input=c(session$clientData$url_hostname,isolate(testA$result)))
+      testA$result <- c()
       updateActionButton(session, 'HLcounter', label = 'Next')
       return(
         list(
