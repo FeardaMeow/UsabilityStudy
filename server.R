@@ -61,6 +61,14 @@ server <- function(input, output, session) {
   
   dynamicUI.LP <- reactive({
     if(input$sigSubmit==0) {
+      observe({
+        if(is.null(input$signature) || input$signature == ""){
+          disable("sigSubmit")
+        }
+        else{
+          enable("sigSubmit")
+        }
+      })
       return(
         list(
           withTags({
@@ -117,8 +125,8 @@ server <- function(input, output, session) {
               p("Please read all instructions carefully before continuing. The usability study consists of practice sessions and six usability study scenarios. 
                 The practice sessions will familiarize you with the dashboard and presented data, and explain how to answer the questions for each scenario. 
                 Immediately after the practice session, the usability scenarios will be presented to you. 
-                In each scenario you will be given 3 questions and asked to estimate the completion time for an specified item and 
-                quantity using the provided dashboard."), 
+                In each scenario you will be given 3 questions and asked to estimate the completion time for an specified Item ID and 
+                Complete Quantity using the provided dashboard."), 
               p("The data shown in each scenario will include completion time for each process. For example, item id 1 might have 3 processes that need to happen before the item
                 is complete. The 3 processes could include drilling, boring, and washing. To item completion time will be a combination of the prediction times for each of the processes (drilling+boring+washing) together for the same quantity amount.
                 This will be covered more in depth in the practice scenario."), 
@@ -228,7 +236,7 @@ server <- function(input, output, session) {
     
     if (input$PScounter == 2){
       output$heat_PS <- renderPlotly({
-        plot_ly(df.plot, x = ~item_id, y = ~complete_qty, z = ~predicted_hrs, type = "heatmap", colorscale = "Greys", hoverinfo = 'text', colorbar = list(title = "Predicted Hours"),
+        plot_ly(df.plot, x = ~item_id, y = ~complete_qty, z = ~predicted_hrs, type = "heatmap", colors = colorRamp(c("blue", "grey")), hoverinfo = 'text', colorbar = list(title = "Predicted Hours"),
                 text = ~paste0('Item ID: ', item_id, '\n', 
                                'Complete Quantity: ', complete_qty, '\n',
                                '75% Upper Prediction Bound: ', Upper_bound, '\n',
@@ -1061,10 +1069,10 @@ server <- function(input, output, session) {
       Username <- input$username
       Password <- input$password
     })
-    Id.username <- which(my_username == Username)
+#    Id.username <- which(my_username == Username)
     Id.password <- which(my_password == Password)
-    if (length(Id.username) > 0 & length(Id.password) > 0) {
-      if (Id.username == Id.password) {
+    if (length(Id.password) > 0 & Username != '') {
+      if (Id.password) {
         Logged <- TRUE
         values$authenticated <- TRUE
         obs1$suspend()
