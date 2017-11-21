@@ -16,9 +16,8 @@ library(shinyjs)
 testA <- reactiveValues(result=c())
 
 Logged = FALSE
-my_username <- "test"
 my_password <- "test"
-Username <- ''
+
 
 googlesheets::gs_auth(token = "shiny_app_token.rds")
 sheet_key <- "1VSSv36D8ngNDe9TAAtU0OLBQ2JoSiTFFleqa_Y3r6GA"
@@ -1047,7 +1046,7 @@ server <- function(input, output, session) {
 # is TRUE, then display a message that the previous value was invalid.
   dataModal <- function(failed = FALSE) {
     modalDialog(
-      textInput("username", "Username:"),
+      textInput("username", "Please enter your name:"),
       passwordInput("password", "Password:"),
       footer = tagList(
         # modalButton("Cancel"),
