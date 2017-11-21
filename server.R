@@ -18,6 +18,7 @@ testA <- reactiveValues(result=c())
 Logged = FALSE
 my_username <- "test"
 my_password <- "test"
+Username <- ''
 
 googlesheets::gs_auth(token = "shiny_app_token.rds")
 sheet_key <- "1VSSv36D8ngNDe9TAAtU0OLBQ2JoSiTFFleqa_Y3r6GA"
@@ -122,24 +123,24 @@ server <- function(input, output, session) {
           withTags({
             div(style="overflow-y: scroll;height:80vh;",
               h1("Instructions"),
-              p("Please read all instructions carefully before continuing. The usability study consists of practice sessions and six usability study scenarios. 
-                The practice sessions will familiarize you with the dashboard and presented data, and explain how to answer the questions for each scenario. 
-                Immediately after the practice session, the usability scenarios will be presented to you. 
-                In each scenario you will be given 3 questions and asked to estimate the completion time for an specified Item ID and 
-                Complete Quantity using the provided dashboard."), 
+              p("Please read all instructions carefully before continuing. The usability study consists of practice sessions and six usability study scenarios.
+                The practice sessions will familiarize you with the dashboard and presented data, and explain how to answer the questions for each scenario.
+                Immediately after the practice session, the usability scenarios will be presented to you.
+                In each scenario you will be given 3 questions and asked to estimate the completion time for an specified Item ID and
+                Complete Quantity using the provided dashboard."),
               p("The data shown in each scenario will include completion time for each process. For example, item id 1 might have 3 processes that need to happen before the item
                 is complete. The 3 processes could include drilling, boring, and washing. To item completion time will be a combination of the prediction times for each of the processes (drilling+boring+washing) together for the same quantity amount.
-                This will be covered more in depth in the practice scenario."), 
-              p("The instructions for the usability study are:"),
-              ol(
-                li("Click on the triple line button to reveal the sidebar menu"),
-                li("Click on 'Practice Scenarios' menu item in the sidebar menu"),
-                li("Click on 'Usability Study Scenarios' to reveal the usability study scenarios that should be completed"),
-                li("Note the order that the usability study scenarios, this is the order that they must be completed in. Please do not skip around when completing scenarios"),
-                li("In each scenario, you will be asked to answer 3 questions using that provided dashboard. Input your answer to the questions in the provided text box and press submit to move onto the next question."),
-                li("After answering the 3 questions, you will be then asked to assess the usability and trust of the dashboard by answering a questionnaire"),
-                li("Repeat 5-6 till all scenarios are complete")
-              )
+                This will be covered more in depth in the practice scenario.")
+              # p("The instructions for the usability study are:"),
+              # ol(
+              #   li("Click on the triple line button to reveal the sidebar menu"),
+              #   li("Click on 'Practice Scenarios' menu item in the sidebar menu"),
+              #   li("Click on 'Usability Study Scenarios' to reveal the usability study scenarios that should be completed"),
+              #   li("Note the order that the usability study scenarios, this is the order that they must be completed in. Please do not skip around when completing scenarios"),
+              #   li("In each scenario, you will be asked to answer 3 questions using that provided dashboard. Input your answer to the questions in the provided text box and press submit to move onto the next question."),
+              #   li("After answering the 3 questions, you will be then asked to assess the usability and trust of the dashboard by answering a questionnaire"),
+              #   li("Repeat 5-6 till all scenarios are complete")
+              # )
             ) #End div
           }) #End withTags
 #          shinyjs::hide("sigSubmit")
@@ -164,6 +165,39 @@ server <- function(input, output, session) {
     testQ <- sample_n(df.employee,1)
     # Initial scenario
     if (input$PScounter == 0) {
+      colnames(df.employee) <- c('Employee ID', 'Last Name', 'First Name', 'MO ID', 'MO Description', 'Item ID', 'Sequence ID', 'Sequence Description',
+                                 'Complete Quantity', 'Reject Quantity', 'Start Date', 'Finish Date', '25% Lower Predciiton Bound', 'Median Predited Hours',
+                                 '75% Upper Prediciton Bound')      
+      output$PSdatatable <- renderDataTable(
+        df.employee,
+        options = list(pageLength=10)
+      )
+      return(list(fluidRow(box(width=12,
+                               h1(renderText({paste("Question", input$PScounter+1, ":", "Please estimate the completion time for an order of Item ID",as.character(testQ$item_id),
+                                                    "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))),
+                  fluidRow(
+                    box(width = 12,
+                      h3("To use the table to answer the above question, you should keep in mind that there might be multiple processes for a given Item ID. You need to sum up all the
+                        processing times to get the complete time of that item. For example: for Item Id 1, there are 3 different kind of processes (sequences) 
+                        to be finished before it it complete. From the table, you need to estimate the average elapsed time for a specific amount of quantity of a process (sequence).
+                        After you get all the average times of different processes, you can add them up to get the answer of the above question.")
+                    )
+                  ),
+                  fluidRow(
+                    box(width=12,
+                        div(style = 'overflow-x: scroll', DT::dataTableOutput("PSdatatable"))
+                    )
+                  ),
+                  fluidRow(
+                    box(
+                      numericInput("PSanswer", "Answer:", value=0, min=0, max=100, step=0.1)
+                    )#End Box
+                  )#End Fluid Row
+      )
+      )
+    }
+    
+    if (input$PScounter == 1){
       
       output$PSprediction <- renderValueBox({
         pred <- df.plot$predicted_hrs[df.plot$item_id == input$item_id_PS & df.plot$complete_qty == input$complete_qty_PS]
@@ -186,12 +220,33 @@ server <- function(input, output, session) {
           color = "purple")
       })
       
+      output$heat_PS <- renderPlotly({
+        plot_ly(df.plot, x = ~item_id, y = ~complete_qty, z = ~predicted_hrs, type = "heatmap", colors = 'Purples', hoverinfo = 'text', colorbar = list(title = "Predicted Hours"),
+                text = ~paste0('Item ID: ', item_id, '\n', 
+                               'Complete Quantity: ', complete_qty, '\n',
+                               '75% Upper Prediction Bound: ', Upper_bound, '\n',
+                               'Median Predicted Hours: ', predicted_hrs, '\n',
+                               '25% Lower Prediction Bound: ', Lower_bound)) %>%
+          layout(xaxis= list(title = "Item ID"),
+                 yaxis = list(title = 'Complete Quantity'))
+      })
+      
       return(
         list(
           fluidRow(box(width=12,
                        h1(renderText({paste("Question", input$PScounter+1, ":","Please estimate the completion time for an order of Item ID",as.character(testQ$item_id),
                                             "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))
           ), #End Fluid Row
+          fluidRow(
+            box(width = 12,
+                h3('There are multiple ways to get the answer fo the above question. By hovering over the squares in the heat map, you can get the detailed information for
+                   a specific Item ID (X-axis) and Complete Quantity (Y-axis). Besides using the heat map, you can also type in or choose the Item ID and Complete Quantity
+                   using the input boxes, and use the build-in model to predict the complete time.')
+                )
+          ),
+          fluidRow(
+            box(plotlyOutput("heat_PS"),width = 12)
+          ),
           fluidRow(
             box(width = 3,
                 selectInput(inputId = "item_id_PS", label = "Item ID to predict:", choices = sort(unique(df.employee$item_id))),
@@ -211,61 +266,9 @@ server <- function(input, output, session) {
         )
       )}
     
-    if (input$PScounter == 1){
-      colnames(df.group) <- c("Item ID", "Complete Quantity", "Reject Quantity", "25% Lower Prediction Bound", "Median Predicted Hours", "75% Upper Prediction Bound")
-      output$PSdatatable <- renderDataTable(
-        df.group,
-        options = list(pageLength=10)
-      )
-      return(list(fluidRow(box(width=12,
-                               h1(renderText({paste("Question", input$PScounter+1, ":", "Please estimate the completion time for an order of Item ID",as.character(testQ$item_id),
-                                                    "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))),
-                  fluidRow(
-                    box(width=12,
-                        div(style = 'overflow-x: scroll', DT::dataTableOutput("PSdatatable"))
-                    )
-                  ),
-                  fluidRow(
-                    box(
-                      numericInput("PSanswer", "Answer:", value=0, min=0, max=100, step=0.1)
-                    )#End Box
-                  )#End Fluid Row
-      )
-      )
-    }
-    
-    if (input$PScounter == 2){
-      output$heat_PS <- renderPlotly({
-        plot_ly(df.plot, x = ~item_id, y = ~complete_qty, z = ~predicted_hrs, type = "heatmap", colors = colorRamp(c("blue", "grey")), hoverinfo = 'text', colorbar = list(title = "Predicted Hours"),
-                text = ~paste0('Item ID: ', item_id, '\n', 
-                               'Complete Quantity: ', complete_qty, '\n',
-                               '75% Upper Prediction Bound: ', Upper_bound, '\n',
-                               'Median Predicted Hours: ', predicted_hrs, '\n',
-                               '25% Lower Prediction Bound: ', Lower_bound)) %>%
-          layout(xaxis= list(title = "Item ID"),
-                 yaxis = list(title = 'Complete Quantity'))
-      })
-      
-      return(
-        list(
-          fluidRow(box(width=12,
-                       h1(renderText({paste("Question", input$PScounter+1, ":","Please estimate the completion time for an order of Item ID",as.character(testQ$item_id),
-                                            "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))),
-          fluidRow(
-            box(plotlyOutput("heat_PS"),width = 12)
-          ),
-          fluidRow(
-            box(
-              numericInput("PSanswer", "Answer:", value=0, min=0, max=100, step=0.1)
-            )#End Box
-          )#End Fluid Row
-          
-        )
-      )
-    }
     
     # Done screen
-    if (input$PScounter == 3){
+    if (input$PScounter == 2){
       updateActionButton(session, 'PScounter', label = 'Start!')
       return(
         list(
@@ -274,8 +277,8 @@ server <- function(input, output, session) {
       )
     }
     
-    if (input$PScounter >= 4){
-      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,names(randomsubtab)[1],Sys.time(),"view"))
+    if (input$PScounter >= 3){
+      gs_add_row(ss,ws=1,input=c(input$username,names(randomsubtab)[1],Sys.time(),"view"))
       return(
         list(
           updateTabItems(session, "tabs", names(randomsubtab)[1])
@@ -297,7 +300,7 @@ server <- function(input, output, session) {
     
     ### Recording Logs ###
     if (input$LHcounter>=1 & input$LHcounter<=3) {
-      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,"LH",Sys.time(),"submit",isolate(testA$a),isolate(input$LHanswer)))
+      gs_add_row(ss,ws=1,input=c(input$username,"LH",Sys.time(),"submit",isolate(testA$a),isolate(input$LHanswer)))
     }
     
     # Initial scenario
@@ -341,7 +344,7 @@ server <- function(input, output, session) {
       )
     
     if (input$LHcounter == nrow(Qlist)+3){
-      gs_add_row(ss,ws=2,input=c(session$clientData$url_hostname,isolate(testA$result)))
+      gs_add_row(ss,ws=2,input=c(input$username,isolate(testA$result)))
       testA$result <- c()
       updateActionButton(session, 'LHcounter', label = 'Next')
       return(
@@ -360,7 +363,7 @@ server <- function(input, output, session) {
           )
         )
       } else {
-        gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,names(randomsubtab)[which(names(randomsubtab) == 'LH') + 1],Sys.time(),"view","",""))
+        gs_add_row(ss,ws=1,input=c(input$username,names(randomsubtab)[which(names(randomsubtab) == 'LH') + 1],Sys.time(),"view","",""))
         return(
         list(
           updateTabItems(session, "tabs", names(randomsubtab)[which(names(randomsubtab) == 'LH') + 1])
@@ -399,7 +402,7 @@ server <- function(input, output, session) {
     
     ### Recording Logs ###
     if (input$HHcounter>=1 & input$HHcounter<=3) {
-      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,"HH",Sys.time(),"submit",isolate(testA$a),isolate(input$HHanswer)))
+      gs_add_row(ss,ws=1,input=c(input$username,"HH",Sys.time(),"submit",isolate(testA$a),isolate(input$HHanswer)))
     }
     
     # Initial scenario
@@ -444,7 +447,7 @@ server <- function(input, output, session) {
       )
     
     if (input$HHcounter == nrow(Qlist)+3){
-      gs_add_row(ss,ws=2,input=c(session$clientData$url_hostname,isolate(testA$result)))
+      gs_add_row(ss,ws=2,input=c(input$username,isolate(testA$result)))
       testA$result <- c()
       updateActionButton(session, 'HHcounter', label = 'Next')
       return(
@@ -463,7 +466,7 @@ server <- function(input, output, session) {
           )
         )
       } else {
-        gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,names(randomsubtab)[which(names(randomsubtab) == 'HH') + 1],Sys.time(),"view","",""))
+        gs_add_row(ss,ws=1,input=c(input$username,names(randomsubtab)[which(names(randomsubtab) == 'HH') + 1],Sys.time(),"view","",""))
         return(
           list(
             updateTabItems(session, "tabs", names(randomsubtab)[which(names(randomsubtab) == 'HH') + 1])
@@ -502,7 +505,7 @@ server <- function(input, output, session) {
     
     ### Recording Logs ###
     if (input$MHcounter>=1 & input$MHcounter<=3) {
-      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,"MH",Sys.time(),"submit",isolate(testA$a),isolate(input$MHanswer)))
+      gs_add_row(ss,ws=1,input=c(input$username,"MH",Sys.time(),"submit",isolate(testA$a),isolate(input$MHanswer)))
     }
     
     # Initial scenario
@@ -548,7 +551,7 @@ server <- function(input, output, session) {
       )
     
     if (input$MHcounter == nrow(Qlist)+3){
-      gs_add_row(ss,ws=2,input=c(session$clientData$url_hostname,isolate(testA$result)))
+      gs_add_row(ss,ws=2,input=c(input$username,isolate(testA$result)))
       testA$result <- c()
       updateActionButton(session, 'MHcounter', label = 'Next')
       return(
@@ -567,7 +570,7 @@ server <- function(input, output, session) {
           )
         )
       } else {
-        gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,names(randomsubtab)[which(names(randomsubtab) == 'MH') + 1],Sys.time(),"view","",""))
+        gs_add_row(ss,ws=1,input=c(input$username,names(randomsubtab)[which(names(randomsubtab) == 'MH') + 1],Sys.time(),"view","",""))
         return(
           list(
             updateTabItems(session, "tabs", names(randomsubtab)[which(names(randomsubtab) == 'MH') + 1])
@@ -605,7 +608,7 @@ server <- function(input, output, session) {
     
     ### Recording Logs ###
     if (input$LLcounter>=1 & input$LLcounter<=3) {
-      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,"LL",Sys.time(),"submit",isolate(testA$a),isolate(input$LLanswer)))
+      gs_add_row(ss,ws=1,input=c(input$username,"LL",Sys.time(),"submit",isolate(testA$a),isolate(input$LLanswer)))
     }
     
     # Initial scenario
@@ -674,7 +677,7 @@ server <- function(input, output, session) {
       )
     
     if (input$LLcounter == nrow(Qlist)+3){
-      gs_add_row(ss,ws=2,input=c(session$clientData$url_hostname,isolate(testA$result)))
+      gs_add_row(ss,ws=2,input=c(input$username,isolate(testA$result)))
       testA$result <- c()
       updateActionButton(session, 'LLcounter', label = 'Next')
       return(
@@ -693,7 +696,7 @@ server <- function(input, output, session) {
           )
         )
       } else {
-        gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,names(randomsubtab)[which(names(randomsubtab) == 'LL') + 1],Sys.time(),"view","",""))
+        gs_add_row(ss,ws=1,input=c(input$username,names(randomsubtab)[which(names(randomsubtab) == 'LL') + 1],Sys.time(),"view","",""))
         return(
           list(
             updateTabItems(session, "tabs", names(randomsubtab)[which(names(randomsubtab) == 'LL') + 1])
@@ -730,7 +733,7 @@ server <- function(input, output, session) {
     
     ### Recording Logs ###
     if (input$MLcounter>=1 & input$MLcounter<=3) {
-      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,"ML",Sys.time(),"submit",isolate(testA$a),isolate(input$MLanswer)))
+      gs_add_row(ss,ws=1,input=c(input$username,"ML",Sys.time(),"submit",isolate(testA$a),isolate(input$MLanswer)))
     }
     
     # Initial scenario
@@ -758,7 +761,7 @@ server <- function(input, output, session) {
       })
       
       output$heat_ML <- isolate(renderPlotly({
-        plot_ly(df.plot, x = ~item_id, y = ~complete_qty, z = ~predicted_hrs, type = "heatmap", colorscale = "Greys", hoverinfo = 'text', colorbar = list(title = "Predicted Hours"),
+        plot_ly(df.plot, x = ~item_id, y = ~complete_qty, z = ~predicted_hrs, type = "heatmap", colors = "Purples", hoverinfo = 'text', colorbar = list(title = "Predicted Hours"),
                 text = ~paste0('Item ID: ', item_id, '\n', 
                               'Complete Quantity: ', complete_qty, '\n',
                               '75% Upper Prediction Bound: ', Upper_bound, '\n',
@@ -813,7 +816,7 @@ server <- function(input, output, session) {
       )
     
     if (input$MLcounter == nrow(Qlist)+3){
-      gs_add_row(ss,ws=2,input=c(session$clientData$url_hostname,isolate(testA$result)))
+      gs_add_row(ss,ws=2,input=c(input$username,isolate(testA$result)))
       testA$result <- c()
       updateActionButton(session, 'MLcounter', label = 'Next')
       return(
@@ -832,7 +835,7 @@ server <- function(input, output, session) {
           )
         )
       } else {
-        gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,names(randomsubtab)[which(names(randomsubtab) == 'ML') + 1],Sys.time(),"view","",""))
+        gs_add_row(ss,ws=1,input=c(input$username,names(randomsubtab)[which(names(randomsubtab) == 'ML') + 1],Sys.time(),"view","",""))
         return(
           list(
             updateTabItems(session, "tabs", names(randomsubtab)[which(names(randomsubtab) == 'ML') + 1])
@@ -869,7 +872,7 @@ server <- function(input, output, session) {
     
     ### Recording Logs ###
     if (input$HLcounter>=1 & input$HLcounter<=3) {
-      gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,"HL",Sys.time(),"submit",isolate(testA$a),isolate(input$HLanswer)))
+      gs_add_row(ss,ws=1,input=c(input$username,"HL",Sys.time(),"submit",isolate(testA$a),isolate(input$HLanswer)))
     }
     
     # Initial scenario
@@ -897,7 +900,7 @@ server <- function(input, output, session) {
       })
       
       output$heat_HL <- isolate(renderPlotly({
-        plot_ly(df.plot, x = ~item_id, y = ~complete_qty, z = ~predicted_hrs, type = "heatmap", colorscale = "Greys", hoverinfo = 'text', colorbar = list(title = "Predicted Hours"),
+        plot_ly(df.plot, x = ~item_id, y = ~complete_qty, z = ~predicted_hrs, type = "heatmap", colorscale = "Purples", hoverinfo = 'text', colorbar = list(title = "Predicted Hours"),
                 text = ~paste0('Item ID: ', item_id, '\n', 
                                'Complete Quantity: ', complete_qty, '\n',
                                '75% Upper Prediction Bound: ', Upper_bound, '\n',
@@ -990,7 +993,7 @@ server <- function(input, output, session) {
       )
     
     if (input$HLcounter == nrow(Qlist)+3){
-      gs_add_row(ss,ws=2,input=c(session$clientData$url_hostname,isolate(testA$result)))
+      gs_add_row(ss,ws=2,input=c(input$username,isolate(testA$result)))
       testA$result <- c()
       updateActionButton(session, 'HLcounter', label = 'Next')
       return(
@@ -1009,7 +1012,7 @@ server <- function(input, output, session) {
           )
         )
       } else {
-        gs_add_row(ss,ws=1,input=c(session$clientData$url_hostname,names(randomsubtab)[which(names(randomsubtab) == 'HL') + 1],Sys.time(),"view","",""))
+        gs_add_row(ss,ws=1,input=c(input$username,names(randomsubtab)[which(names(randomsubtab) == 'HL') + 1],Sys.time(),"view","",""))
         return(
           list(
             updateTabItems(session, "tabs", names(randomsubtab)[which(names(randomsubtab) == 'HL') + 1])
