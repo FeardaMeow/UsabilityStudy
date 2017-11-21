@@ -19,6 +19,7 @@ Logged = FALSE
 my_password <- "test"
 
 
+
 googlesheets::gs_auth(token = "shiny_app_token.rds")
 sheet_key <- "1VSSv36D8ngNDe9TAAtU0OLBQ2JoSiTFFleqa_Y3r6GA"
 ss <- googlesheets::gs_key(sheet_key)
@@ -54,6 +55,8 @@ menu.content <- list(menuItem("Landing Page", tabName = "lp"),
                      menuItem("Usability Study Scenarios", tabName = "exp", randomsubtab))
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
+
+  
   #################### Landing Page #########################
   output$LandingPage <- renderUI( {
     dynamicUI.LP()
@@ -156,7 +159,7 @@ server <- function(input, output, session) {
   }) #End reactive
   
   #################### Practice Scenarios###################
-  output$PSview <- renderUI( {
+  output$PSview <- renderUI({
     dynamicUI.PS()
   })
   
@@ -278,6 +281,9 @@ server <- function(input, output, session) {
     
     if (input$PScounter >= 3){
       gs_add_row(ss,ws=1,input=c(input$username,names(randomsubtab)[1],Sys.time(),"view"))
+      # Progress bar
+      progress <<- shiny::Progress$new()
+      progress$set(message = "Overall Progress", value = 0)
       return(
         list(
           updateTabItems(session, "tabs", names(randomsubtab)[1])
@@ -291,6 +297,7 @@ server <- function(input, output, session) {
   
   #################### Low/High #########################
   output$LHtable <- renderUI( {
+    progress$inc(1/6, detail = paste("Scenario", which(names(randomsubtab)=='LH'), "in 6"))
     dynamicUI.LH()
   })
   
@@ -393,6 +400,7 @@ server <- function(input, output, session) {
   
   #################### High/High #########################
   output$HHtable <- renderUI( {
+    progress$inc(1/6, detail = paste("Scenario", which(names(randomsubtab)=='HH'), "in 6"))
     dynamicUI.HH()
   })
   
@@ -496,6 +504,7 @@ server <- function(input, output, session) {
   
   #################### Medium/High #########################
   output$MHtable <- renderUI( {
+    progress$inc(1/6, detail = paste("Scenario", which(names(randomsubtab)=='MH'), "in 6"))
     dynamicUI.MH()
   })
   
@@ -599,6 +608,7 @@ server <- function(input, output, session) {
   
   ################### LOW/LOW ##############################
   output$LLview <- renderUI( {
+    progress$inc(1/6, detail = paste("Scenario", which(names(randomsubtab)=='LL'), "in 6"))
     dynamicUI.LL()
   })
   
@@ -724,6 +734,7 @@ server <- function(input, output, session) {
   })
   ################## Median/Low ###########################
   output$MLview <- renderUI( {
+    progress$inc(1/6, detail = paste("Scenario", which(names(randomsubtab)=='ML'), "in 6"))
     dynamicUI.ML()
   })
   
@@ -863,6 +874,7 @@ server <- function(input, output, session) {
   })
   ################## High/Low ###########################
   output$HLview <- renderUI( {
+    progress$inc(1/6, detail = paste("Scenario", which(names(randomsubtab)=='HL'), "in 6"))
     dynamicUI.HL()
   })
   
