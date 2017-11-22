@@ -298,7 +298,7 @@ server <- function(input, output, session) {
   
   #################### Low/High #########################
   output$LHtable <- renderUI( {
-    progress$inc(1/(6*(nrow(Qlist)+5)), detail = paste("Scenario", which(names(randomsubtab)=='LH'), "in 6"))
+    progress$inc(1/(6*(nrow(Qlist)+5)), detail = paste("Scenario", which(names(randomsubtab)=='LH'), "of 6"))
     dynamicUI.LH()
   })
   
@@ -364,7 +364,6 @@ server <- function(input, output, session) {
     # Done screen
     if (input$LHcounter > nrow(Qlist)+3){
       if (which(names(randomsubtab) == 'LH') == 6){
-        shinyjs::hide("LHcounter")
         return(
           list(
             updateTabItems(session, "tabs", "end")
@@ -402,7 +401,7 @@ server <- function(input, output, session) {
   
   #################### High/High #########################
   output$HHtable <- renderUI( {
-    progress$inc(1/(6*(nrow(Qlist)+5)), detail = paste("Scenario", which(names(randomsubtab)=='HH'), "in 6"))
+    progress$inc(1/(6*(nrow(Qlist)+5)), detail = paste("Scenario", which(names(randomsubtab)=='HH'), "of 6"))
     dynamicUI.HH()
   })
   
@@ -469,7 +468,6 @@ server <- function(input, output, session) {
     # Done screen
     if (input$HHcounter>nrow(Qlist)+2){
       if (which(names(randomsubtab) == 'HH') == 6){
-        shinyjs::hide("HHcounter")
         return(
           list(
             updateTabItems(session, "tabs", "end")
@@ -507,7 +505,7 @@ server <- function(input, output, session) {
   
   #################### Medium/High #########################
   output$MHtable <- renderUI( {
-    progress$inc(1/(6*(nrow(Qlist)+5)), detail = paste("Scenario", which(names(randomsubtab)=='MH'), "in 6"))
+    progress$inc(1/(6*(nrow(Qlist)+5)), detail = paste("Scenario", which(names(randomsubtab)=='MH'), "of 6"))
     dynamicUI.MH()
   })
   
@@ -575,7 +573,6 @@ server <- function(input, output, session) {
     # Done screen
     if (input$MHcounter>nrow(Qlist)+2){
       if (which(names(randomsubtab) == 'MH') == 6){
-        shinyjs::hide("MHcounter")
         return(
           list(
             updateTabItems(session, "tabs", "end")
@@ -612,7 +609,7 @@ server <- function(input, output, session) {
   
   ################### LOW/LOW ##############################
   output$LLview <- renderUI( {
-    progress$inc(1/(6*(nrow(Qlist)+5)), detail = paste("Scenario", which(names(randomsubtab)=='LL'), "in 6"))
+    progress$inc(1/(6*(nrow(Qlist)+5)), detail = paste("Scenario", which(names(randomsubtab)=='LL'), "of 6"))
     dynamicUI.LL()
   })
   
@@ -703,7 +700,6 @@ server <- function(input, output, session) {
     # Done screen
     if (input$LLcounter>nrow(Qlist)+2){
       if (which(names(randomsubtab) == 'LL') == 6){
-        shinyjs::hide("LLcounter")
         return(
           list(
             updateTabItems(session, "tabs", "end")
@@ -739,7 +735,7 @@ server <- function(input, output, session) {
   })
   ################## Median/Low ###########################
   output$MLview <- renderUI( {
-    progress$inc(1/(6*(nrow(Qlist)+5)), detail = paste("Scenario", which(names(randomsubtab)=='ML'), "in 6"))
+    progress$inc(1/(6*(nrow(Qlist)+5)), detail = paste("Scenario", which(names(randomsubtab)=='ML'), "of 6"))
     dynamicUI.ML()
   })
   
@@ -844,7 +840,6 @@ server <- function(input, output, session) {
     # Done screen
     if (input$MLcounter>nrow(Qlist)+2){
       if (which(names(randomsubtab) == 'ML') == 6){
-        shinyjs::hide("MLcounter")
         return(
           list(
             updateTabItems(session, "tabs", "end")
@@ -880,7 +875,7 @@ server <- function(input, output, session) {
   })
   ################## High/Low ###########################
   output$HLview <- renderUI( {
-    progress$inc(1/(6*(nrow(Qlist)+5)), detail = paste("Scenario", which(names(randomsubtab)=='HL'), "in 6"))
+    progress$inc(1/(6*(nrow(Qlist)+5)), detail = paste("Scenario", which(names(randomsubtab)=='HL'), "of 6"))
     dynamicUI.HL()
   })
   
@@ -1023,7 +1018,6 @@ server <- function(input, output, session) {
     # Done screen
     if (input$HLcounter>nrow(Qlist)+2){
       if (which(names(randomsubtab) == 'HL') == 6){
-        shinyjs::hide("HLcounter")
         return(
           list(
             updateTabItems(session, "tabs", "end")
