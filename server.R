@@ -48,7 +48,8 @@ submenu.content <- list("LL" = menuSubItem("Scenario LL", tabName = "LL"),
                         "HL" = menuSubItem("Scenario HL", tabName = "HL"),
                         "HH" = menuSubItem("Scenario HH", tabName = "HH"))
 
-randomsubtab <- append(sample(submenu.content),list("end"=menuSubItem("End Page", tabName = "end")))
+#randomsubtab <- append(sample(submenu.content),list("end"=menuSubItem("End Page", tabName = "end")))
+randomsubtab <- sample(submenu.content)
 
 menu.content <- list(menuItem("Landing Page", tabName = "lp"),
                      menuItem("Practice Scenarios", tabName = "ps"),
@@ -175,7 +176,7 @@ server <- function(input, output, session) {
         options = list(pageLength=10)
       )
       return(list(fluidRow(box(width=12,
-                               h1(renderText({paste("Question", input$PScounter+1, ":", "Please estimate the completion time for an order of Item ID",as.character(testQ$item_id),
+                               h1(renderText({paste("Question", input$PScounter+1, ":", "Estimate the completion time for an order of Item ID",as.character(testQ$item_id),
                                                     "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))),
                   fluidRow(
                     box(width = 12,
@@ -236,7 +237,7 @@ server <- function(input, output, session) {
       return(
         list(
           fluidRow(box(width=12,
-                       h1(renderText({paste("Question", input$PScounter+1, ":","Please estimate the completion time for an order of Item ID",as.character(testQ$item_id),
+                       h1(renderText({paste("Question", input$PScounter+1, ":","Estimate the completion time for an order of Item ID",as.character(testQ$item_id),
                                             "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))
           ), #End Fluid Row
           fluidRow(
@@ -297,7 +298,7 @@ server <- function(input, output, session) {
   
   #################### Low/High #########################
   output$LHtable <- renderUI( {
-    progress$inc(1/6, detail = paste("Scenario", which(names(randomsubtab)=='LH'), "in 6"))
+    progress$inc(1/(6*(nrow(Qlist)+5)), detail = paste("Scenario", which(names(randomsubtab)=='LH'), "in 6"))
     dynamicUI.LH()
   })
   
@@ -318,7 +319,7 @@ server <- function(input, output, session) {
         options = list(pageLength=10)
       )
       return(list(fluidRow(box(width=12,
-                               h1(renderText({paste("Question", input$LHcounter+1, ":", "Please estimate the completion time for an order of Item ID",as.character(testQ$item_id),
+                               h1(renderText({paste("Question", input$LHcounter+1, ":", "Estimate the completion time for an order of Item ID",as.character(testQ$item_id),
                                                     "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))),
                   fluidRow(
                     box(width=12,
@@ -363,6 +364,7 @@ server <- function(input, output, session) {
     # Done screen
     if (input$LHcounter > nrow(Qlist)+3){
       if (which(names(randomsubtab) == 'LH') == 6){
+        shinyjs::hide("LHcounter")
         return(
           list(
             h4("Congratulations! Thank you for finishing the usability study!")
@@ -400,7 +402,7 @@ server <- function(input, output, session) {
   
   #################### High/High #########################
   output$HHtable <- renderUI( {
-    progress$inc(1/6, detail = paste("Scenario", which(names(randomsubtab)=='HH'), "in 6"))
+    progress$inc(1/(6*(nrow(Qlist)+5)), detail = paste("Scenario", which(names(randomsubtab)=='HH'), "in 6"))
     dynamicUI.HH()
   })
   
@@ -423,7 +425,7 @@ server <- function(input, output, session) {
         options = list(searching=FALSE, pageLength=10)
       )
       return(list(fluidRow(box(width=12,
-                               h1(renderText({paste("Question", input$HHcounter+1, ":","Please estimate the completion time for an order of Item ID",as.character(testQ$item_id),
+                               h1(renderText({paste("Question", input$HHcounter+1, ":","Estimate the completion time for an order of Item ID",as.character(testQ$item_id),
                                                     "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))),
                   fluidRow(
                     box(width=12,
@@ -467,6 +469,7 @@ server <- function(input, output, session) {
     # Done screen
     if (input$HHcounter>nrow(Qlist)+2){
       if (which(names(randomsubtab) == 'HH') == 6){
+        shinyjs::hide("HHcounter")
         return(
           list(
             h4("Congratulations! Thank you for finishing the usability study!")
@@ -504,7 +507,7 @@ server <- function(input, output, session) {
   
   #################### Medium/High #########################
   output$MHtable <- renderUI( {
-    progress$inc(1/6, detail = paste("Scenario", which(names(randomsubtab)=='MH'), "in 6"))
+    progress$inc(1/(6*(nrow(Qlist)+5)), detail = paste("Scenario", which(names(randomsubtab)=='MH'), "in 6"))
     dynamicUI.MH()
   })
   
@@ -528,7 +531,7 @@ server <- function(input, output, session) {
       )
       return(list(
           fluidRow(box(width=12,
-                                 h1(renderText({paste("Question", input$MHcounter+1, ":","Please estimate the completion time for an order of Item ID",as.character(testQ$item_id),
+                                 h1(renderText({paste("Question", input$MHcounter+1, ":","Estimate the completion time for an order of Item ID",as.character(testQ$item_id),
                                                    "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))),
           fluidRow(
             box(width=12,
@@ -572,6 +575,7 @@ server <- function(input, output, session) {
     # Done screen
     if (input$MHcounter>nrow(Qlist)+2){
       if (which(names(randomsubtab) == 'MH') == 6){
+        shinyjs::hide("MHcounter")
         return(
           list(
             h4("Congratulations! Thank you for finishing the usability study!")
@@ -608,7 +612,7 @@ server <- function(input, output, session) {
   
   ################### LOW/LOW ##############################
   output$LLview <- renderUI( {
-    progress$inc(1/6, detail = paste("Scenario", which(names(randomsubtab)=='LL'), "in 6"))
+    progress$inc(1/(6*(nrow(Qlist)+5)), detail = paste("Scenario", which(names(randomsubtab)=='LL'), "in 6"))
     dynamicUI.LL()
   })
   
@@ -647,7 +651,7 @@ server <- function(input, output, session) {
       return(
         list(
           fluidRow(box(width=12,
-                       h1(renderText({paste("Question", input$LLcounter+1, ":","Please estimate the completion time for an order of Item ID",as.character(testQ$item_id),
+                       h1(renderText({paste("Question", input$LLcounter+1, ":","Estimate the completion time for an order of Item ID",as.character(testQ$item_id),
                                             "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))
                    ), #End Fluid Row
           fluidRow(
@@ -699,6 +703,7 @@ server <- function(input, output, session) {
     # Done screen
     if (input$LLcounter>nrow(Qlist)+2){
       if (which(names(randomsubtab) == 'LL') == 6){
+        shinyjs::hide("LLcounter")
         return(
           list(
             h4("Congratulations! Thank you for finishing the usability study!")
@@ -734,7 +739,7 @@ server <- function(input, output, session) {
   })
   ################## Median/Low ###########################
   output$MLview <- renderUI( {
-    progress$inc(1/6, detail = paste("Scenario", which(names(randomsubtab)=='ML'), "in 6"))
+    progress$inc(1/(6*(nrow(Qlist)+5)), detail = paste("Scenario", which(names(randomsubtab)=='ML'), "in 6"))
     dynamicUI.ML()
   })
   
@@ -784,7 +789,7 @@ server <- function(input, output, session) {
       return(
         list(
           fluidRow(box(width=12,
-                       h1(renderText({paste("Question", input$MLcounter+1, ":","Please estimate the completion time for an order of Item ID",as.character(testQ$item_id),
+                       h1(renderText({paste("Question", input$MLcounter+1, ":","Estimate the completion time for an order of Item ID",as.character(testQ$item_id),
                                             "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))),
           fluidRow(
             box(plotlyOutput("heat_ML"),width = 12)
@@ -839,6 +844,7 @@ server <- function(input, output, session) {
     # Done screen
     if (input$MLcounter>nrow(Qlist)+2){
       if (which(names(randomsubtab) == 'ML') == 6){
+        shinyjs::hide("MLcounter")
         return(
           list(
             h4("Congratulations! Thank you for finishing the usability study!")
@@ -874,7 +880,7 @@ server <- function(input, output, session) {
   })
   ################## High/Low ###########################
   output$HLview <- renderUI( {
-    progress$inc(1/6, detail = paste("Scenario", which(names(randomsubtab)=='HL'), "in 6"))
+    progress$inc(1/(6*(nrow(Qlist)+5)), detail = paste("Scenario", which(names(randomsubtab)=='HL'), "in 6"))
     dynamicUI.HL()
   })
   
@@ -911,7 +917,7 @@ server <- function(input, output, session) {
       })
       
       output$heat_HL <- isolate(renderPlotly({
-        plot_ly(df.plot, x = ~item_id, y = ~complete_qty, z = ~predicted_hrs, type = "heatmap", colorscale = "Purples", hoverinfo = 'text', colorbar = list(title = "Predicted Hours"),
+        plot_ly(df.plot, x = ~item_id, y = ~complete_qty, z = ~predicted_hrs, type = "heatmap", colors = "Purples", hoverinfo = 'text', colorbar = list(title = "Predicted Hours"),
                 text = ~paste0('Item ID: ', item_id, '\n', 
                                'Complete Quantity: ', complete_qty, '\n',
                                '75% Upper Prediction Bound: ', Upper_bound, '\n',
@@ -958,7 +964,7 @@ server <- function(input, output, session) {
       return(
         list(
           fluidRow(box(width=12,
-                       h1(renderText({paste("Question", input$HLcounter+1, ":","Please estimate the completion time for an order of Item ID",as.character(testQ$item_id),
+                       h1(renderText({paste("Question", input$HLcounter+1, ":","Estimate the completion time for an order of Item ID",as.character(testQ$item_id),
                                             "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))),
           fluidRow(
             box(plotlyOutput("box_HL"), width = 4),
@@ -1017,6 +1023,7 @@ server <- function(input, output, session) {
     # Done screen
     if (input$HLcounter>nrow(Qlist)+2){
       if (which(names(randomsubtab) == 'HL') == 6){
+        shinyjs::hide("HLcounter")
         return(
           list(
             h4("Congratulations! Thank you for finishing the usability study!")
