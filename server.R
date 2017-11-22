@@ -48,11 +48,12 @@ submenu.content <- list("LL" = menuSubItem("Scenario LL", tabName = "LL"),
                         "HL" = menuSubItem("Scenario HL", tabName = "HL"),
                         "HH" = menuSubItem("Scenario HH", tabName = "HH"))
 
-randomsubtab <- append(sample(submenu.content),list("end"=menuSubItem("End Page", tabName = "end")))
+randomsubtab <- sample(submenu.content)
 
 menu.content <- list(menuItem("Landing Page", tabName = "lp"),
                      menuItem("Practice Scenarios", tabName = "ps"),
-                     menuItem("Usability Study Scenarios", tabName = "exp", randomsubtab))
+                     menuItem("Usability Study Scenarios", tabName = "exp", randomsubtab),
+                     menuItem("End Question", tabName = "end"))
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
 
@@ -365,7 +366,7 @@ server <- function(input, output, session) {
       if (which(names(randomsubtab) == 'LH') == 6){
         return(
           list(
-            h4("Congratulations! Thank you for finishing the usability study!")
+            updateTabItems(session, "tabs", "end")
           )
         )
       } else {
@@ -393,7 +394,7 @@ server <- function(input, output, session) {
   # Followed by the question text.
   output$question.LH <- renderText({
     paste0(
-      "Q", input$LHcounter-2,":", 
+      "Q", input$LHcounter-2,": ", 
       Qlist[input$LHcounter-2,2]
     )
   })
@@ -469,7 +470,7 @@ server <- function(input, output, session) {
       if (which(names(randomsubtab) == 'HH') == 6){
         return(
           list(
-            h4("Congratulations! Thank you for finishing the usability study!")
+            updateTabItems(session, "tabs", "end")
           )
         )
       } else {
@@ -497,7 +498,7 @@ server <- function(input, output, session) {
   # Followed by the question text.
   output$question.HH <- renderText({
     paste0(
-      "Q", input$HHcounter-2,":", 
+      "Q", input$HHcounter-2,": ", 
       Qlist[input$HHcounter-2,2]
     )
   })
@@ -574,7 +575,7 @@ server <- function(input, output, session) {
       if (which(names(randomsubtab) == 'MH') == 6){
         return(
           list(
-            h4("Congratulations! Thank you for finishing the usability study!")
+            updateTabItems(session, "tabs", "end")
           )
         )
       } else {
@@ -601,7 +602,7 @@ server <- function(input, output, session) {
   # Followed by the question text.
   output$question.MH <- renderText({
     paste0(
-      "Q", input$MHcounter-2,":", 
+      "Q", input$MHcounter-2,": ", 
       Qlist[input$MHcounter-2,2]
     )
   })
@@ -701,7 +702,7 @@ server <- function(input, output, session) {
       if (which(names(randomsubtab) == 'LL') == 6){
         return(
           list(
-            h4("Congratulations! Thank you for finishing the usability study!")
+            updateTabItems(session, "tabs", "end")
           )
         )
       } else {
@@ -728,7 +729,7 @@ server <- function(input, output, session) {
   # Followed by the question text.
   output$question.LL <- renderText({
     paste0(
-      "Q", input$LLcounter-2,":", 
+      "Q", input$LLcounter-2,": ", 
       Qlist[input$LLcounter-2,2]
     )
   })
@@ -841,7 +842,7 @@ server <- function(input, output, session) {
       if (which(names(randomsubtab) == 'ML') == 6){
         return(
           list(
-            h4("Congratulations! Thank you for finishing the usability study!")
+            updateTabItems(session, "tabs", "end")
           )
         )
       } else {
@@ -868,7 +869,7 @@ server <- function(input, output, session) {
   # Followed by the question text.
   output$question.ML <- renderText({
     paste0(
-      "Q", input$MLcounter-2,":", 
+      "Q", input$MLcounter-2,": ", 
       Qlist[input$MLcounter-2,2]
     )
   })
@@ -1019,7 +1020,7 @@ server <- function(input, output, session) {
       if (which(names(randomsubtab) == 'HL') == 6){
         return(
           list(
-            h4("Congratulations! Thank you for finishing the usability study!")
+            updateTabItems(session, "tabs", "end")
           )
         )
       } else {
@@ -1046,7 +1047,7 @@ server <- function(input, output, session) {
   # Followed by the question text.
   output$question.HL <- renderText({
     paste0(
-      "Q", input$HLcounter-2,":", 
+      "Q", input$HLcounter-2,": ", 
       Qlist[input$HLcounter-2,2]
     )
   })
@@ -1104,5 +1105,5 @@ server <- function(input, output, session) {
   })
   
   ### Default tab code ###
-  isolate({updateTabItems(session, "tabs", "lp")})
+  isolate({updateTabItems(session, "tabs", "end")})
 }
