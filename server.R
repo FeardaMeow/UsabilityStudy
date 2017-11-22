@@ -1105,5 +1105,5 @@ server <- function(input, output, session) {
   })
   
   ### Default tab code ###
-  isolate({updateTabItems(session, "tabs", "end")})
+  isolate({updateTabItems(session, "tabs", "lp")})
 }
