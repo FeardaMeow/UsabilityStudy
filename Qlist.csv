@@ -1,15 +1,15 @@
 Qnum,Question,Answer1,Answer2,Answer3,Answer4,Answer5,Answer6,Answer7
-1,"Overall, I am satisfied with how easy it is to use this system",1,2,3,4,5,6,7
-2,It was simple to use this system,1,2,3,4,5,6,7
-3,I can effectively complete my work using this system,1,2,3,4,5,6,7
-4,I am able to complete my work quickly using this system,1,2,3,4,5,6,7
-5,It was easy to learn to use this system,1,2,3,4,5,6,7
-6,"The information (such as online help, on-screen messages, and other documentation) provided with this system is clear ",1,2,3,4,5,6,7
-7,It is easy to find the information I needed,1,2,3,4,5,6,7
-8,The information is effective in helping me complete the tasks and scenarios,1,2,3,4,5,6,7
-9,The organization of information on the system screens is clear,1,2,3,4,5,6,7
-10,I like using the interface of this system,1,2,3,4,5,6,7
-11,This system has all the functions and capabilities I expect it to have,1,2,3,4,5,6,7
-12,"Overall, I am satisfied with this system",1,2,3,4,5,6,7
-13,What is your overall degree of trust in the prediction generated from the dashboard?,1,2,3,4,5,6,7
-14,How confident do you feel about your previous trust rating?,1,2,3,4,5,6,7
+1,"Overall, I am satisfied with how easy it is to use this system",1 (strongly disagree),2,3,4,5,6,7 (strongly agree)
+2,It was simple to use this system,1 (strongly disagree),2,3,4,5,6,7 (strongly agree)
+3,I can effectively complete my work using this system,1 (strongly disagree),2,3,4,5,6,7 (strongly agree)
+4,I am able to complete my work quickly using this system,1 (strongly disagree),2,3,4,5,6,7 (strongly agree)
+5,It was easy to learn to use this system,1 (strongly disagree),2,3,4,5,6,7 (strongly agree)
+6,"The information (such as online help, on-screen messages, and other documentation) provided with this system is clear ",1 (strongly disagree),2,3,4,5,6,7 (strongly agree)
+7,It is easy to find the information I needed,1 (strongly disagree),2,3,4,5,6,7 (strongly agree)
+8,The information is effective in helping me complete the tasks and scenarios,1 (strongly disagree),2,3,4,5,6,7 (strongly agree)
+9,The organization of information on the system screens is clear,1 (strongly disagree),2,3,4,5,6,7 (strongly agree)
+10,I like using the interface of this system,1 (strongly disagree),2,3,4,5,6,7 (strongly agree)
+11,This system has all the functions and capabilities I expect it to have,1 (strongly disagree),2,3,4,5,6,7 (strongly agree)
+12,"Overall, I am satisfied with this system",1 (strongly disagree),2,3,4,5,6,7 (strongly agree)
+13,What is your overall degree of trust in the prediction generated from the dashboard?,1 (strongly disagree),2,3,4,5,6,7 (strongly agree)
+14,How confident do you feel about your previous trust rating?,1 (strongly disagree),2,3,4,5,6,7 (strongly agree)

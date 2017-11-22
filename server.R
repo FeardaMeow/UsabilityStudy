@@ -343,14 +343,14 @@ server <- function(input, output, session) {
     if (input$LHcounter>=3 & input$LHcounter<=nrow(Qlist)+2)  
       return(
         list(
-          h5(textOutput("question.LH")),
+          h3(textOutput("question.LH")),
           radioButtons("survey", "Please Select:", 
                        c(option.list.LH()))
         )
       )
     
     if (input$LHcounter == nrow(Qlist)+3){
-      gs_add_row(ss,ws=2,input=c(input$username,isolate(testA$result)))
+      gs_add_row(ss,ws=2,input=c(input$username,"LH",isolate(testA$result)))
       testA$result <- c()
       updateActionButton(session, 'LHcounter', label = 'Next')
       return(
@@ -447,14 +447,14 @@ server <- function(input, output, session) {
     if (input$HHcounter>=3 & input$HHcounter<=nrow(Qlist)+2)  
       return(
         list(
-          h5(textOutput("question.HH")),
+          h3(textOutput("question.HH")),
           radioButtons("survey", "Please Select:", 
                        c(option.list.HH()))
         )
       )
     
     if (input$HHcounter == nrow(Qlist)+3){
-      gs_add_row(ss,ws=2,input=c(input$username,isolate(testA$result)))
+      gs_add_row(ss,ws=2,input=c(input$username,"HH",isolate(testA$result)))
       testA$result <- c()
       updateActionButton(session, 'HHcounter', label = 'Next')
       return(
@@ -552,14 +552,14 @@ server <- function(input, output, session) {
     if (input$MHcounter>=3 & input$MHcounter<=nrow(Qlist)+2)  
       return(
         list(
-          h5(textOutput("question.MH")),
+          h3(textOutput("question.MH")),
           radioButtons("survey", "Please Select:", 
                        c(option.list.MH()))
         )
       )
     
     if (input$MHcounter == nrow(Qlist)+3){
-      gs_add_row(ss,ws=2,input=c(input$username,isolate(testA$result)))
+      gs_add_row(ss,ws=2,input=c(input$username,"MH",isolate(testA$result)))
       testA$result <- c()
       updateActionButton(session, 'MHcounter', label = 'Next')
       return(
@@ -679,14 +679,14 @@ server <- function(input, output, session) {
     if (input$LLcounter>=3 & input$LLcounter<=nrow(Qlist)+2)  
       return(
         list(
-          h5(textOutput("question.LL")),
+          h3(textOutput("question.LL")),
           radioButtons("survey", "Please Select:", 
                        c(option.list.LL()))
         )
       )
     
     if (input$LLcounter == nrow(Qlist)+3){
-      gs_add_row(ss,ws=2,input=c(input$username,isolate(testA$result)))
+      gs_add_row(ss,ws=2,input=c(input$username,"LL",isolate(testA$result)))
       testA$result <- c()
       updateActionButton(session, 'LLcounter', label = 'Next')
       return(
@@ -819,14 +819,14 @@ server <- function(input, output, session) {
     if (input$MLcounter>=3 & input$MLcounter<=nrow(Qlist)+2)  
       return(
         list(
-          h5(textOutput("question.ML")),
+          h3(textOutput("question.ML")),
           radioButtons("survey", "Please Select:", 
                        c(option.list.ML()))
         )
       )
     
     if (input$MLcounter == nrow(Qlist)+3){
-      gs_add_row(ss,ws=2,input=c(input$username,isolate(testA$result)))
+      gs_add_row(ss,ws=2,input=c(input$username,"ML",isolate(testA$result)))
       testA$result <- c()
       updateActionButton(session, 'MLcounter', label = 'Next')
       return(
@@ -997,14 +997,14 @@ server <- function(input, output, session) {
     if (input$HLcounter>=3 & input$HLcounter<=nrow(Qlist)+2)  
       return(
         list(
-          h5(textOutput("question.HL")),
+          h3(textOutput("question.HL")),
           radioButtons("survey", "Please Select:", 
                        c(option.list.HL()))
         )
       )
     
     if (input$HLcounter == nrow(Qlist)+3){
-      gs_add_row(ss,ws=2,input=c(input$username,isolate(testA$result)))
+      gs_add_row(ss,ws=2,input=c(input$username,"HL",isolate(testA$result)))
       testA$result <- c()
       updateActionButton(session, 'HLcounter', label = 'Next')
       return(
