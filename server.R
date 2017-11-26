@@ -82,14 +82,14 @@ server <- function(input, output, session) {
                 h2("Purpose of the Study", align="center"),
                 p("The objective of the current study is to assess the users' use and acceptance of the visibility tool assuming that the real-time information is accurate and reliable. This research will help to make sure that user interface is designed to maximize the understanding and use of the part flow information as well as the overall system usefulness."),
                 h2("Study Procedures", align="center"),
-                p("Approximately 10 people will take part in this study remotely at their respective work location. Your involvement in this study will consist of using an web app for approximately 30-40 minutes. There may be additional contact from the study team for a follow up study."),
+                p("Approximately 10 people will take part in this study remotely at their respective work location. Your involvement in this study will consist of using a web app for approximately 30-40 minutes. There may be additional contact from the study team for a follow up study."),
                 p("Your written consent will be obtained upon using the web app. You may email us any questions you have."),
                 p("When using the usability web app, you will be asked to complete a questionnaire that covers some general questions relating to your current position and demographics. For example, the questions will ask you how much experience do you have at your current role? After every scenario, you will also take a short questionnaire about aspects of the UI and information displayed."),
                 p("You will receive instructions on how to operate the visibility tool and you will be asked to complete a practice scenario that is about 5 minutes long, so that you can become familiar with the visibility tool."),
                 p("The study will follow this same procedure, which are as follows:"),
                 ul(
                   li("Read informed consent"),
-                  li("Practice navigating the visbility tool"),
+                  li("Practice navigating the visibility tool"),
                   li("Practice scenario for visibility tool"),
                   li("Visibility tool questionnaire"),
                   li("Repeat for all scenarios")
@@ -182,7 +182,7 @@ server <- function(input, output, session) {
                     box(width = 12,
                       h3("To use the table to answer the above question, you should keep in mind that there might be multiple processes for a given Item ID. You need to sum up all the
                         processing times to get the complete time of that item. For example: for Item Id 1, there are 3 different kind of processes (sequences) 
-                        to be finished before it it complete. From the table, you need to estimate the average elapsed time for a specific amount of quantity of a process (sequence).
+                        to be finished before it is complete. From the table, you need to estimate the average elapsed time for a specific amount of quantity of a process (sequence).
                         After you get all the average times of different processes, you can add them up to get the answer of the above question.")
                     )
                   ),
@@ -242,7 +242,7 @@ server <- function(input, output, session) {
           ), #End Fluid Row
           fluidRow(
             box(width = 12,
-                h3('There are multiple ways to get the answer fo the above question. By hovering over the squares in the heat map, you can get the detailed information for
+                h3('There are multiple ways to get the answer for the above question. By hovering over the squares in the heat map, you can get the detailed information for
                    a specific Item ID (X-axis) and Complete Quantity (Y-axis). Besides using the heat map, you can also type in or choose the Item ID and Complete Quantity
                    using the input boxes, and use the build-in model to predict the complete time.')
                 )
@@ -272,10 +272,10 @@ server <- function(input, output, session) {
     
     # Done screen
     if (input$PScounter == 2){
-      updateActionButton(session, 'PScounter', label = 'Start!')
+      updateActionButton(session, 'PScounter', label = 'Start')
       return(
         list(
-          h4("You have finished the practice scenarios. Please start the usability study scenarios when you are ready!")        
+          h3("You have finished the practice scenarios. Please start the usability study scenarios when you are ready!")        
           )
       )
     }
@@ -356,7 +356,7 @@ server <- function(input, output, session) {
       updateActionButton(session, 'LHcounter', label = 'Next')
       return(
         list(
-          h4('You have finished the current scenario. Please click on the Next button to go to the next scenario.')
+          h3('You have finished the current scenario. Please click on the Next button to go to the next scenario.')
         )
       )
     }
@@ -460,7 +460,7 @@ server <- function(input, output, session) {
       updateActionButton(session, 'HHcounter', label = 'Next')
       return(
         list(
-          h4('You have finished the current scenario. Please click on the Next button to go to the next scenario.')
+          h3('You have finished the current scenario. Please click on the Next button to go to the next scenario.')
         )
       )
     }
@@ -565,7 +565,7 @@ server <- function(input, output, session) {
       updateActionButton(session, 'MHcounter', label = 'Next')
       return(
         list(
-          h4('You have finished the current scenario. Please click on the Next button to go to the next scenario.')
+          h3('You have finished the current scenario. Please click on the Next button to go to the next scenario.')
         )
       )
     }
@@ -692,7 +692,7 @@ server <- function(input, output, session) {
       updateActionButton(session, 'LLcounter', label = 'Next')
       return(
         list(
-          h4('You have finished the current scenario. Please click on the Next button to go to the next scenario.')
+          h3('You have finished the current scenario. Please click on the Next button to go to the next scenario.')
         )
       )
     }
@@ -832,7 +832,7 @@ server <- function(input, output, session) {
       updateActionButton(session, 'MLcounter', label = 'Next')
       return(
         list(
-          h4('You have finished the current scenario. Please click on the Next button to go to the next scenario.')
+          h3('You have finished the current scenario. Please click on the Next button to go to the next scenario.')
         )
       )
     }
@@ -1010,7 +1010,7 @@ server <- function(input, output, session) {
       updateActionButton(session, 'HLcounter', label = 'Next')
       return(
         list(
-          h4('You have finished the current scenario. Please click on the Next button to go to the next scenario.')
+          h3('You have finished the current scenario. Please click on the Next button to go to the next scenario.')
         )
       )
     }

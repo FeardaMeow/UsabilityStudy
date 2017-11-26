@@ -15,7 +15,7 @@ header <- dashboardHeader(title = "Visibility Tool Usability", notifications)
 
 # Sidebar menu
 sidebar <- dashboardSidebar(
-  disable = T,
+#  disable = T,
   sidebarMenu(id="tabs",
     menuItemOutput("menuitem")
   )
@@ -55,12 +55,12 @@ body <- dashboardBody(
             radioButtons(
               "rb", "Choose one:",
               choiceNames = list(
-                HTML('<img src="LL.JPG", height="42" width="42">'),
-                HTML('<img src="HM.JPG", height="42" width="42">'),
-                HTML('<img src="HL.JPG", height="42" width="42">')
+                HTML('<img src="LL.JPG", height="350" width="1000">'),
+                HTML('<img src="HM.JPG", height="800" width="1000">'),
+                HTML('<img src="HL.JPG", height="400" width="1000">')
               ),
               choiceValues = list(
-                "icon", "html", "text"
+                "html", "html", "html"
               )
             )
             )
