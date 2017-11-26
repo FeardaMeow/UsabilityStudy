@@ -1104,6 +1104,10 @@ server <- function(input, output, session) {
     )
   })
   
+  observeEvent(input$endSubmit, {
+    gs_add_row(ss,ws=3,input=c(input$username,input$rb))
+  })
+  
   ### Default tab code ###
   isolate({updateTabItems(session, "tabs", "lp")})
 }
