@@ -637,6 +637,10 @@ server <- function(input, output, session) {
     ### Recording Logs ###
     if (input$LLcounter>=1 & input$LLcounter<=3) {
       gs_add_row(ss,ws=1,input=c(input$username,"LL",Sys.time(),"submit",isolate(testA$a),isolate(input$LLanswer)))
+      gs_add_row(ss,ws=1,input=c(input$username,"LL",Sys.time(),"predict","","",isolate(input$item_id_LL),isolate(input$complete_qty_LL)))
+      
+#      observeEvent(input$LLcounter, {
+#      })
     }
     
     # Initial scenario
@@ -763,6 +767,7 @@ server <- function(input, output, session) {
     ### Recording Logs ###
     if (input$MLcounter>=1 & input$MLcounter<=3) {
       gs_add_row(ss,ws=1,input=c(input$username,"ML",Sys.time(),"submit",isolate(testA$a),isolate(input$MLanswer)))
+      gs_add_row(ss,ws=1,input=c(input$username,"ML",Sys.time(),"predict","","",isolate(input$item_id_ML),isolate(input$complete_qty_ML)))
     }
     
     # Initial scenario
@@ -903,6 +908,8 @@ server <- function(input, output, session) {
     ### Recording Logs ###
     if (input$HLcounter>=1 & input$HLcounter<=3) {
       gs_add_row(ss,ws=1,input=c(input$username,"HL",Sys.time(),"submit",isolate(testA$a),isolate(input$HLanswer)))
+      gs_add_row(ss,ws=1,input=c(input$username,"HL",Sys.time(),"predict","","",isolate(input$item_id_HL),isolate(input$complete_qty_HL)))
+      
     }
     
     # Initial scenario
