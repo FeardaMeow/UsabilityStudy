@@ -145,23 +145,13 @@ server <- function(input, output, session) {
             div(style="overflow-y: scroll;height:80vh;",
               h1("Instructions"),
               p("Please read all instructions carefully before continuing. The usability study consists of practice sessions and six usability study scenarios.
-                The practice sessions will familiarize you with the dashboard and presented data, and explain how to answer the questions for each scenario.
+                The practice sessions will familiarize you with the dashboard, the presented data, and explain how to answer the questions for each scenario.
                 Immediately after the practice session, the usability scenarios will be presented to you.
                 In each scenario you will be given 3 questions and asked to estimate the completion time for an specified Item ID and
-                Complete Quantity using the provided dashboard."),
-              p("The data shown in each scenario will include completion time for each process. For example, item id 1 might have 3 processes that need to happen before the item
-                is complete. The 3 processes could include drilling, boring, and washing. To item completion time will be a combination of the prediction times for each of the processes (drilling+boring+washing) together for the same quantity amount.
+                Completed Quantity using the provided dashboard. Some dashboards might have multiple ways of obtaining the information needed to answer the question."),
+              p("The data shown in each scenario will include completion time for each process. For example, item id 1 might have 3 processes that need to be completed before the item
+                is complete. For exmaple, the 3 processes could include drilling, boring, and washing. The estimated item completion time will be the combination of the predicted times for each of the processes (drilling+boring+washing) for the same quantity amount.
                 This will be covered more in depth in the practice scenario.")
-              # p("The instructions for the usability study are:"),
-              # ol(
-              #   li("Click on the triple line button to reveal the sidebar menu"),
-              #   li("Click on 'Practice Scenarios' menu item in the sidebar menu"),
-              #   li("Click on 'Usability Study Scenarios' to reveal the usability study scenarios that should be completed"),
-              #   li("Note the order that the usability study scenarios, this is the order that they must be completed in. Please do not skip around when completing scenarios"),
-              #   li("In each scenario, you will be asked to answer 3 questions using that provided dashboard. Input your answer to the questions in the provided text box and press submit to move onto the next question."),
-              #   li("After answering the 3 questions, you will be then asked to assess the usability and trust of the dashboard by answering a questionnaire"),
-              #   li("Repeat 5-6 till all scenarios are complete")
-              # )
             ) #End div
           }) #End withTags
 #          shinyjs::hide("sigSubmit")
