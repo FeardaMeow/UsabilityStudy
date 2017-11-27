@@ -71,7 +71,8 @@ randomsubtab <- sample(submenu.content)
 menu.content <- list(menuItem("Landing Page", tabName = "lp"),
                      menuItem("Practice Scenarios", tabName = "ps"),
                      menuItem("Usability Study Scenarios", tabName = "exp", randomsubtab),
-                     menuItem("End Question", tabName = "end"))
+                     menuItem("End Question", tabName = "end"),
+                     menuItem("Thank You", tabName = 'thankyou'))
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
 
@@ -627,6 +628,10 @@ server <- function(input, output, session) {
     ### Recording Logs ###
     if (input$LLcounter>=1 & input$LLcounter<=3) {
       gs_add_row(ss,ws=1,input=c(input$username,"LL",Sys.time(),"submit",isolate(testA$a),isolate(input$LLanswer)))
+      gs_add_row(ss,ws=1,input=c(input$username,"LL",Sys.time(),"predict","","",isolate(input$item_id_LL),isolate(input$complete_qty_LL)))
+      
+#      observeEvent(input$LLcounter, {
+#      })
     }
     
     # Initial scenario
@@ -753,6 +758,7 @@ server <- function(input, output, session) {
     ### Recording Logs ###
     if (input$MLcounter>=1 & input$MLcounter<=3) {
       gs_add_row(ss,ws=1,input=c(input$username,"ML",Sys.time(),"submit",isolate(testA$a),isolate(input$MLanswer)))
+      gs_add_row(ss,ws=1,input=c(input$username,"ML",Sys.time(),"predict","","",isolate(input$item_id_ML),isolate(input$complete_qty_ML)))
     }
     
     # Initial scenario
@@ -893,6 +899,8 @@ server <- function(input, output, session) {
     ### Recording Logs ###
     if (input$HLcounter>=1 & input$HLcounter<=3) {
       gs_add_row(ss,ws=1,input=c(input$username,"HL",Sys.time(),"submit",isolate(testA$a),isolate(input$HLanswer)))
+      gs_add_row(ss,ws=1,input=c(input$username,"HL",Sys.time(),"predict","","",isolate(input$item_id_HL),isolate(input$complete_qty_HL)))
+      
     }
     
     # Initial scenario
@@ -1060,6 +1068,19 @@ server <- function(input, output, session) {
     )
   })
   
+  ################# Thank you ########################
+  output$Thankyou <- renderUI( {
+    dynamicUI.ty()
+  })
+  
+  dynamicUI.ty <- reactive({
+    return(
+      list(
+        h2(renderText("Congratulations! You have finished the usability study. You can close the tab. Thank you!"))
+      )
+    )
+  })
+  
   ################# LOGIN CODE #######################
   values <- reactiveValues(authenticated = FALSE)
   
@@ -1114,6 +1135,7 @@ server <- function(input, output, session) {
   
   observeEvent(input$endSubmit, {
     gs_add_row(ss,ws=3,input=c(input$username,input$rb))
+    updateTabItems(session, "tabs", "thankyou")
   })
   
   ### Default tab code ###
