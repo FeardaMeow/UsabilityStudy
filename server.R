@@ -71,7 +71,8 @@ randomsubtab <- sample(submenu.content)
 menu.content <- list(menuItem("Landing Page", tabName = "lp"),
                      menuItem("Practice Scenarios", tabName = "ps"),
                      menuItem("Usability Study Scenarios", tabName = "exp", randomsubtab),
-                     menuItem("End Question", tabName = "end"))
+                     menuItem("End Question", tabName = "end"),
+                     menuItem("Thank You", tabName = 'thankyou'))
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
 
@@ -1077,6 +1078,19 @@ server <- function(input, output, session) {
     )
   })
   
+  ################# Thank you ########################
+  output$Thankyou <- renderUI( {
+    dynamicUI.ty()
+  })
+  
+  dynamicUI.ty <- reactive({
+    return(
+      list(
+        h2(renderText("Congratulations! You have finished the usability study. You can close the tab. Thank you!"))
+      )
+    )
+  })
+  
   ################# LOGIN CODE #######################
   values <- reactiveValues(authenticated = FALSE)
   
@@ -1131,6 +1145,7 @@ server <- function(input, output, session) {
   
   observeEvent(input$endSubmit, {
     gs_add_row(ss,ws=3,input=c(input$username,input$rb))
+    updateTabItems(session, "tabs", "thankyou")
   })
   
   ### Default tab code ###

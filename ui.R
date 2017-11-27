@@ -64,7 +64,9 @@ body <- dashboardBody(
               )
             ),
             actionButton("endSubmit", "Submit")
-          )
+          ),
+    tabItem("thankyou",uiOutput("Thankyou")
+            )
   )
 )
 
