@@ -39,7 +39,25 @@ df.plot <- data.frame(
 )
 df.plot$item_id <- as.factor(df.plot$item_id)
 df.plot$complete_qty <- as.factor(df.plot$complete_qty)
-Qlist <- read.csv("Qlist.csv")
+
+#Survey Questions
+# questions <- c("Overall, I am satisfied with how easy it is to use this system.",
+#                "The system was simple to use.",
+#                "I can effectively complete my work using this system.",
+#                "I am able to complete my work quickly using this system.",
+#                "It was easy to learn to use this system.",
+#                "It is easy to find the item prediction I needed.",
+#                "The item predictions are effective in helping me complete the tasks and scenarios.",
+#                "The organization of item predictions on the system screens is clear.",
+#                "I like using the interface of this system.",
+#                "This system has all the functions and capabilities I expect it to have or needed.",
+#                "Overall, I am satisfied with this system.",
+#                "Rate the level of trust in the item prediction generated from the dashboard?",
+#                "How confident do you feel about your previous trust rating in Q13?")
+# 
+# Qlist <- data.frame(Qnum=1:13, Question=questions, Answers=I(c(rep(x,11),rep(y,2))))
+
+Qlist <- read.csv("Qlist.csv", colClasses = c("integer", rep("character",11)))
 
 submenu.content <- list("LL" = menuSubItem("Scenario LL", tabName = "LL"),
                         "LH" = menuSubItem("Scenario LH", tabName = "LH"),
