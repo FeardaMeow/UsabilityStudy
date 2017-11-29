@@ -346,11 +346,15 @@ server <- function(input, output, session) {
     
     # Survey
     #Save results
-    if (input$LHcounter>3 & input$LHcounter<=nrow(Qlist)+3) {
+    if (input$LHcounter>3 & input$LHcounter<=nrow(Qlist)+1) {
       isolate(testA$result[length(testA$result)+1] <- input$survey)
     }
+    else if(input$LHcounter>3 & input$LHcounter<=nrow(Qlist)+2) {
+      isolate(testA$result[length(testA$result)+1] <- input$surveyq12)
+      isolate(testA$result[length(testA$result)+1] <- input$surveyq13)
+    }
     
-    if (input$LHcounter>=3 & input$LHcounter<=nrow(Qlist)+2)  
+    if (input$LHcounter>=3 & input$LHcounter<=nrow(Qlist))  {
       return(
         list(
           h3(textOutput("question.LH")),
@@ -358,8 +362,20 @@ server <- function(input, output, session) {
                        c(option.list.LH()))
         )
       )
+    }
+    else if (input$LHcounter>=3 & input$LHcounter<=nrow(Qlist)+1) {
+      return(
+        list(
+          h3(textOutput("question.LH")),
+          radioButtons("surveyq12", "Please Select:", 
+                       c(option.list.LH12())),
+          radioButtons("surveyq13", "Please Select:", 
+                       c(option.list.LH13()))
+        )
+      )
+    }
     
-    if (input$LHcounter == nrow(Qlist)+3){
+    if (input$LHcounter == nrow(Qlist)+2){
       gs_add_row(ss,ws=2,input=c(input$username,"LH",isolate(testA$result)))
       testA$result <- c()
       updateActionButton(session, 'LHcounter', label = 'Next')
@@ -371,7 +387,7 @@ server <- function(input, output, session) {
     }
     
     # Done screen
-    if (input$LHcounter > nrow(Qlist)+3){
+    if (input$LHcounter > nrow(Qlist)+2){
       if (which(names(randomsubtab) == 'LH') == 6){
         return(
           list(
@@ -394,6 +410,20 @@ server <- function(input, output, session) {
   # updates itself when the click counter is advanced.
   option.list.LH <- reactive({
     qlist <- Qlist[input$LHcounter-2,3:ncol(Qlist)]
+    # Remove items from the qlist if the option is empty.
+    # Also, convert the option list to matrix. 
+    as.matrix(qlist[qlist!=""])
+  })
+  
+  option.list.LH12 <- reactive({
+    qlist <- Qlist[12,3:ncol(Qlist)]
+    # Remove items from the qlist if the option is empty.
+    # Also, convert the option list to matrix. 
+    as.matrix(qlist[qlist!=""])
+  })
+  
+  option.list.LH13 <- reactive({
+    qlist <- Qlist[13,3:ncol(Qlist)]
     # Remove items from the qlist if the option is empty.
     # Also, convert the option list to matrix. 
     as.matrix(qlist[qlist!=""])
