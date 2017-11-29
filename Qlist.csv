@@ -4,11 +4,11 @@ Qnum,Question,Answer1,Answer2,Answer3,Answer4,Answer5,Answer6,Answer7,Answer8,An
 3,I can effectively complete my work using this system.,1 (strongly disagree),2,3,4,5,6,7 (strongly agree),,,
 4,I am able to complete my work quickly using this system.,1 (strongly disagree),2,3,4,5,6,7 (strongly agree),,,
 5,It was easy to learn to use this system.,1 (strongly disagree),2,3,4,5,6,7 (strongly agree),,,
-6,It is easy to find the item prediction I needed.,1 (strongly disagree),2,3,4,5,6,7 (strongly agree),,,
+6,How easy is it to find the information needed for the item prediction?,1 (strongly disagree),2,3,4,5,6,7 (strongly agree),,,
 7,The item predictions are effective in helping me complete the tasks and scenarios.,1 (strongly disagree),2,3,4,5,6,7 (strongly agree),,,
-8,The organization of item predictions on the system screens is clear.,1 (strongly disagree),2,3,4,5,6,7 (strongly agree),,,
+8,The organization of information on the system screens is clear.,1 (strongly disagree),2,3,4,5,6,7 (strongly agree),,,
 9,I like using the interface of this system.,1 (strongly disagree),2,3,4,5,6,7 (strongly agree),,,
 10,This system has all the functions and capabilities I expect it to have or needed.,1 (strongly disagree),2,3,4,5,6,7 (strongly agree),,,
 11,"Overall, I am satisfied with this system.",1 (strongly disagree),2,3,4,5,6,7 (strongly agree),,,
 12,Rate the level of trust in the item prediction generated from the dashboard?,1 (Not at all),2,3,4,5,6,7,8,9,10 (Extremly high)
-13,How confident do you feel about your previous trust rating in Q13?,1 (Not at all),2,3,4,5,6,7,8,9,10 (Extremly high)
+13,How confident do you feel about your previous trust rating in Q12?,1 (Not at all),2,3,4,5,6,7,8,9,10 (Extremly high)

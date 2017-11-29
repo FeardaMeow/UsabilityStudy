@@ -131,7 +131,7 @@ server <- function(input, output, session) {
                 h2("RESEARCH-RELATED INJURY", align="center"),
                 p("If you think you have a medical problem or illness related to this research, contact study staff Steven Hwang at hwang216@uw.edu."),
                 h3("Subject's statement"),
-                p("This study has been explained to me.  I volunteer to take part in this research.  I have had a chance to ask questions.  If I have questions later about the research, or if I have been harmed by participating in this study, I can contact one of the researchers listed on the first page of this consent form.  If I have questions about my rights as a research subject, I can call the Human Subjects Division at (206) 543-0098 or call collect at (206) 221-5940.")
+                p("This study has been explained to me.  I volunteer to take part in this research.  I have had a chance to ask questions.  If I have questions later about the research, or if I have been harmed by participating in this study, I can contact Steven Hwang at hwang216@uw.edu.  If I have questions about my rights as a research subject, I can call the Human Subjects Division at (206) 543-0098 or call collect at (206) 221-5940.")
             )#End Div
           }),
           textInput("signature", "Signature:")
@@ -177,8 +177,8 @@ server <- function(input, output, session) {
     testQ <- sample_n(df.employee,1)
     # Initial scenario
     if (input$PScounter == 0) {
-      colnames(df.employee) <- c('Employee ID', 'Last Name', 'First Name', 'MO ID', 'MO Description', 'Item ID', 'Sequence ID', 'Sequence Description',
-                                 'Complete Quantity', 'Reject Quantity', 'Start Date', 'Finish Date', '25% Lower Predciiton Bound', 'Median Predited Hours',
+      colnames(df.employee) <- c('Employee ID', 'Last Name', 'First Name', 'Material ID', 'Material Description', 'Item ID', 'Sequence ID', 'Sequence Description',
+                                 'Complete Quantity', 'Reject Quantity', 'Start Date', 'Finish Date', '25% Lower Predciiton Bound', 'Median Predicted Hours',
                                  '75% Upper Prediciton Bound')      
       output$PSdatatable <- renderDataTable(
         df.employee,
@@ -426,8 +426,8 @@ server <- function(input, output, session) {
     if (input$HHcounter<3) {
       isolate(testA$a <-  paste0(testQ$Lower_bound,",",testQ$predicted_hrs,",",testQ$Upper_bound))
       colnames(df.employee) <- c('Employee ID', 'Last Name', 'First Name', 'MO ID', 'MO Description', 'Item ID', 'Sequence ID', 'Sequence Description',
-                                 'Complete Quantity', 'Reject Quantity', 'Start Date', 'Finish Date', '25% Lower Predciiton Bound', 'Median Predited Hours',
-                                 '75% Upper Prediciton Bound')
+                                 'Complete Quantity', 'Reject Quantity', 'Start Date', 'Finish Date', '25% Lower Predicton Bound', 'Median Predicted Hours',
+                                 '75% Upper Prediction Bound')
       output$HHdatatable <- renderDataTable(
         df.employee,
         options = list(searching=FALSE, pageLength=10)
