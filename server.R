@@ -85,7 +85,7 @@ server <- function(input, output, session) {
   dynamicUI.LP <- reactive({
     if(input$sigSubmit==0) {
       observe({
-        if(is.null(input$signature) || input$signature == ""){
+        if(is.null(input$signature) || input$signature == "" || !(input$check1) || !(input$check2) || !(input$check3)){
           disable("sigSubmit")
         }
         else{
@@ -95,19 +95,19 @@ server <- function(input, output, session) {
       return(
         list(
           withTags({
-            div(style="overflow-y: scroll;height:80vh;",
+            div(style="overflow-y: scroll;height:80vh;font-size: 15px;",
                 h1("DMDII - Visibility Tool Usability Study", align="center"),
-                p("We are asking you to be in a research study. The purpose of this consent form is to give you the information you will need to help you decide whether to be in the study or not. Please read the form carefully. You may ask questions about the purpose of the research by emailing Steven Hwang at hwang216@uw.edu, what we would ask you to do, the possible risks and benefits, your rights as a volunteer, and anything else about the research or this form that is not clear. When we have answered all your questions, you can decide if you want to be in the study or not. This process is called informed consent you may screen shot this page for your records."),
+                p("Thank you for being in this research study. This consent form will give you information to help you decide whether to be in our research study. Please read the form carefully.If you have any questions about what we would ask you to do, the possible risks and benefits, your rights as a volunteer, and anything else about this research study, please email hwang216@uw.edu. When we have answered all your questions, you can decide if you want to be in the study or not. This process is called informed consent and you may take a screen shot of this page for your records."),
                 h2("Purpose of the Study", align="center"),
-                p("The objective of the current study is to assess the users' use and acceptance of the visibility tool assuming that the real-time information is accurate and reliable. This research will help to make sure that user interface is designed to maximize the understanding and use of the part flow information as well as the overall system usefulness."),
+                p("The objective of the current study is to assess the users' use and acceptance of this visibility tool assuming that the real-time information is accurate and reliable. This research will help to make sure that the user interface is designed to maximize the understanding and use of the part flow information as well as the overall system usefulness."),
                 h2("Study Procedures", align="center"),
-                p("Approximately 10 people will take part in this study remotely at their respective work location. Your involvement in this study will consist of using a web app for approximately 30-40 minutes. There may be additional contact from the study team for a follow up study."),
-                p("Your written consent will be obtained upon using the web app. You may email us any questions you have."),
-                p("When using the usability web app, you will be asked to complete a questionnaire that covers some general questions relating to your current position and demographics. For example, the questions will ask you how much experience do you have at your current role? After every scenario, you will also take a short questionnaire about aspects of the UI and information displayed."),
-                p("You will receive instructions on how to operate the visibility tool and you will be asked to complete a practice scenario that is about 5 minutes long, so that you can become familiar with the visibility tool."),
-                p("The study will follow this same procedure, which are as follows:"),
+                p("Approximately 10 people will take part in this study remotely at their respective work location. Your involvement in this study will consist of using a web app for about 30-40 minutes. The study team may contact you for a follow up study."),
+                p("Your written consent will be obtained when you type your name below. You may email us any questions you have."),
+                p("When using this app, you will be asked to complete a questionnaire about who you are and your current position. For example, the questions will ask you how much experience do you have at your current role? After each scenario, you will also take a short questionnaire about the information displayed."),
+                p("You will receive instructions on how to operate the visibility tool and you will be asked to complete a practice scenario that is about 5 minutes long, the practice session will help you become familiar with the visibility tool."),
+                p("The study will follow the following procedure:"),
                 ul(
-                  li("Read informed consent"),
+                  li("Read and sign informed consent"),
                   li("Practice navigating the visibility tool"),
                   li("Practice scenario for visibility tool"),
                   li("Visibility tool questionnaire"),
@@ -131,7 +131,9 @@ server <- function(input, output, session) {
                 h2("RESEARCH-RELATED INJURY", align="center"),
                 p("If you think you have a medical problem or illness related to this research, contact study staff Steven Hwang at hwang216@uw.edu."),
                 h3("Subject's statement"),
-                p("This study has been explained to me.  I volunteer to take part in this research.  I have had a chance to ask questions.  If I have questions later about the research, or if I have been harmed by participating in this study, I can contact Steven Hwang at hwang216@uw.edu.  If I have questions about my rights as a research subject, I can call the Human Subjects Division at (206) 543-0098 or call collect at (206) 221-5940.")
+                checkboxInput("check1", "This study has been explained to me.  I volunteer to take part in this research.  I have had a chance to ask questions.", FALSE),
+                checkboxInput("check2", "If I have questions later about the research, or if I have been harmed by participating in this study, I can contact Steven Hwang at hwang216@uw.edu.", FALSE),
+                checkboxInput("check3", "If I have questions about my rights as a research subject, I can call the Human Subjects Division at (206) 543-0098 or call collect at (206) 221-5940.", FALSE)
             )#End Div
           }),
           textInput("signature", "Signature:")
@@ -143,14 +145,14 @@ server <- function(input, output, session) {
       return(
         list(
           withTags({
-            div(style="overflow-y: scroll;height:80vh;",
+            div(style="overflow-y: scroll;height:80vh; font-size: 20px;",
               h1("Instructions"),
               p("Please read all instructions carefully before continuing. The usability study consists of practice sessions and six usability study scenarios.
                 The practice sessions will familiarize you with the dashboard, the presented data, and explain how to answer the questions for each scenario.
                 Immediately after the practice session, the usability scenarios will be presented to you.
                 In each scenario you will be given 3 questions and asked to estimate the completion time for an specified Item ID and
                 Completed Quantity using the provided dashboard. Some dashboards might have multiple ways of obtaining the information needed to answer the question."),
-              p("The data shown in each scenario will include completion time for each process. For example, item id 1 might have 3 processes that need to be completed before the item
+              p("The data shown in each scenario will include completion time for each process. For example, Item ID 1 might have 3 processes that need to be completed before the item
                 is complete. For exmaple, the 3 processes could include drilling, boring, and washing. The estimated item completion time will be the combination of the predicted times for each of the processes (drilling+boring+washing) for the same quantity amount.
                 This will be covered more in depth in the practice scenario.")
             ) #End div
@@ -185,14 +187,19 @@ server <- function(input, output, session) {
         options = list(pageLength=10)
       )
       return(list(fluidRow(box(width=12,
-                               h1(renderText({paste("Question", input$PScounter+1, ":", "Estimate the completion time for an order of Item ID",as.character(testQ$item_id),
+                               h1(renderText({paste("Q", input$PScounter+1, ":", "Estimate the completion time for an order of Item ID",as.character(testQ$item_id),
                                                     "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))),
                   fluidRow(
                     box(width = 12,
-                      h3("To use the table to answer the above question, you should keep in mind that there might be multiple processes for a given Item ID. You need to sum up all the
-                        processing times to get the complete time of that item. For example: for Item Id 1, there are 3 different kind of processes (sequences) 
-                        to be finished before it is complete. From the table, you need to estimate the average elapsed time for a specific amount of quantity of a process (sequence).
-                        After you get all the average times of different processes, you can add them up to get the answer of the above question.")
+                        withTags({
+                          div(style="overflow-y: scroll; font-size: 25px;",
+                              ul(
+                                li("Use the table below to answer Q1. You should keep in mind that there might be multiple processes for a given Item ID."),
+                                li("You need to sum up all processing times to get the complete time for that item. For example: for Item Id 1, there are 3 Sequence IDs (processes) that need to be finished before it is complete."),
+                                li("From the table, you need to estimate the average elapsed time for a specific amount of quantity of a process (sequence). The completion time ca be computed after you obtain the average time for each process.")
+                              )
+                          )#End Div
+                        })
                     )
                   ),
                   fluidRow(
@@ -246,15 +253,22 @@ server <- function(input, output, session) {
       return(
         list(
           fluidRow(box(width=12,
-                       h1(renderText({paste("Question", input$PScounter+1, ":","Estimate the completion time for an order of Item ID",as.character(testQ$item_id),
+                       h1(renderText({paste("Q", input$PScounter+1, ":","Estimate the completion time for an order of Item ID",as.character(testQ$item_id),
                                             "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))
           ), #End Fluid Row
           fluidRow(
             box(width = 12,
-                h3('There are multiple ways to get the answer for the above question. By hovering over the squares in the heat map, you can get the detailed information for
-                   a specific Item ID (X-axis) and Complete Quantity (Y-axis). Besides using the heat map, you can also type in or choose the Item ID and Complete Quantity
-                   using the input boxes, and use the build-in model to predict the complete time.')
-                )
+                withTags({
+                  div(style="overflow-y: scroll; font-size: 25px;",
+                      ul(
+                        li("There are multiple ways to get an answer for Q2."),
+                        li("By hovering over the squares in the heat map, you can get the detailed information for
+                   a specific Item ID (X-axis) and Complete Quantity (Y-axis). You can also type in or choose the Item ID and Complete Quantity
+                           using the input boxes, and use the build-in model to predict the complete time.")
+                      )
+                  )#End Div
+                })
+            )
           ),
           fluidRow(
             box(plotlyOutput("heat_PS"),width = 12)
@@ -307,7 +321,7 @@ server <- function(input, output, session) {
   
   #################### Low/High #########################
   output$LHtable <- renderUI( {
-    progress$inc(1/(6*(nrow(Qlist)+5)), detail = paste("Scenario", which(names(randomsubtab)=='LH'), "of 6"))
+    progress$inc(1/(6*(nrow(Qlist)+4)), detail = paste("Scenario", which(names(randomsubtab)=='LH'), "of 6"))
     dynamicUI.LH()
   })
   
@@ -328,7 +342,7 @@ server <- function(input, output, session) {
         options = list(pageLength=10)
       )
       return(list(fluidRow(box(width=12,
-                               h1(renderText({paste("Question", input$LHcounter+1, ":", "Estimate the completion time for an order of Item ID",as.character(testQ$item_id),
+                               h1(renderText({paste("Q", input$LHcounter+1, ":", "Estimate the completion time for an order of Item ID",as.character(testQ$item_id),
                                                     "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))),
                   fluidRow(
                     box(width=12,
@@ -366,9 +380,10 @@ server <- function(input, output, session) {
     else if (input$LHcounter>=3 & input$LHcounter<=nrow(Qlist)+1) {
       return(
         list(
-          h3(textOutput("question.LH")),
+          h3(textOutput("question.LH12")),
           radioButtons("surveyq12", "Please Select:", 
                        c(option.list.LH12())),
+          h3(textOutput("question.LH13")),
           radioButtons("surveyq13", "Please Select:", 
                        c(option.list.LH13()))
         )
@@ -438,9 +453,23 @@ server <- function(input, output, session) {
     )
   })
   
+  output$question.LH12 <- renderText({
+    paste0(
+      "Q", input$LHcounter-2,": ", 
+      Qlist[12,2]
+    )
+  })
+  
+  output$question.LH13 <- renderText({
+    paste0(
+      "Q", input$LHcounter-1,": ", 
+      Qlist[13,2]
+    )
+  })
+  
   #################### High/High #########################
   output$HHtable <- renderUI( {
-    progress$inc(1/(6*(nrow(Qlist)+5)), detail = paste("Scenario", which(names(randomsubtab)=='HH'), "of 6"))
+    progress$inc(1/(6*(nrow(Qlist)+4)), detail = paste("Scenario", which(names(randomsubtab)=='HH'), "of 6"))
     dynamicUI.HH()
   })
   
@@ -455,7 +484,7 @@ server <- function(input, output, session) {
     # Initial scenario
     if (input$HHcounter<3) {
       isolate(testA$a <-  paste0(testQ$Lower_bound,",",testQ$predicted_hrs,",",testQ$Upper_bound))
-      colnames(df.employee) <- c('Employee ID', 'Last Name', 'First Name', 'MO ID', 'MO Description', 'Item ID', 'Sequence ID', 'Sequence Description',
+      colnames(df.employee) <- c('Employee ID', 'Last Name', 'First Name', 'Material ID', 'Material Description', 'Item ID', 'Sequence ID', 'Sequence Description',
                                  'Complete Quantity', 'Reject Quantity', 'Start Date', 'Finish Date', '25% Lower Predicton Bound', 'Median Predicted Hours',
                                  '75% Upper Prediction Bound')
       output$HHdatatable <- renderDataTable(
@@ -463,7 +492,7 @@ server <- function(input, output, session) {
         options = list(searching=FALSE, pageLength=10)
       )
       return(list(fluidRow(box(width=12,
-                               h1(renderText({paste("Question", input$HHcounter+1, ":","Estimate the completion time for an order of Item ID",as.character(testQ$item_id),
+                               h1(renderText({paste("Q", input$HHcounter+1, ":","Estimate the completion time for an order of Item ID",as.character(testQ$item_id),
                                                     "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))),
                   fluidRow(
                     box(width=12,
@@ -481,10 +510,15 @@ server <- function(input, output, session) {
     
     # Survey
     #Save results
-    if (input$HHcounter>3 & input$HHcounter<=nrow(Qlist)+3) {
+    if (input$HHcounter>3 & input$HHcounter<=nrow(Qlist)+1) {
       isolate(testA$result[length(testA$result)+1] <- input$survey)
     }
-    if (input$HHcounter>=3 & input$HHcounter<=nrow(Qlist)+2)  
+    else if(input$HHcounter>3 & input$HHcounter<=nrow(Qlist)+2) {
+      isolate(testA$result[length(testA$result)+1] <- input$surveyq12)
+      isolate(testA$result[length(testA$result)+1] <- input$surveyq13)
+    }
+    
+    if (input$HHcounter>=3 & input$HHcounter<=nrow(Qlist))  {
       return(
         list(
           h3(textOutput("question.HH")),
@@ -492,8 +526,21 @@ server <- function(input, output, session) {
                        c(option.list.HH()))
         )
       )
+    }
+    else if (input$HHcounter>=3 & input$HHcounter<=nrow(Qlist)+1) {
+      return(
+        list(
+          h3(textOutput("question.HH12")),
+          radioButtons("surveyq12", "Please Select:", 
+                       c(option.list.HH12())),
+          h3(textOutput("question.HH13")),
+          radioButtons("surveyq13", "Please Select:", 
+                       c(option.list.HH13()))
+        )
+      )
+    }
     
-    if (input$HHcounter == nrow(Qlist)+3){
+    if (input$HHcounter == nrow(Qlist)+2){
       gs_add_row(ss,ws=2,input=c(input$username,"HH",isolate(testA$result)))
       testA$result <- c()
       updateActionButton(session, 'HHcounter', label = 'Next')
@@ -505,7 +552,7 @@ server <- function(input, output, session) {
     }
     
     # Done screen
-    if (input$HHcounter>nrow(Qlist)+2){
+    if (input$HHcounter > nrow(Qlist)+2){
       if (which(names(randomsubtab) == 'HH') == 6){
         return(
           list(
@@ -533,6 +580,20 @@ server <- function(input, output, session) {
     as.matrix(qlist[qlist!=""])
   })
   
+  option.list.HH12 <- reactive({
+    qlist <- Qlist[12,3:ncol(Qlist)]
+    # Remove items from the qlist if the option is empty.
+    # Also, convert the option list to matrix. 
+    as.matrix(qlist[qlist!=""])
+  })
+  
+  option.list.HH13 <- reactive({
+    qlist <- Qlist[13,3:ncol(Qlist)]
+    # Remove items from the qlist if the option is empty.
+    # Also, convert the option list to matrix. 
+    as.matrix(qlist[qlist!=""])
+  })
+  
   # This function show the question number (Q:)
   # Followed by the question text.
   output$question.HH <- renderText({
@@ -542,9 +603,22 @@ server <- function(input, output, session) {
     )
   })
   
+  output$question.HH12 <- renderText({
+    paste0(
+      "Q", input$HHcounter-2,": ", 
+      Qlist[12,2]
+    )
+  })
+  
+  output$question.HH13 <- renderText({
+    paste0(
+      "Q", input$HHcounter-1,": ", 
+      Qlist[13,2]
+    )
+  })
   #################### Medium/High #########################
   output$MHtable <- renderUI( {
-    progress$inc(1/(6*(nrow(Qlist)+5)), detail = paste("Scenario", which(names(randomsubtab)=='MH'), "of 6"))
+    progress$inc(1/(6*(nrow(Qlist)+4)), detail = paste("Scenario", which(names(randomsubtab)=='MH'), "of 6"))
     dynamicUI.MH()
   })
   
@@ -559,7 +633,7 @@ server <- function(input, output, session) {
     # Initial scenario
     if (input$MHcounter<3) {
       isolate(testA$a <-  paste0(testQ$Lower_bound,",",testQ$predicted_hrs,",",testQ$Upper_bound))
-      colnames(df.employee) <- c('Employee ID', 'Last Name', 'First Name', 'MO ID', 'MO Description', 'Item ID', 'Sequence ID', 'Sequence Description',
+      colnames(df.employee) <- c('Employee ID', 'Last Name', 'First Name', 'Material ID', 'Material Description', 'Item ID', 'Sequence ID', 'Sequence Description',
                                  'Complete Quantity', 'Reject Quantity', 'Start Date', 'Finish Date', '25% Lower Predciiton Bound', 'Median Predited Hours',
                                  '75% Upper Prediciton Bound')
       output$MHdatatable <- renderDataTable(
@@ -568,7 +642,7 @@ server <- function(input, output, session) {
       )
       return(list(
           fluidRow(box(width=12,
-                                 h1(renderText({paste("Question", input$MHcounter+1, ":","Estimate the completion time for an order of Item ID",as.character(testQ$item_id),
+                                 h1(renderText({paste("Q", input$MHcounter+1, ":","Estimate the completion time for an order of Item ID",as.character(testQ$item_id),
                                                    "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))),
           fluidRow(
             box(width=12,
@@ -586,10 +660,15 @@ server <- function(input, output, session) {
     
     # Survey
     #Save results
-    if (input$MHcounter>3 & input$MHcounter<=nrow(Qlist)+3) {
+    if (input$MHcounter>3 & input$MHcounter<=nrow(Qlist)+1) {
       isolate(testA$result[length(testA$result)+1] <- input$survey)
     }
-    if (input$MHcounter>=3 & input$MHcounter<=nrow(Qlist)+2)  
+    else if(input$MHcounter>3 & input$MHcounter<=nrow(Qlist)+2) {
+      isolate(testA$result[length(testA$result)+1] <- input$surveyq12)
+      isolate(testA$result[length(testA$result)+1] <- input$surveyq13)
+    }
+    
+    if (input$MHcounter>=3 & input$MHcounter<=nrow(Qlist))  {
       return(
         list(
           h3(textOutput("question.MH")),
@@ -597,8 +676,21 @@ server <- function(input, output, session) {
                        c(option.list.MH()))
         )
       )
+    }
+    else if (input$MHcounter>=3 & input$MHcounter<=nrow(Qlist)+1) {
+      return(
+        list(
+          h3(textOutput("question.MH12")),
+          radioButtons("surveyq12", "Please Select:", 
+                       c(option.list.MH12())),
+          h3(textOutput("question.MH13")),
+          radioButtons("surveyq13", "Please Select:", 
+                       c(option.list.MH13()))
+        )
+      )
+    }
     
-    if (input$MHcounter == nrow(Qlist)+3){
+    if (input$MHcounter == nrow(Qlist)+2){
       gs_add_row(ss,ws=2,input=c(input$username,"MH",isolate(testA$result)))
       testA$result <- c()
       updateActionButton(session, 'MHcounter', label = 'Next')
@@ -610,7 +702,7 @@ server <- function(input, output, session) {
     }
     
     # Done screen
-    if (input$MHcounter>nrow(Qlist)+2){
+    if (input$MHcounter > nrow(Qlist)+2){
       if (which(names(randomsubtab) == 'MH') == 6){
         return(
           list(
@@ -626,12 +718,27 @@ server <- function(input, output, session) {
         )
       }
     }
+    
   })
   
   # The option list is a reative list of elements that
   # updates itself when the click counter is advanced.
   option.list.MH <- reactive({
     qlist <- Qlist[input$MHcounter-2,3:ncol(Qlist)]
+    # Remove items from the qlist if the option is empty.
+    # Also, convert the option list to matrix. 
+    as.matrix(qlist[qlist!=""])
+  })
+  
+  option.list.MH12 <- reactive({
+    qlist <- Qlist[12,3:ncol(Qlist)]
+    # Remove items from the qlist if the option is empty.
+    # Also, convert the option list to matrix. 
+    as.matrix(qlist[qlist!=""])
+  })
+  
+  option.list.MH13 <- reactive({
+    qlist <- Qlist[13,3:ncol(Qlist)]
     # Remove items from the qlist if the option is empty.
     # Also, convert the option list to matrix. 
     as.matrix(qlist[qlist!=""])
@@ -646,9 +753,24 @@ server <- function(input, output, session) {
     )
   })
   
+  output$question.MH12 <- renderText({
+    paste0(
+      "Q", input$MHcounter-2,": ", 
+      Qlist[12,2]
+    )
+  })
+  
+  output$question.MH13 <- renderText({
+    paste0(
+      "Q", input$MHcounter-1,": ", 
+      Qlist[13,2]
+    )
+  })
+
+  
   ################### LOW/LOW ##############################
   output$LLview <- renderUI( {
-    progress$inc(1/(6*(nrow(Qlist)+5)), detail = paste("Scenario", which(names(randomsubtab)=='LL'), "of 6"))
+    progress$inc(1/(6*(nrow(Qlist)+4)), detail = paste("Scenario", which(names(randomsubtab)=='LL'), "of 6"))
     dynamicUI.LL()
   })
   
@@ -691,7 +813,7 @@ server <- function(input, output, session) {
       return(
         list(
           fluidRow(box(width=12,
-                       h1(renderText({paste("Question", input$LLcounter+1, ":","Estimate the completion time for an order of Item ID",as.character(testQ$item_id),
+                       h1(renderText({paste("Q", input$LLcounter+1, ":","Estimate the completion time for an order of Item ID",as.character(testQ$item_id),
                                             "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))
                    ), #End Fluid Row
           fluidRow(
@@ -717,10 +839,15 @@ server <- function(input, output, session) {
     
     # Survey
     #Save results
-    if (input$LLcounter>3 & input$LLcounter<=nrow(Qlist)+3) {
+    if (input$LLcounter>3 & input$LLcounter<=nrow(Qlist)+1) {
       isolate(testA$result[length(testA$result)+1] <- input$survey)
     }
-    if (input$LLcounter>=3 & input$LLcounter<=nrow(Qlist)+2)  
+    else if(input$LLcounter>3 & input$LLcounter<=nrow(Qlist)+2) {
+      isolate(testA$result[length(testA$result)+1] <- input$surveyq12)
+      isolate(testA$result[length(testA$result)+1] <- input$surveyq13)
+    }
+    
+    if (input$LLcounter>=3 & input$LLcounter<=nrow(Qlist))  {
       return(
         list(
           h3(textOutput("question.LL")),
@@ -728,8 +855,21 @@ server <- function(input, output, session) {
                        c(option.list.LL()))
         )
       )
+    }
+    else if (input$LLcounter>=3 & input$LLcounter<=nrow(Qlist)+1) {
+      return(
+        list(
+          h3(textOutput("question.LL12")),
+          radioButtons("surveyq12", "Please Select:", 
+                       c(option.list.LL12())),
+          h3(textOutput("question.LL13")),
+          radioButtons("surveyq13", "Please Select:", 
+                       c(option.list.LL13()))
+        )
+      )
+    }
     
-    if (input$LLcounter == nrow(Qlist)+3){
+    if (input$LLcounter == nrow(Qlist)+2){
       gs_add_row(ss,ws=2,input=c(input$username,"LL",isolate(testA$result)))
       testA$result <- c()
       updateActionButton(session, 'LLcounter', label = 'Next')
@@ -741,7 +881,7 @@ server <- function(input, output, session) {
     }
     
     # Done screen
-    if (input$LLcounter>nrow(Qlist)+2){
+    if (input$LLcounter > nrow(Qlist)+2){
       if (which(names(randomsubtab) == 'LL') == 6){
         return(
           list(
@@ -757,12 +897,27 @@ server <- function(input, output, session) {
         )
       }
     }
+    
   })
   
   # The option list is a reative list of elements that
   # updates itself when the click counter is advanced.
   option.list.LL <- reactive({
     qlist <- Qlist[input$LLcounter-2,3:ncol(Qlist)]
+    # Remove items from the qlist if the option is empty.
+    # Also, convert the option list to matrix. 
+    as.matrix(qlist[qlist!=""])
+  })
+  
+  option.list.LL12 <- reactive({
+    qlist <- Qlist[12,3:ncol(Qlist)]
+    # Remove items from the qlist if the option is empty.
+    # Also, convert the option list to matrix. 
+    as.matrix(qlist[qlist!=""])
+  })
+  
+  option.list.LL13 <- reactive({
+    qlist <- Qlist[13,3:ncol(Qlist)]
     # Remove items from the qlist if the option is empty.
     # Also, convert the option list to matrix. 
     as.matrix(qlist[qlist!=""])
@@ -776,9 +931,23 @@ server <- function(input, output, session) {
       Qlist[input$LLcounter-2,2]
     )
   })
+  
+  output$question.LL12 <- renderText({
+    paste0(
+      "Q", input$LLcounter-2,": ", 
+      Qlist[12,2]
+    )
+  })
+  
+  output$question.LL13 <- renderText({
+    paste0(
+      "Q", input$LLcounter-1,": ", 
+      Qlist[13,2]
+    )
+  })
   ################## Median/Low ###########################
   output$MLview <- renderUI( {
-    progress$inc(1/(6*(nrow(Qlist)+5)), detail = paste("Scenario", which(names(randomsubtab)=='ML'), "of 6"))
+    progress$inc(1/(6*(nrow(Qlist)+4)), detail = paste("Scenario", which(names(randomsubtab)=='ML'), "of 6"))
     dynamicUI.ML()
   })
   
@@ -829,7 +998,7 @@ server <- function(input, output, session) {
       return(
         list(
           fluidRow(box(width=12,
-                       h1(renderText({paste("Question", input$MLcounter+1, ":","Estimate the completion time for an order of Item ID",as.character(testQ$item_id),
+                       h1(renderText({paste("Q", input$MLcounter+1, ":","Estimate the completion time for an order of Item ID",as.character(testQ$item_id),
                                             "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))),
           fluidRow(
             box(plotlyOutput("heat_ML"),width = 12)
@@ -858,10 +1027,15 @@ server <- function(input, output, session) {
     
     # Survey
     #Save results
-    if (input$MLcounter>3& input$MLcounter<=nrow(Qlist)+3) {
+    if (input$MLcounter>3 & input$MLcounter<=nrow(Qlist)+1) {
       isolate(testA$result[length(testA$result)+1] <- input$survey)
     }
-    if (input$MLcounter>=3 & input$MLcounter<=nrow(Qlist)+2)  
+    else if(input$MLcounter>3 & input$MLcounter<=nrow(Qlist)+2) {
+      isolate(testA$result[length(testA$result)+1] <- input$surveyq12)
+      isolate(testA$result[length(testA$result)+1] <- input$surveyq13)
+    }
+    
+    if (input$MLcounter>=3 & input$MLcounter<=nrow(Qlist))  {
       return(
         list(
           h3(textOutput("question.ML")),
@@ -869,8 +1043,21 @@ server <- function(input, output, session) {
                        c(option.list.ML()))
         )
       )
+    }
+    else if (input$MLcounter>=3 & input$MLcounter<=nrow(Qlist)+1) {
+      return(
+        list(
+          h3(textOutput("question.ML12")),
+          radioButtons("surveyq12", "Please Select:", 
+                       c(option.list.ML12())),
+          h3(textOutput("question.ML13")),
+          radioButtons("surveyq13", "Please Select:", 
+                       c(option.list.ML13()))
+        )
+      )
+    }
     
-    if (input$MLcounter == nrow(Qlist)+3){
+    if (input$MLcounter == nrow(Qlist)+2){
       gs_add_row(ss,ws=2,input=c(input$username,"ML",isolate(testA$result)))
       testA$result <- c()
       updateActionButton(session, 'MLcounter', label = 'Next')
@@ -882,7 +1069,7 @@ server <- function(input, output, session) {
     }
     
     # Done screen
-    if (input$MLcounter>nrow(Qlist)+2){
+    if (input$MLcounter > nrow(Qlist)+2){
       if (which(names(randomsubtab) == 'ML') == 6){
         return(
           list(
@@ -898,12 +1085,27 @@ server <- function(input, output, session) {
         )
       }
     }
+    
   })
   
   # The option list is a reative list of elements that
   # updates itself when the click counter is advanced.
   option.list.ML <- reactive({
     qlist <- Qlist[input$MLcounter-2,3:ncol(Qlist)]
+    # Remove items from the qlist if the option is empty.
+    # Also, convert the option list to matrix. 
+    as.matrix(qlist[qlist!=""])
+  })
+  
+  option.list.ML12 <- reactive({
+    qlist <- Qlist[12,3:ncol(Qlist)]
+    # Remove items from the qlist if the option is empty.
+    # Also, convert the option list to matrix. 
+    as.matrix(qlist[qlist!=""])
+  })
+  
+  option.list.ML13 <- reactive({
+    qlist <- Qlist[13,3:ncol(Qlist)]
     # Remove items from the qlist if the option is empty.
     # Also, convert the option list to matrix. 
     as.matrix(qlist[qlist!=""])
@@ -917,9 +1119,23 @@ server <- function(input, output, session) {
       Qlist[input$MLcounter-2,2]
     )
   })
+  
+  output$question.ML12 <- renderText({
+    paste0(
+      "Q", input$MLcounter-2,": ", 
+      Qlist[12,2]
+    )
+  })
+  
+  output$question.ML13 <- renderText({
+    paste0(
+      "Q", input$MLcounter-1,": ", 
+      Qlist[13,2]
+    )
+  })
   ################## High/Low ###########################
   output$HLview <- renderUI( {
-    progress$inc(1/(6*(nrow(Qlist)+5)), detail = paste("Scenario", which(names(randomsubtab)=='HL'), "of 6"))
+    progress$inc(1/(6*(nrow(Qlist)+4)), detail = paste("Scenario", which(names(randomsubtab)=='HL'), "of 6"))
     dynamicUI.HL()
   })
   
@@ -979,7 +1195,7 @@ server <- function(input, output, session) {
         colnames(df.mo_id) <- c("mo.id", "num")
         plot_ly(df.mo_id) %>%
           add_trace(x = ~mo.id, y = ~num, type = 'bar') %>% 
-          layout(xaxis= list(title = "mo_id"),
+          layout(xaxis= list(title = "Material ID"),
                  yaxis = list(title = 'Number'),
                  dragmode = "select", showlegend = FALSE)
       }))
@@ -1005,7 +1221,7 @@ server <- function(input, output, session) {
       return(
         list(
           fluidRow(box(width=12,
-                       h1(renderText({paste("Question", input$HLcounter+1, ":","Estimate the completion time for an order of Item ID",as.character(testQ$item_id),
+                       h1(renderText({paste("Q", input$HLcounter+1, ":","Estimate the completion time for an order of Item ID",as.character(testQ$item_id),
                                             "with Complete Quantity", as.character(testQ$complete_qty), sep=" ")})))),
           fluidRow(
             box(plotlyOutput("box_HL"), width = 4),
@@ -1038,10 +1254,15 @@ server <- function(input, output, session) {
     
     # Survey
     #Save results
-    if (input$HLcounter>3 & input$HLcounter<=nrow(Qlist)+3) {
+    if (input$HLcounter>3 & input$HLcounter<=nrow(Qlist)+1) {
       isolate(testA$result[length(testA$result)+1] <- input$survey)
     }
-    if (input$HLcounter>=3 & input$HLcounter<=nrow(Qlist)+2)  
+    else if(input$HLcounter>3 & input$HLcounter<=nrow(Qlist)+2) {
+      isolate(testA$result[length(testA$result)+1] <- input$surveyq12)
+      isolate(testA$result[length(testA$result)+1] <- input$surveyq13)
+    }
+    
+    if (input$HLcounter>=3 & input$HLcounter<=nrow(Qlist))  {
       return(
         list(
           h3(textOutput("question.HL")),
@@ -1049,8 +1270,21 @@ server <- function(input, output, session) {
                        c(option.list.HL()))
         )
       )
+    }
+    else if (input$HLcounter>=3 & input$HLcounter<=nrow(Qlist)+1) {
+      return(
+        list(
+          h3(textOutput("question.HL12")),
+          radioButtons("surveyq12", "Please Select:", 
+                       c(option.list.HL12())),
+          h3(textOutput("question.HL13")),
+          radioButtons("surveyq13", "Please Select:", 
+                       c(option.list.HL13()))
+        )
+      )
+    }
     
-    if (input$HLcounter == nrow(Qlist)+3){
+    if (input$HLcounter == nrow(Qlist)+2){
       gs_add_row(ss,ws=2,input=c(input$username,"HL",isolate(testA$result)))
       testA$result <- c()
       updateActionButton(session, 'HLcounter', label = 'Next')
@@ -1062,7 +1296,7 @@ server <- function(input, output, session) {
     }
     
     # Done screen
-    if (input$HLcounter>nrow(Qlist)+2){
+    if (input$HLcounter > nrow(Qlist)+2){
       if (which(names(randomsubtab) == 'HL') == 6){
         return(
           list(
@@ -1078,6 +1312,7 @@ server <- function(input, output, session) {
         )
       }
     }
+    
   })
   
   # The option list is a reative list of elements that
@@ -1089,12 +1324,40 @@ server <- function(input, output, session) {
     as.matrix(qlist[qlist!=""])
   })
   
+  option.list.HL12 <- reactive({
+    qlist <- Qlist[12,3:ncol(Qlist)]
+    # Remove items from the qlist if the option is empty.
+    # Also, convert the option list to matrix. 
+    as.matrix(qlist[qlist!=""])
+  })
+  
+  option.list.HL13 <- reactive({
+    qlist <- Qlist[13,3:ncol(Qlist)]
+    # Remove items from the qlist if the option is empty.
+    # Also, convert the option list to matrix. 
+    as.matrix(qlist[qlist!=""])
+  })
+  
   # This function show the question number (Q:)
   # Followed by the question text.
   output$question.HL <- renderText({
     paste0(
       "Q", input$HLcounter-2,": ", 
       Qlist[input$HLcounter-2,2]
+    )
+  })
+  
+  output$question.HL12 <- renderText({
+    paste0(
+      "Q", input$HLcounter-2,": ", 
+      Qlist[12,2]
+    )
+  })
+  
+  output$question.HL13 <- renderText({
+    paste0(
+      "Q", input$HLcounter-1,": ", 
+      Qlist[13,2]
     )
   })
   

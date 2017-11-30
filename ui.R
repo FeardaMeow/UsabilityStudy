@@ -15,7 +15,7 @@ header <- dashboardHeader(title = "Visibility Tool Usability", notifications)
 
 # Sidebar menu
 sidebar <- dashboardSidebar(
-  #disable = T,
+  disable = T,
   sidebarMenu(id="tabs",
     menuItemOutput("menuitem")
   )
@@ -52,8 +52,8 @@ body <- dashboardBody(
     tabItem("ps",uiOutput("PSview"),
             actionButton("PScounter", "Submit")),
     tabItem("end",
-            radioButtons(
-              "rb", "Which UI did you prefer the best?:",
+           radioButtons(
+              "rb", h4("Which UI did you prefer the best?:"),
               choiceNames = list(
                 HTML('<img src="LL.JPG", height="350" width="1000">'),
                 HTML('<img src="HM.JPG", height="800" width="1000">'),
